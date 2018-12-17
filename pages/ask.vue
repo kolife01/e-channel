@@ -14,6 +14,7 @@
 import EosManager from '~/assets/js/eos'
 import eosjs_ecc from 'eosjs-ecc'
 import axios from 'axios'
+import IpfsManager from '../assets/js/ipfs';
 
 // const eosManager = new EosManager('https://api.kylin.alohaeos.com')
 const eosManager = new EosManager('https://kylin.eoscanada.com')
@@ -36,13 +37,18 @@ methods: {
 
       var title = document.getElementById('input_question_title').value;
       var body = document.getElementById('input_question_body').value;
+      var hash = await IpfsManager.add(title,body);
+      console.log(hash);
+
+      //コントラクトロジック変更後外す
+      body = "";
 
       var pub_key = localStorage.getItem('eosclip_account');
       var nonce = await eosManager.nonce(param, pub_key)
 
       var prive_key = localStorage.getItem('eosclip_priveKey');  
      
-      var message = title + body + nonce  
+      var message = hash + body + nonce  
       var sig = eosjs_ecc.sign(message, prive_key);
 
       var self = this
@@ -50,7 +56,7 @@ methods: {
       var id = "";
 
       const res = await axios.post('/api/addquestion', {
-        question_title: title,
+        question_title: hash,
         question_body: body,
         sig: sig,
         pub_key: pub_key

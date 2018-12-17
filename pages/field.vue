@@ -16,7 +16,7 @@
                             {{ question.view }}
                             <v-icon small>remove_red_eye</v-icon>
                         </v-flex>
-                        <v-flex>{{ question.title }}</v-flex>                     
+                        <v-flex>{{ question.title }}</v-flex>          
                     </v-card-text>
                 </v-card>
             </v-flex>

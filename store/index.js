@@ -44,7 +44,7 @@ const createStore = () => {
           limit: 100
         }
 
-        var answers = await eosManager.read(answerParam);        
+        var answers = await eosManager.readans(answerParam);        
         commit("setAnswers", answers) 
 
         }

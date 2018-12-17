@@ -53,10 +53,10 @@
 <script>
 
 import EosManager from '~/assets/js/eos'
+import IpfsManager from '~/assets/js/ipfs';
 import eosjs_ecc from 'eosjs-ecc'
 import axios from 'axios'
 
-// const eosManager = new EosManager('https://api.kylin.alohaeos.com')
 const eosManager = new EosManager('https://kylin.eoscanada.com')
 
 export default {
@@ -76,6 +76,9 @@ methods: {
       var answer = document.getElementById('input_answer').value;
       var question_key = Number(this.$route.params.id)
       console.log(question_key)
+
+      var hash = await IpfsManager.add(answer);
+      console.log(hash);
       
 
       var pub_key = localStorage.getItem('eosclip_account');
@@ -84,18 +87,22 @@ methods: {
 
       var prive_key = localStorage.getItem('eosclip_priveKey');  
      
-      var message = answer + nonce  
+      var message = hash + nonce  
       var sig = eosjs_ecc.sign(message, prive_key);
       
       var self = this
 
+      //入力文字が消えない 保留
+      document.getElementById('input_answer').value = "";
+
       const res = await axios.post('/api/addanswer', {
         question_key: question_key,
-        answer: answer,
+        answer: hash,
         sig: sig,
         pub_key: pub_key
       }).then(async function (response){
           if(response.data.status){
+              
               var answerParam = {
                     scope: "eosqarecove5",
                     code: "eosqarecove5",
@@ -104,9 +111,8 @@ methods: {
                     limit: 100
                     }
 
-            var answers = await eosManager.read(answerParam);  
+            var answers = await eosManager.readans(answerParam);  
             self.$store.commit("setAnswers", answers)
-            console.log(self.$store)
 
           }
          
