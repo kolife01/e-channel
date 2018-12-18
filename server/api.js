@@ -146,4 +146,34 @@ router.post("/addquestion", (req, res) => {
 
 })
 
+router.post("/registeruser", (req, res) => {
+
+    var options = {
+        httpEndpoint: process.env.ENDPOINT,
+        keyProvider: process.env.PRIV_KEY,
+        chainId: process.env.CHAINID
+    }
+
+    const eos = Eos(options)
+
+    options = {
+        authorization: process.env.ACCOUNT + '@' + 'active',
+        broadcast: true,
+        sign: true
+    }
+
+    const param = req.body;
+    console.log(param)
+
+    eos.contract(process.env.CONTRACT).then(contract => {
+        contract.registeruser(param.pub_key, process.env.ACCOUNT, param.meta, options).then(response => {
+            res.json({status: true})
+            console.log("success");
+        }).catch(err => {
+            console.log(err);
+        });
+    });    
+
+})
+
 module.exports = router

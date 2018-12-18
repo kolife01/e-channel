@@ -7,11 +7,17 @@ if (process.browser) {
             console.log('Public Key: ' +  publicKey) // EOSkey...
             localStorage.setItem("eosclip_priveKey", privateKey);
             localStorage.setItem("eosclip_account", publicKey);
+
+            window.location.href = 'create'
+            //どうやってrouterの処理に繋げる？
+            //Javascriptの処理でルート
+            // router.push({ path: 'create' })
+
         })
     } else {
         console.log("Your Account: " + localStorage.getItem('eosclip_account'))
-    }
 
+    }
     window.onNuxtReady(async ({$store}) => {
         
 
