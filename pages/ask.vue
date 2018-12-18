@@ -1,11 +1,15 @@
 <template>
-    <v-content>
-      <v-container>
-        <v-form>
-            <v-text-field label="Title" id="input_question_title"></v-text-field>
-            <v-textarea label="Question" id="input_question_body" rows="10"></v-textarea>
-            <v-btn id="add_question" v-on:click="addquestion">Ask Question</v-btn>
-        </v-form>
+  <v-content>
+    <v-container>
+      <v-form>
+        <v-text-field label="Title" id="input_question_title"></v-text-field>
+        <v-textarea
+          label="Question"
+          id="input_question_body"
+          rows="10"
+        ></v-textarea>
+        <v-btn id="add_question" v-on:click="addquestion">Ask Question</v-btn>
+      </v-form>
     </v-container>
   </v-content>
 </template>
@@ -19,21 +23,17 @@ import IpfsManager from '../assets/js/ipfs';
 // const eosManager = new EosManager('https://api.kylin.alohaeos.com')
 const eosManager = new EosManager('https://kylin.eoscanada.com')
 
-
-
 export default {
-
-methods: {
-
-    async addquestion(){
-
+  methods: {
+    async addquestion() {
       var param = {
-            scope: "eosqarecove5",
-            code: "eosqarecove5",
-            table: 'user',
-            json: true,
-            limit: 100
+        scope: 'eosqarecove5',
+        code: 'eosqarecove5',
+        table: 'user',
+        json: true,
+        limit: 100
       }
+
 
       var title = document.getElementById('input_question_title').value;
       var body = document.getElementById('input_question_body').value;
@@ -43,7 +43,8 @@ methods: {
       //コントラクトロジック変更後外す
       body = "";
 
-      var pub_key = localStorage.getItem('eosclip_account');
+
+      var pub_key = localStorage.getItem('eosclip_account')
       var nonce = await eosManager.nonce(param, pub_key)
 
       var prive_key = localStorage.getItem('eosclip_priveKey');  
@@ -70,25 +71,22 @@ methods: {
                     limit: 100
                     }
 
-            var questions = await eosManager.read(questionParam);  
-            self.$store.commit("setQuestions", questions)
 
-            for(let i = ans.length - 1; i > 0; i--){
-              if(ans[i].pub_key == pub_key){
+            var questions = await eosManager.read(questionParam)
+            self.$store.commit('setQuestions', questions)
+
+            for (let i = ans.length - 1; i > 0; i--) {
+              if (ans[i].pub_key == pub_key) {
                 id = i + 1
                 self.$store.$router.push({ path: `/questions/${id}` })
-                break;
+                break
               }
             }
           }
-      })
-
+        })
     }
   }
-
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
