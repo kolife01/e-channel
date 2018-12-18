@@ -102,23 +102,20 @@ router.post("/addanswer", (req, res) => {
         broadcast: true,
         sign: true
     }
-
+    
     const param = req.body;
 
     eos.contract(process.env.CONTRACT).then(contract => {
-        contract.addanswer(param.question_key, param.answer, process.env.ACCOUNT, param.sig, param.pub_key, options).then(response => {
+        contract.addanswer(param.question_key, param.body, process.env.ACCOUNT, param.sig, param.pub_key, options).then(response => {
             res.json({status: true})
-            console.log("success");
         }).catch(err => {
-            console.log(err);
+            res.json({status: false})
+            console.log(err)
         });
     });    
-
-
 })
 
 router.post("/addquestion", (req, res) => {
-
     var options = {
         httpEndpoint: process.env.ENDPOINT,
         keyProvider: process.env.PRIV_KEY,
@@ -136,11 +133,11 @@ router.post("/addquestion", (req, res) => {
     const param = req.body;
 
     eos.contract(process.env.CONTRACT).then(contract => {
-        contract.addquestion(param.question_title, param.question_body, process.env.ACCOUNT, param.sig, param.pub_key, options).then(response => {
+        contract.addquestion(param.body, process.env.ACCOUNT, param.sig, param.pub_key, options).then(response => {
             res.json({status: true})
-            console.log("success");
         }).catch(err => {
-            console.log(err);
+            res.json({status: false})
+            console.log(err)
         });
     });    
 

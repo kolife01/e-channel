@@ -20,65 +20,62 @@ import eosjs_ecc from 'eosjs-ecc'
 import axios from 'axios'
 import IpfsManager from '../assets/js/ipfs';
 
-// const eosManager = new EosManager('https://api.kylin.alohaeos.com')
 const eosManager = new EosManager('https://kylin.eoscanada.com')
 
 export default {
   methods: {
     async addquestion() {
+
+      var question = JSON.stringify({
+        title:document.getElementById('input_question_title').value,
+        body:document.getElementById('input_question_body').value
+      })
+
+
+      var hash = await IpfsManager.add(question);
+
+      var pub_key = localStorage.getItem('eosclip_account')
+
       var param = {
-        scope: 'eosqarecove5',
-        code: 'eosqarecove5',
+        scope: 'eosqatest333',
+        code: 'eosqatest333',
         table: 'user',
         json: true,
         limit: 100
       }
 
-
-      var title = document.getElementById('input_question_title').value;
-      var body = document.getElementById('input_question_body').value;
-      var hash = await IpfsManager.add(title,body);
-      console.log(hash);
-
-      //コントラクトロジック変更後外す
-      body = "";
-
-
-      var pub_key = localStorage.getItem('eosclip_account')
       var nonce = await eosManager.nonce(param, pub_key)
 
       var prive_key = localStorage.getItem('eosclip_priveKey');  
      
-      var message = hash + body + nonce  
+      var message = hash + nonce  
       var sig = eosjs_ecc.sign(message, prive_key);
 
       var self = this
-      var ans = this.$store.state.questions
-      var id = "";
 
       const res = await axios.post('/api/addquestion', {
-        question_title: hash,
-        question_body: body,
+        body: hash,
         sig: sig,
         pub_key: pub_key
       }).then(async function (response){
+          console.log(response.data.status)
           if(response.data.status){
-              var questionParam = {
-                    scope: "eosqarecove5",
-                    code: "eosqarecove5",
-                    table: 'question',
-                    json: true,
-                    limit: 100
-                    }
+            console.log("test")
+            await self.$store.dispatch('questions/fetchQuestions')
+            console.log("test2")
+            var quesions = self.$store.state.questions.questions
 
+            console.log(quesions)
+            for (let i = questions.length - 1; i > 0; i--) {
+              console.log(questions[i].pub_key)
+              console.log(pub_key)
+              if (questions[i].pub_key == pub_key) {
+                var id = i + 1
 
-            var questions = await eosManager.read(questionParam)
-            self.$store.commit('setQuestions', questions)
-
-            for (let i = ans.length - 1; i > 0; i--) {
-              if (ans[i].pub_key == pub_key) {
-                id = i + 1
+                console.log(id)
+                console.log(self.$store.$router)
                 self.$store.$router.push({ path: `/questions/${id}` })
+                
                 break
               }
             }
