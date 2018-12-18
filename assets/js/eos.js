@@ -24,6 +24,22 @@ EosManager.prototype.read = function (param) {
     
 }
 
+EosManager.prototype.read = function (param, index) {
+    
+    console.log("index: " + index)
+
+    return new Promise(resolve => {
+        this.eos.getTableRows(
+            param
+        ).then(async result => {
+            resolve(result.rows)
+        }).catch(err =>
+            console.log(err)
+        );
+    })
+    
+}
+
 EosManager.prototype.nonce = function (param, pub_key) {
     return new Promise(resolve => {
         this.eos.getTableRows(
