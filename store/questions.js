@@ -1,4 +1,6 @@
+import IpfsManager from '~/assets/js/ipfs'
 import EosManager from '~/assets/js/eos'
+
 const eosManager = new EosManager('https://kylin.eoscanada.com')
 
 export const state = () => ({
@@ -12,21 +14,28 @@ export const getters = {
 export const mutations = {
   setQuestions(state, questions) {
     state.questions = questions
+  },
+  clearQuestions(state) {
+    state.questions = []
   }
 }
 
 export const actions = {
   async fetchQuestions({ state, commit }) {
     var questionParam = {
-      scope: 'eosqarecove5',
-      code: 'eosqarecove5',
+      scope: 'eosqatest333',
+      code: 'eosqatest333',
       table: 'question',
       json: true,
       limit: 100
     }
 
     var questions = await eosManager.read(questionParam)
+    questions = await IpfsManager.convertQuestions(questions)
+     
+    console.log("update")
     commit('setQuestions', questions)
+
   }
 
 }

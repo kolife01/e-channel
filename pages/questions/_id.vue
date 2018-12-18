@@ -9,15 +9,15 @@
                 <v-avatar>
                   <img src="~/assets/img/avatar1.png" alt="avatar" />
                 </v-avatar>
-                {{ activeQuestion.pub_key }}
+                {{ question.pub_key }}
               </v-flex>
-              <v-flex>{{ activeQuestion.time_stamp }}</v-flex>
+              <v-flex>{{ question.time_stamp }}</v-flex>
               <v-flex>
-                {{ activeQuestion.view }}
+                {{ question.view }}
                 <v-icon small>remove_red_eye</v-icon>
               </v-flex>
-              <v-flex>{{ activeQuestion.title }}</v-flex>
-              <v-flex>{{ activeQuestion.body }}</v-flex>
+              <v-flex>{{ question.title }}</v-flex>
+              <v-flex>{{ question.body }}</v-flex>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -25,7 +25,7 @@
       <v-layout
         row
         wrap
-        v-for="answer in $store.state.answers"
+        v-for="answer in answers"
         :key="answer.answer_key"
       >
         <v-flex v-if="answer.question_key == $route.params.id">
@@ -42,7 +42,7 @@
                 <v-icon small>attach_money</v-icon></v-flex
               >
               <v-flex>{{ answer.time_stamp }}</v-flex>
-              <v-flex>{{ answer.answer }}</v-flex>
+              <v-flex>{{ answer.body }}</v-flex>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -74,43 +74,42 @@ export default {
     // try {
     // if (!store.getters['questions/questions'].length) {
     await store.dispatch('questions/fetchQuestions')
+
     // }
-    await store.dispatch('answers/fetchAnswers', params.id)
+    await store.dispatch('answers/fetchAnswers')
     // // } catch(e) {}
     // return {
 
     // }
   },
   computed: {
-    activeQuestion() {
-      console.log(this.$store.getters['questions/questions'])
+    question() {
       return this.$store.getters['questions/questions'][this.$route.params.id]
+    },
+    answers() {
+      return this.$store.getters['answers/answers'] 
     }
   },
 
   methods: {
     async addanswer() {
 
+    var question_key = Number(this.$route.params.id)
+
+    var answer = JSON.stringify({body: document.getElementById('input_answer').value})
+    var hash = await IpfsManager.add(answer);
+
+    var pub_key = localStorage.getItem('eosclip_account')
+
     var param = {
-        scope: 'eosqarecove5',
-        code: 'eosqarecove5',
+        scope: 'eosqatest333',
+        code: 'eosqatest333',
         table: 'user',
         json: true,
         limit: 100
     }
 
-    var answer = document.getElementById('input_answer').value
-    var question_key = Number(this.$route.params.id)
-    console.log(question_key)
-
-
-    var hash = await IpfsManager.add(answer);
-    console.log(hash);
-
-
-    var pub_key = localStorage.getItem('eosclip_account')
     var nonce = await eosManager.nonce(param, pub_key)
-    console.log(nonce)
 
     var prive_key = localStorage.getItem('eosclip_priveKey');
 
@@ -118,31 +117,33 @@ export default {
     var sig = eosjs_ecc.sign(message, prive_key);
 
     var self = this
-
-    //入力文字が消えない 保留
-    document.getElementById('input_answer').value = "";
-
+    
     const res = await axios.post('/api/addanswer', {
         question_key: question_key,
-        answer: hash,
+        body: hash,
         sig: sig,
         pub_key: pub_key
     }).then(async function (response) {
         if (response.data.status) {
 
             var answerParam = {
-                scope: "eosqarecove5",
-                code: "eosqarecove5",
+                scope: "eosqatest333",
+                code: "eosqatest333",
                 table: 'answer',
                 json: true,
                 limit: 100
             }
 
-            var answers = await eosManager.readans(answerParam);
-            self.$store.commit("setAnswers", answers)
+            var answers = await eosManager.read(answerParam);
+            answers = await IpfsManager.convertAnswers(answers)
+
+
+            console.log("update")
+            await self.$store.dispatch('answers/fetchAnswers')
+            
         }
-    })
-}
+      })
+    }
   }
 
 }

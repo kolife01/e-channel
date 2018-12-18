@@ -1,5 +1,4 @@
 import Eos from 'eosjs-api'
-import axios from 'axios'
 
 function EosManager(httpEndpoint) {
     var options = {
