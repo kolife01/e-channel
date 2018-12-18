@@ -18,6 +18,7 @@
 import EosManager from '~/assets/js/eos'
 import eosjs_ecc from 'eosjs-ecc'
 import axios from 'axios'
+import IpfsManager from '../assets/js/ipfs';
 
 // const eosManager = new EosManager('https://api.kylin.alohaeos.com')
 const eosManager = new EosManager('https://kylin.eoscanada.com')
@@ -33,37 +34,43 @@ export default {
         limit: 100
       }
 
-      var title = document.getElementById('input_question_title').value
-      var body = document.getElementById('input_question_body').value
+
+      var title = document.getElementById('input_question_title').value;
+      var body = document.getElementById('input_question_body').value;
+      var hash = await IpfsManager.add(title,body);
+      console.log(hash);
+
+      //コントラクトロジック変更後外す
+      body = "";
+
 
       var pub_key = localStorage.getItem('eosclip_account')
       var nonce = await eosManager.nonce(param, pub_key)
 
-      var prive_key = localStorage.getItem('eosclip_priveKey')
-
-      var message = title + body + nonce
-      var sig = eosjs_ecc.sign(message, prive_key)
+      var prive_key = localStorage.getItem('eosclip_priveKey');  
+     
+      var message = hash + body + nonce  
+      var sig = eosjs_ecc.sign(message, prive_key);
 
       var self = this
       var ans = this.$store.state.questions
-      var id = ''
+      var id = "";
 
-      const res = await axios
-        .post('/api/addquestion', {
-          question_title: title,
-          question_body: body,
-          sig: sig,
-          pub_key: pub_key
-        })
-        .then(async function(response) {
-          if (response.data.status) {
-            var questionParam = {
-              scope: 'eosqarecove5',
-              code: 'eosqarecove5',
-              table: 'question',
-              json: true,
-              limit: 100
-            }
+      const res = await axios.post('/api/addquestion', {
+        question_title: hash,
+        question_body: body,
+        sig: sig,
+        pub_key: pub_key
+      }).then(async function (response){
+          if(response.data.status){
+              var questionParam = {
+                    scope: "eosqarecove5",
+                    code: "eosqarecove5",
+                    table: 'question',
+                    json: true,
+                    limit: 100
+                    }
+
 
             var questions = await eosManager.read(questionParam)
             self.$store.commit('setQuestions', questions)
