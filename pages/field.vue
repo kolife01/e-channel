@@ -8,7 +8,7 @@
         :key="question.question_key"
       >
         <v-flex>
-          <v-card flat :to="`/questions/${index}`">
+          <v-card flat :to="`/questions/${question.question_key}`">
             <v-card-text>
               <v-flex>
                 <v-avatar>
@@ -39,7 +39,6 @@ export default {
     await store.dispatch('questions/fetchQuestions')
   },
   computed: {
-    // ...mapGetters('questions', ['questions'])
     questions() {
       return this.$store.getters['questions/questions']
     }

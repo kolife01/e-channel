@@ -44,7 +44,6 @@ export default {
       }
 
       var nonce = await eosManager.nonce(param, pub_key)
-
       var prive_key = localStorage.getItem('eosclip_priveKey');  
      
       var message = hash + nonce  
@@ -56,26 +55,23 @@ export default {
         body: hash,
         sig: sig,
         pub_key: pub_key
-      }).then(async function (response){
-          console.log(response.data.status)
-          
+      }).then(async function (response){          
           if(response.data.status){
 
-            await self.$store.dispatch('questions/fetchQuestions')
-            var quesions = self.$store.state.questions.questions
+            var questionParam = {
+              scope: 'eosqatest333',
+              code: 'eosqatest333',
+              table: 'question',
+              json: true,
+              limit: 100
+            }
 
-            console.log(quesions)
-            console.log(quesions.length)
+            var questions = await eosManager.read(questionParam)
 
             for (var i = questions.length - 1; i >= 0; i--) {
-              console.log(i)
-              console.log(questions[i].pub_key)
               if (questions[i].pub_key == pub_key) {
-                var id = i + 1
-                console.log(id)
-                console.log(self.$store.$router)
-                self.$store.$router.push({ path: `/questions/${id}` })
-                
+                //document.location.href = document.location.origin + '/questions/' + i
+                self.$store.$router.push({ path: `/questions/${i}` })
                 break
               }
             }

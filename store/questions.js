@@ -33,7 +33,6 @@ export const actions = {
     var questions = await eosManager.read(questionParam)
     questions = await IpfsManager.convertQuestions(questions)
      
-    console.log("update")
     commit('setQuestions', questions)
 
   },
@@ -50,7 +49,6 @@ export const actions = {
     var questions = await eosManager.readByQuestionKey(questionParam, index)
     questions = await IpfsManager.convertQuestions(questions)
      
-    console.log("update")
     commit('setQuestions', questions)
 
   }  

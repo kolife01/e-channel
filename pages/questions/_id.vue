@@ -71,22 +71,14 @@ const eosManager = new EosManager('https://kylin.eoscanada.com')
 
 export default {
   async asyncData({ store, params }) {
-    // try {
-    // if (!store.getters['questions/questions'].length) {
-
-      console.log(params.id)
-    await store.dispatch('questions/fetchQuestionsByQuestionKey', params.id)
-
-    // }
-    await store.dispatch('answers/fetchAnswersByQuestionKey', params.id)
-    // // } catch(e) {}
-    // return {
-
-    // }
+    await Promise.all(
+      [store.dispatch('questions/fetchQuestionsByQuestionKey', params.id),
+      store.dispatch('answers/fetchAnswersByQuestionKey', params.id)]
+    )
   },
   computed: {
     question() {
-      return this.$store.getters['questions/questions'][this.$route.params.id]
+      return this.$store.getters['questions/questions'][0]
     },
     answers() {
       return this.$store.getters['answers/answers'] 
@@ -127,22 +119,8 @@ export default {
         pub_key: pub_key
     }).then(async function (response) {
         if (response.data.status) {
-
-            var answerParam = {
-                scope: "eosqatest333",
-                code: "eosqatest333",
-                table: 'answer',
-                json: true,
-                limit: 100
-            }
-
-            var answers = await eosManager.read(answerParam);
-            answers = await IpfsManager.convertAnswers(answers)
-
-
-            console.log("update")
-            await self.$store.dispatch('answers/fetchAnswersByQuestionKey', this.$route.params.id)
-            
+            console.log("param test: " + self.$route.params.id)
+            await self.$store.dispatch('answers/fetchAnswersByQuestionKey', self.$route.params.id)
         }
       })
     }
