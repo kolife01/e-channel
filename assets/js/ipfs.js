@@ -30,7 +30,9 @@ IpfsManager.convertQuestions = function (rows) {
                     output.question_key = element.question_key
                     output.pub_key = element.pub_key
                     output.time_stamp = element.time_stamp
-                    output.view = element.view
+                    output.point = element.point
+                    output.answer_count = element.answer_count
+                    output.allpoint = element.allpoint
                     outputs.push(output)
                 }).catch(err => {
                     //IPFS化前のデータがあり、エラーが多いので一時的にコメントアウト
