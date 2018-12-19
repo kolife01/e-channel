@@ -162,8 +162,44 @@ router.post("/registeruser", (req, res) => {
     const param = req.body;
     console.log(param)
 
+    // ・reisteruserの引数を追加
+//    void registeruser(std::string pub_key, account_name sender, std::string meta, signature &sig);
+
     eos.contract(process.env.CONTRACT).then(contract => {
-        contract.registeruser(param.pub_key, process.env.ACCOUNT, param.meta, options).then(response => {
+        contract.registeruser(param.pub_key, process.env.ACCOUNT, param.meta, param.sig, options).then(response => {
+            res.json({status: true})
+            console.log("success");
+        }).catch(err => {
+            res.json({status: false, msg: err})
+            console.log(err);
+        });
+    });    
+
+})
+
+
+
+router.post("/tipquestion", (req, res) => {
+
+    var options = {
+        httpEndpoint: process.env.ENDPOINT,
+        keyProvider: process.env.PRIV_KEY,
+        chainId: process.env.CHAINID
+    }
+
+    const eos = Eos(options)
+
+    options = {
+        authorization: process.env.ACCOUNT + '@' + 'active',
+        broadcast: true,
+        sign: true
+    }
+
+    const param = req.body;
+    console.log(param)
+
+    eos.contract(process.env.CONTRACT).then(contract => {
+        contract.tipquestion(param.question_key, param.point, process.env.ACCOUNT, param.sig, param.pub_key, options).then(response => {
             res.json({status: true})
             console.log("success");
         }).catch(err => {
