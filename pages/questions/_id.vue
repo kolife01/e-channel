@@ -4,23 +4,32 @@
       <v-layout row wrap>
         <v-flex>
           <v-card>
-            <v-card-text>
-              <v-flex class="headline">{{ question.title }}</v-flex> 
-              <v-flex class="headline">{{ question.body }}</v-flex> 
-              <v-flex class="caption"> {{ question.time_stamp }}</v-flex>
-              <v-flex class="caption"> Post by {{ question.pub_key }}</v-flex>
-              <v-flex>
-                <v-icon dark right color="grey">insert_comment</v-icon>
-                {{ question.answer_count }}
-                <v-icon dark right color="grey">star</v-icon>
+            <v-card-title>
+              <div style = "width:100%">
+                <div class="headline"><nuxt-link color="blue" :to="`/questions/${question.question_key}`">{{ question.title }}</nuxt-link></div>
+                <div style="float: left;"class="grey--text" >ID: {{ question.pub_key.substring(4, 18) }}</div>
+                <div style="text-align:right;" class="grey--text"> {{ question.time_stamp.substring(0, 10) }} {{ question.time_stamp.substring(11, 19) }}</div>
+                <v-divider></v-divider>
+                <br>
+                <div>{{question.body}}</div>
+              </div>
+            </v-card-title > 
+            <v-card-actions>
+                <v-chip disabled>
+                <v-icon dark color="grey">insert_comment</v-icon>
+                {{ question.answer_count }} 
+                &nbsp;
+                <v-icon dark color="grey">star</v-icon>
                 {{ question.allpoint }}
-
-                <v-btn fab dark small color="teal lighten-1" @click="set2('question', question.question_key)" >
+                </v-chip>
+                <v-spacer></v-spacer>
+                <a :href="'https://twitter.com/share?url=http://localhost:3000/questions/' + question.question_key + '&text=Check out this post!&hashtags=E-Channel'" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                &nbsp;  &nbsp;                
+                <v-btn dark small color="teal lighten-1" @click="set2(index)" >
                   <v-icon dark>attach_money</v-icon>
+                  TIP
                 </v-btn>
-
-              </v-flex>
-            </v-card-text>
+            </v-card-actions>
           </v-card>
         </v-flex>
       </v-layout>
@@ -30,22 +39,32 @@
         v-for="answer in answers"
         :key="answer.answer_key"
       >
-        <v-flex v-if="answer.question_key == $route.params.id">
+        <v-flex>
           <v-card>
-            <v-card-text>
-              <v-flex class="headline">{{ answer.body }}</v-flex> 
-              <v-flex class="caption"> {{ answer.time_stamp }}</v-flex>
-              <v-flex class="caption"> Post by {{ answer.pub_key }}</v-flex>
-              <v-flex>
-                <v-icon dark right color="grey">star</v-icon>
-                {{ answer.point }}
-              </v-flex>
-              <v-flex class="caption"> answer_key {{ answer.answer_key }}</v-flex>
-              <v-btn fab dark small color="teal lighten-1" @click="set2('answer', answer.answer_key)">
-                  <v-icon dark>attach_money</v-icon>
-              </v-btn>
 
-            </v-card-text>
+            <v-card-title>
+              <div style = "width:100%">
+                <div style="float: left;"class="grey--text" >ID: {{ answer.pub_key.substring(4, 18) }}</div>
+                <div style="text-align:right;" class="grey--text"> {{ answer.time_stamp.substring(0, 10) }} {{ answer.time_stamp.substring(11, 19) }}</div>
+                <v-divider></v-divider>
+                <br>
+                <div>{{answer.body}}</div>
+              </div>
+            </v-card-title > 
+
+            <v-card-actions>
+                <v-chip disabled>
+                <v-icon dark color="grey">star</v-icon>
+                {{ answer.point }}
+                </v-chip>
+                <v-spacer></v-spacer>
+                <a :href="'https://twitter.com/share?url=http://localhost:3000/questions/' + question.question_key + '&text=Check out this post!&hashtags=E-Channel'" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                &nbsp;  &nbsp;                
+                <v-btn dark small color="teal lighten-1" @click="set2('answer', answer.answer_key)" >
+                  <v-icon dark>attach_money</v-icon>
+                  TIP
+                </v-btn>
+            </v-card-actions>
           </v-card>
         </v-flex>
       </v-layout>
@@ -56,7 +75,10 @@
             id="input_answer"
             rows="10"
           ></v-textarea>
-          <v-btn color="teal lighten-1" id="add_answer" v-on:click="addanswer">Add Answer</v-btn>
+        <v-flex right>
+          <v-btn dark color="teal lighten-1" id="add_answer" v-on:click="addanswer" large>Add Answer</v-btn>
+        </v-flex>
+
         </v-flex>
       </v-layout>
     </v-container>

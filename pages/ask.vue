@@ -9,7 +9,7 @@
           rows="10"
         ></v-textarea>
         <v-flex right>
-          <v-btn dark color="teal lighten-1" id="add_question" v-on:click="addquestion">Ask Question</v-btn>
+          <v-btn dark color="teal lighten-1" id="add_question" large v-on:click="addquestion">Ask Question</v-btn>
         </v-flex>
       </v-form>
     </v-container>
