@@ -101,10 +101,12 @@ export default {
 
   methods: {
     async addanswer() {
-
+    this.$nuxt.$loading.start()
     var question_key = Number(this.$route.params.id)
 
     var answer = JSON.stringify({body: document.getElementById('input_answer').value})
+    document.getElementById('input_answer').value = ""
+
     var hash = await IpfsManager.add(answer);
 
     var pub_key = localStorage.getItem('eosclip_account')
@@ -133,8 +135,8 @@ export default {
         pub_key: pub_key
     }).then(async function (response) {
         if (response.data.status) {
-            console.log("param test: " + self.$route.params.id)
             await self.$store.dispatch('answers/fetchAnswersByQuestionKey', self.$route.params.id)
+            this.$nuxt.$loading.finish()
         }
       })
     }
