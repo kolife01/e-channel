@@ -36,6 +36,23 @@ export const actions = {
     console.log("update")
     commit('setQuestions', questions)
 
-  }
+  },
+
+  async fetchQuestionsByQuestionKey({ state, commit }, index) {
+    var questionParam = {
+      scope: 'eosqatest333',
+      code: 'eosqatest333',
+      table: 'question',
+      json: true,
+      limit: 100
+    }
+
+    var questions = await eosManager.readByQuestionKey(questionParam, index)
+    questions = await IpfsManager.convertQuestions(questions)
+     
+    console.log("update")
+    commit('setQuestions', questions)
+
+  }  
 
 }
