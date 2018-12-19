@@ -1,18 +1,19 @@
 <template>
   <div>
     <v-navigation-drawer
+      class="teal lighten-5"
       v-model="drawer"
       disable-resize-watcher
       fixed
       app
     >
       <v-list>
-        <v-list-tile to="/">
+        <v-list-tile to="/" >
           <v-list-tile-action>
-            <v-icon>home</v-icon>
+            <v-icon >home</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Home</v-list-tile-title>
+            <v-list-tile-title >Home</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile to="/field">
@@ -41,9 +42,9 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed app>
+    <v-toolbar fixed app dark color="teal lighten-1">
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>E-Channel</v-toolbar-title>
+      <v-toolbar-title class="display-1 font-weight-thin" >E-Channel</v-toolbar-title>
     </v-toolbar>
   </div>
 </template>

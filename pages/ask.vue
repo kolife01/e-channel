@@ -8,7 +8,9 @@
           id="input_question_body"
           rows="10"
         ></v-textarea>
-        <v-btn id="add_question" v-on:click="addquestion">Ask Question</v-btn>
+        <v-flex right>
+          <v-btn dark color="teal lighten-1" id="add_question" large v-on:click="addquestion">Ask Question</v-btn>
+        </v-flex>
       </v-form>
     </v-container>
   </v-content>
@@ -34,6 +36,10 @@ export default {
 
       document.getElementById('input_question_title').value = ""
       document.getElementById('input_question_body').value = ""
+      document.getElementById('input_question_title').disabled = true
+      document.getElementById('input_question_body').disabled = true    
+      document.getElementById('add_question').disabled = true
+      document.getElementById('add_question').innerHTML = "Broadcasting..."
 
       //var hash = await IpfsManager.add(question);
 
@@ -62,7 +68,7 @@ export default {
         sig: sig,
         pub_key: pub_key
       }).then(async function (response){          
-          if(response.data.status){
+          if(response.data.status == true){
 
             var questionParam = {
               scope: 'eosqatest334',
@@ -80,6 +86,8 @@ export default {
                 break
               }
             }
+          } else {
+            alert("Error: Please try again.")
           }
         })
     }
