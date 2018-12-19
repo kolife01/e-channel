@@ -19,7 +19,7 @@ if (process.browser) {
 
     }
     window.onNuxtReady(async ({$store}) => {
-        
+        $store.dispatch('users/fetchUsers', localStorage.getItem('eosclip_account'))
 
 
     })

@@ -167,6 +167,7 @@ router.post("/registeruser", (req, res) => {
             res.json({status: true})
             console.log("success");
         }).catch(err => {
+            res.json({status: false, msg: err})
             console.log(err);
         });
     });    
