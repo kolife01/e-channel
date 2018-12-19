@@ -17,7 +17,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchUsers({ state, commit }) {
+  async fetchUsers({ state, commit }, pub_key) {
     var userParam = {
       scope: 'eosqatest333',
       code: 'eosqatest333',
@@ -25,15 +25,19 @@ export const actions = {
       json: true,
       limit: 100
     }
-    
-    var users = await eosManager.read(userParam)
-    
-    // var user = localStorage.getItem('eosclip_account')
-    // for( let i =0; i > users.length; i++ ){
-    //     if()
-    // }
 
-    commit('setUsers', users)
+    var users = await eosManager.read(userParam)
+    var user = [];
+    
+    
+    for(let i = 0; i < users.length; i++ ){
+        if(users[i].pub_key == pub_key){
+            user.push(users[i])
+            break;
+        }
+    }
+    
+    commit('setUsers', user)
   }
 
 }
