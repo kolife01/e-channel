@@ -31,7 +31,6 @@ export default {
         body:document.getElementById('input_question_body').value
       })
 
-
       var hash = await IpfsManager.add(question);
 
       var pub_key = localStorage.getItem('eosclip_account')
@@ -59,19 +58,20 @@ export default {
         pub_key: pub_key
       }).then(async function (response){
           console.log(response.data.status)
+          
           if(response.data.status){
-            console.log("test")
+
             await self.$store.dispatch('questions/fetchQuestions')
-            console.log("test2")
             var quesions = self.$store.state.questions.questions
 
             console.log(quesions)
-            for (let i = questions.length - 1; i > 0; i--) {
+            console.log(quesions.length)
+
+            for (var i = questions.length - 1; i >= 0; i--) {
+              console.log(i)
               console.log(questions[i].pub_key)
-              console.log(pub_key)
               if (questions[i].pub_key == pub_key) {
                 var id = i + 1
-
                 console.log(id)
                 console.log(self.$store.$router)
                 self.$store.$router.push({ path: `/questions/${id}` })

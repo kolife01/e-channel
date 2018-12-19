@@ -73,10 +73,12 @@ export default {
   async asyncData({ store, params }) {
     // try {
     // if (!store.getters['questions/questions'].length) {
-    await store.dispatch('questions/fetchQuestions')
+
+      console.log(params.id)
+    await store.dispatch('questions/fetchQuestionsByQuestionKey', params.id)
 
     // }
-    await store.dispatch('answers/fetchAnswers')
+    await store.dispatch('answers/fetchAnswersByQuestionKey', params.id)
     // // } catch(e) {}
     // return {
 
@@ -139,7 +141,7 @@ export default {
 
 
             console.log("update")
-            await self.$store.dispatch('answers/fetchAnswers')
+            await self.$store.dispatch('answers/fetchAnswersByQuestionKey', this.$route.params.id)
             
         }
       })

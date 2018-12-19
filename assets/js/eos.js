@@ -19,7 +19,7 @@ EosManager.prototype.read = function (param) {
     })
 }
 
-EosManager.prototype.readByIndex = function (param, index) {
+EosManager.prototype.readByQuestionKey = function (param, index) {
     return new Promise(resolve => {
         this.eos.getTableRows(
             param
