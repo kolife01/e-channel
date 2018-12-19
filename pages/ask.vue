@@ -36,8 +36,8 @@ export default {
       var pub_key = localStorage.getItem('eosclip_account')
 
       var param = {
-        scope: 'eosqatest333',
-        code: 'eosqatest333',
+        scope: 'eosqatest334',
+        code: 'eosqatest334',
         table: 'user',
         json: true,
         limit: 100
@@ -59,8 +59,8 @@ export default {
           if(response.data.status){
 
             var questionParam = {
-              scope: 'eosqatest333',
-              code: 'eosqatest333',
+              scope: 'eosqatest334',
+              code: 'eosqatest334',
               table: 'question',
               json: true,
               limit: 100

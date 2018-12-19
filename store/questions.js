@@ -3,6 +3,7 @@ import EosManager from '~/assets/js/eos'
 
 const eosManager = new EosManager('https://kylin.eoscanada.com')
 
+
 export const state = () => ({
   questions: []
 })
@@ -23,14 +24,15 @@ export const mutations = {
 export const actions = {
   async fetchQuestions({ state, commit }) {
     var questionParam = {
-      scope: 'eosqatest333',
-      code: 'eosqatest333',
+      scope: 'eosqatest334',
+      code: 'eosqatest334',
       table: 'question',
       json: true,
       limit: 100
     }
 
     var questions = await eosManager.read(questionParam)
+    console.log(questions)
     questions = await IpfsManager.convertQuestions(questions)
      
     commit('setQuestions', questions)
@@ -39,8 +41,8 @@ export const actions = {
 
   async fetchQuestionsByQuestionKey({ state, commit }, index) {
     var questionParam = {
-      scope: 'eosqatest333',
-      code: 'eosqatest333',
+      scope: 'eosqatest334',
+      code: 'eosqatest334',
       table: 'question',
       json: true,
       limit: 100
