@@ -123,6 +123,7 @@ export default {
       },
       async send(){
     
+        this.$nuxt.$loading.start()
         var question_key = this.index;
         console.log("key:" + question_key)
         var point = this.point;
@@ -157,7 +158,11 @@ export default {
         })
 
           this.dialog = false
+          this.$nuxt.$loading.finish()
           //question更新処理入れる
+
+          window.location.reload(true)
+
       }
 
   }

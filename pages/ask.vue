@@ -35,7 +35,7 @@ export default {
       document.getElementById('input_question_title').value = ""
       document.getElementById('input_question_body').value = ""
 
-      var hash = await IpfsManager.add(question);
+      //var hash = await IpfsManager.add(question);
 
       var pub_key = localStorage.getItem('eosclip_account')
 
@@ -50,13 +50,15 @@ export default {
       var nonce = await eosManager.nonce(param, pub_key)
       var prive_key = localStorage.getItem('eosclip_priveKey');  
      
-      var message = hash + nonce  
+      //var message = hash + nonce  
+      var message = question + nonce  
       var sig = eosjs_ecc.sign(message, prive_key);
 
       var self = this
 
       const res = await axios.post('/api/addquestion', {
-        body: hash,
+        //body: hash,
+        body: question,
         sig: sig,
         pub_key: pub_key
       }).then(async function (response){          

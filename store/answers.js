@@ -31,7 +31,11 @@ export const actions = {
     }
 
     var answers = await eosManager.read(answerParam)
-    answers = await IpfsManager.convertAnswers(answers)
+    //answers = await IpfsManager.convertAnswers(answers)
+    for(var i=0; i<answers.length; i++){
+      var meta = JSON.parse(answers[i].body)
+      answers[i].body = meta.body
+    }
 
     commit('setAnswers', answers)
   },
@@ -46,7 +50,11 @@ export const actions = {
     }
 
     var answers = await eosManager.readByQuestionKey(answerParam, index)
-    answers = await IpfsManager.convertAnswers(answers)
+    //answers = await IpfsManager.convertAnswers(answers)
+    for(var i=0; i<answers.length; i++){
+      var meta = JSON.parse(answers[i].body)
+      answers[i].body = meta.body
+    }
 
     commit('setAnswers', answers)
   }  

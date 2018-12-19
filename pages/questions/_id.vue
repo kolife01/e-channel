@@ -7,6 +7,7 @@
             <v-card-text>
               
               <v-flex class="headline">{{ question.title }}</v-flex> 
+              <v-flex class="headline">{{ question.body }}</v-flex> 
               <v-flex class="caption"> {{ question.time_stamp }}</v-flex>
               <v-flex class="caption"> Post by {{ question.pub_key }}</v-flex>
               <v-flex>
@@ -38,12 +39,11 @@
               <v-flex>
                 <v-icon dark right color="grey">star</v-icon>
                 {{ answer.point }}
-                
               </v-flex>
               <v-flex class="caption"> answer_key {{ answer.answer_key }}</v-flex>
               <v-btn fab dark small color="teal" @click="set2('answer', answer.answer_key)">
                   <v-icon dark>attach_money</v-icon>
-                </v-btn>
+              </v-btn>
 
             </v-card-text>
           </v-card>
@@ -185,14 +185,16 @@ export default {
 
     var prive_key = localStorage.getItem('eosclip_priveKey');
 
-    var message = hash + nonce
+    //var message = hash + nonce
+    var message = answer + nonce
     var sig = eosjs_ecc.sign(message, prive_key);
 
     var self = this
     
     const res = await axios.post('/api/addanswer', {
         question_key: question_key,
-        body: hash,
+        //body: hash,
+        body: answer,
         sig: sig,
         pub_key: pub_key
     }).then(async function (response) {
@@ -213,7 +215,9 @@ export default {
         this.index = index
         console.log("index:" + this.index)
       },
+
       async send(){
+        this.$nuxt.$loading.start()
         var table = this.table
         var qa_key = this.index;
         var point = this.point;
@@ -243,14 +247,14 @@ export default {
             point: point,
             sig: sig,
             pub_key: pub_key
-        }).then(async function (response) {
-        if (response.data.status) {
+        })
             // await self.$store.dispatch('answers/fetchAnswersByQuestionKey', self.$route.params.id)
             // this.$nuxt.$loading.finish()
-            this.dialog = false
-        }
-        
-      })
+        this.dialog = false
+        this.$nuxt.$loading.finish()
+
+        window.location.reload(true)
+
     }
   }
 }
