@@ -23,6 +23,7 @@ import IpfsManager from '../assets/js/ipfs';
 const eosManager = new EosManager('https://kylin.eoscanada.com')
 
 export default {
+
   methods: {
     async addquestion() {
 
@@ -30,6 +31,9 @@ export default {
         title:document.getElementById('input_question_title').value,
         body:document.getElementById('input_question_body').value
       })
+
+      document.getElementById('input_question_title').value = ""
+      document.getElementById('input_question_body').value = ""
 
       var hash = await IpfsManager.add(question);
 
@@ -70,7 +74,6 @@ export default {
 
             for (var i = questions.length - 1; i >= 0; i--) {
               if (questions[i].pub_key == pub_key) {
-                //document.location.href = document.location.origin + '/questions/' + i
                 self.$store.$router.push({ path: `/questions/${i}` })
                 break
               }
