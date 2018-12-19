@@ -158,9 +158,11 @@ export default {
     )
   },
 
-  /*
+
 
   mounted: async function() {
+    
+    /*
     this.$nextTick(async () => {
       this.$nuxt.$loading.start()
       await Promise.all(
@@ -169,10 +171,12 @@ export default {
       )
       this.$nuxt.$loading.finish()      
     })
+    */
+
 
   },
 
-  */
+  
 
   computed: {
     question() {
@@ -190,6 +194,9 @@ export default {
 
     var answer = JSON.stringify({body: document.getElementById('input_answer').value})
     document.getElementById('input_answer').value = ""
+    document.getElementById('input_answer').disabled = true
+    document.getElementById('add_answer').disabled = true
+    document.getElementById('add_answer').innerHTML = "Broadcasting..."
 
     var hash = await IpfsManager.add(answer);
 
@@ -220,10 +227,16 @@ export default {
         sig: sig,
         pub_key: pub_key
     }).then(async function (response) {
-        if (response.data.status) {
+        if (response.data.status == true) {
             await self.$store.dispatch('answers/fetchAnswersByQuestionKey', self.$route.params.id)
             this.$nuxt.$loading.finish()
+            document.getElementById('input_answer').disabled = false
+            document.getElementById('add_answer').disabled = false
+            document.getElementById('add_answer').innerHTML = "Add Answer"
+        } else {
+          alert("Error: Please try again")
         }
+
       })
     },
 
@@ -236,6 +249,10 @@ export default {
         this.dialog = true
         this.index = index
         console.log("index:" + this.index)
+
+
+
+
       },
 
       async send(){
@@ -273,7 +290,9 @@ export default {
             // await self.$store.dispatch('answers/fetchAnswersByQuestionKey', self.$route.params.id)
             // this.$nuxt.$loading.finish()
         this.dialog = false
+        
         this.$nuxt.$loading.finish()
+
 
         window.location.reload(true)
 

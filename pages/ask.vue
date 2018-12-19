@@ -36,6 +36,10 @@ export default {
 
       document.getElementById('input_question_title').value = ""
       document.getElementById('input_question_body').value = ""
+      document.getElementById('input_question_title').disabled = true
+      document.getElementById('input_question_body').disabled = true    
+      document.getElementById('add_question').disabled = true
+      document.getElementById('add_question').innerHTML = "Broadcasting..."
 
       //var hash = await IpfsManager.add(question);
 
@@ -64,7 +68,7 @@ export default {
         sig: sig,
         pub_key: pub_key
       }).then(async function (response){          
-          if(response.data.status){
+          if(response.data.status == true){
 
             var questionParam = {
               scope: 'eosqatest334',
@@ -82,6 +86,8 @@ export default {
                 break
               }
             }
+          } else {
+            alert("Error: Please try again.")
           }
         })
     }

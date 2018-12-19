@@ -2,3 +2,12 @@ a {
     color: teal;
     text-decoration: none;
 }
+
+.page-enter-active {
+    animation: acrossIn .45s ease-out both;
+} 
+  
+.page-leave-active {
+    animation: acrossOut .65s ease-in both;
+} 
+  

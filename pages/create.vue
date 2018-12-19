@@ -1,8 +1,9 @@
 <template>
 <v-content>
-    <v-container grid-list-md>
+    <v-container >
       <!-- <input type="text" id="input_name"> -->
-      
+    <div class="display-1 font-italic font-weight-thin">Please Register Your Name</div>
+    <br>
     <v-form ref="form" v-model="valid" lazy-validation>
     <v-text-field
       id="input_name"
@@ -12,32 +13,45 @@
       label="UserName"
       required
     ></v-text-field>
-    
+
+    <br>
+
+    <v-flex left>
+
     <v-checkbox
       v-model="checkbox"
-      :rules="[v => !!v || 'You must agree to continue!']"
-      label="Do you agree terms?"
+      :rules="[v => !!v || 'Please agree to the terms to continue!']"
+      label="I agree to the terms of service"
       required
     >
     </v-checkbox>
-    <span @click="dialog = true">Open Terms</span>
-    
+    </v-flex>
+
+    <v-flex right>
+    <a @click="dialog = true">Terms of Service</a>
+    &nbsp;
+    &nbsp;  
+    <v-btn
+      @click="submit"
+      dark large color="teal lighten-1">
+      submit
+    </v-btn>
+
+    </v-flex>
 
     <v-dialog
       v-model="dialog"
       max-width="290"
     >
       <v-card>
-        <v-card-title class="headline">Terms</v-card-title>
+        <v-card-title class="headline">Terms of Service</v-card-title>
 
         <v-card-text>
-          aaaaaaaaaaaaaaaaaaaaaaaaaaa
+          Terms of Service will be displayed here.
         </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-
-          
 
           <v-btn
             color="green darken-1"
@@ -50,12 +64,8 @@
       </v-card>
     </v-dialog>
 
-    <v-btn
-      :disabled="!valid"
-      @click="submit"
-    >
-      submit
-    </v-btn>
+
+
   </v-form>
     </v-container>
   </v-content>
@@ -87,9 +97,7 @@ export default {
       async submit () {
         if (this.$refs.form.validate()) {
           // Native form submission is not yet supported
-
-
-
+          this.$nuxt.$loading.start()
           var name = document.getElementById('input_name').value;
 
           var pub_key = localStorage.getItem('eosclip_account')
@@ -107,13 +115,14 @@ export default {
               if(response.data.status){
                 
                 window.location.href = '/'
-                alert('Welcome! You get 500 POINT!!')
+                   alert('Welcome! You got 500 POINT!!')
                 
               }else{
                 console.log(response.data.msg)
                 alert("error")
               }
           })
+          this.$nuxt.$loading.finish()
           
       }else{
         console.log("error")
