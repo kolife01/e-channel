@@ -4,7 +4,7 @@
       <v-layout
         row
         wrap
-        v-for="(question, index) in questions"
+        v-for="question in questions"
         :key="question.question_key"
       >
         <v-flex>
@@ -17,10 +17,6 @@
                 {{ question.pub_key }}
               </v-flex>
               <v-flex> {{ question.time_stamp }}</v-flex>
-              <v-flex>
-                {{ question.view }}
-                <v-icon small>remove_red_eye</v-icon>
-              </v-flex>
               <v-flex>{{ question.title }}</v-flex>
             </v-card-text>
           </v-card>
@@ -31,13 +27,28 @@
 </template>
 
 <script>
+
 import { mapGetters } from 'vuex'
 
 export default {
+
   async asyncData(context) {
     const { store } = context
     await store.dispatch('questions/fetchQuestions')
   },
+
+  /*
+
+  mounted: function() {
+    this.$nextTick(async () => {
+      this.$nuxt.$loading.start()
+      await this.$store.dispatch('questions/fetchQuestions')
+      this.$nuxt.$loading.finish()
+    })
+  },
+
+  */
+
   computed: {
     questions() {
       return this.$store.getters['questions/questions']

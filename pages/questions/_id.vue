@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <v-container grid-list-md>
+    <v-container grid-list-md v-if="question != null">
       <v-layout row wrap>
         <v-flex>
           <v-card>
@@ -12,10 +12,6 @@
                 {{ question.pub_key }}
               </v-flex>
               <v-flex>{{ question.time_stamp }}</v-flex>
-              <v-flex>
-                {{ question.view }}
-                <v-icon small>remove_red_eye</v-icon>
-              </v-flex>
               <v-flex>{{ question.title }}</v-flex>
               <v-flex>{{ question.body }}</v-flex>
             </v-card-text>
@@ -70,12 +66,30 @@ import axios from 'axios'
 const eosManager = new EosManager('https://kylin.eoscanada.com')
 
 export default {
+
   async asyncData({ store, params }) {
     await Promise.all(
       [store.dispatch('questions/fetchQuestionsByQuestionKey', params.id),
       store.dispatch('answers/fetchAnswersByQuestionKey', params.id)]
     )
   },
+
+  /*
+
+  mounted: async function() {
+    this.$nextTick(async () => {
+      this.$nuxt.$loading.start()
+      await Promise.all(
+        [this.$store.dispatch('questions/fetchQuestionsByQuestionKey', this.$route.params.id),
+        this.$store.dispatch('answers/fetchAnswersByQuestionKey', this.$route.params.id)]
+      )
+      this.$nuxt.$loading.finish()      
+    })
+
+  },
+
+  */
+
   computed: {
     question() {
       return this.$store.getters['questions/questions'][0]
