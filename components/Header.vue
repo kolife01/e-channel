@@ -1,18 +1,59 @@
 <template>
-  <v-toolbar>
-    <v-toolbar-title>EOSQA</v-toolbar-title>
-    <v-spacer></v-spacer>
-    <v-toolbar-items class="hidden-sm-and-down">
-      <v-btn flat to="/">Home</v-btn>
-      <v-btn flat to="/field">Qestions</v-btn>
-      <v-btn flat to="/ask">Ask</v-btn>
-      <v-btn flat to="/mypage">Mypage</v-btn>
-    </v-toolbar-items>
-  </v-toolbar>
+  <div>
+    <v-navigation-drawer
+      v-model="drawer"
+      disable-resize-watcher
+      fixed
+      app
+    >
+      <v-list>
+        <v-list-tile to="/">
+          <v-list-tile-action>
+            <v-icon>home</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Home</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile to="/field">
+          <v-list-tile-action>
+            <v-icon>question_answer</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Qestions</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile to="/ask">
+          <v-list-tile-action>
+            <v-icon>help_outline</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Ask</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile to="/mypage">
+          <v-list-tile-action>
+            <v-icon>person_outline</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Mypage</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar fixed app>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title>E-Channel</v-toolbar-title>
+    </v-toolbar>
+  </div>
 </template>
 
 <script>
 export default {
+
+    data: () => ({
+      drawer: false
+    }),
 
 }
 </script>

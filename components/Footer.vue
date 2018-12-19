@@ -1,7 +1,7 @@
 <template>
-  <v-footer class="pa-3">
+  <v-footer fixed app>
     <v-spacer></v-spacer>
-      <v-flex>EOSQA BlockBase &copy; {{ new Date().getFullYear() }}</v-flex>
+      <v-flex>E-channel &copy; {{ new Date().getFullYear() }}</v-flex>
   </v-footer>
 </template>
 
