@@ -5,8 +5,9 @@
       disable-resize-watcher
       fixed
       app
+      
     >
-      <v-list>
+      <v-list color="teal lighten-1">
         <v-list-tile to="/">
           <v-list-tile-action>
             <v-icon>home</v-icon>
@@ -41,7 +42,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed app>
+    <v-toolbar fixed app color="teal lighten-1">
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>E-Channel</v-toolbar-title>
     </v-toolbar>

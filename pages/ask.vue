@@ -8,7 +8,7 @@
           id="input_question_body"
           rows="10"
         ></v-textarea>
-        <v-btn id="add_question" v-on:click="addquestion">Ask Question</v-btn>
+        <v-btn dark color="teal lighten-1" id="add_question" v-on:click="addquestion">Ask Question</v-btn>
       </v-form>
     </v-container>
   </v-content>

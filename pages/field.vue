@@ -19,10 +19,10 @@
                 <v-icon dark right color="grey">star</v-icon>
                 {{ question.allpoint }}
                 
-              </v-flex>
-              <v-btn fab dark small color="teal" @click="set2(index)">
+                <v-btn fab dark small color="teal lighten-1" @click="set2(index)" >
                   <v-icon dark>attach_money</v-icon>
                 </v-btn>
+              </v-flex>
                 <!-- <v-btn color="info" dark
                 @click="set2(index)"
                 >Tip

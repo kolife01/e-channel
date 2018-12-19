@@ -5,7 +5,6 @@
         <v-flex>
           <v-card>
             <v-card-text>
-              
               <v-flex class="headline">{{ question.title }}</v-flex> 
               <v-flex class="headline">{{ question.body }}</v-flex> 
               <v-flex class="caption"> {{ question.time_stamp }}</v-flex>
@@ -15,11 +14,12 @@
                 {{ question.answer_count }}
                 <v-icon dark right color="grey">star</v-icon>
                 {{ question.allpoint }}
-                
-              </v-flex>
-                <v-btn fab dark small color="teal" @click="set2('question', question.question_key)">
+
+                <v-btn fab dark small color="teal lighten-1" @click="set2('question', question.question_key)" >
                   <v-icon dark>attach_money</v-icon>
                 </v-btn>
+
+              </v-flex>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -41,7 +41,7 @@
                 {{ answer.point }}
               </v-flex>
               <v-flex class="caption"> answer_key {{ answer.answer_key }}</v-flex>
-              <v-btn fab dark small color="teal" @click="set2('answer', answer.answer_key)">
+              <v-btn fab dark small color="teal lighten-1" @click="set2('answer', answer.answer_key)">
                   <v-icon dark>attach_money</v-icon>
               </v-btn>
 
@@ -56,7 +56,7 @@
             id="input_answer"
             rows="10"
           ></v-textarea>
-          <v-btn id="add_answer" v-on:click="addanswer">Add Answer</v-btn>
+          <v-btn color="teal lighten-1" id="add_answer" v-on:click="addanswer">Add Answer</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
