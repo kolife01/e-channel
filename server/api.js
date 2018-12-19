@@ -210,4 +210,35 @@ router.post("/tipquestion", (req, res) => {
 
 })
 
+router.post("/tipanswer", (req, res) => {
+
+    var options = {
+        httpEndpoint: process.env.ENDPOINT,
+        keyProvider: process.env.PRIV_KEY,
+        chainId: process.env.CHAINID
+    }
+
+    const eos = Eos(options)
+
+    options = {
+        authorization: process.env.ACCOUNT + '@' + 'active',
+        broadcast: true,
+        sign: true
+    }
+
+    const param = req.body;
+    console.log(param)
+
+    eos.contract(process.env.CONTRACT).then(contract => {
+        contract.tipanswer(param.answer_key, param.point, process.env.ACCOUNT, param.sig, param.pub_key, options).then(response => {
+            res.json({status: true})
+            console.log("success");
+        }).catch(err => {
+            res.json({status: false, msg: err})
+            console.log(err);
+        });
+    });    
+
+})
+
 module.exports = router
