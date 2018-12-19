@@ -26,7 +26,7 @@ export default {
 
   methods: {
     async addquestion() {
-
+      this.$nuxt.$loading.start()
       var question = JSON.stringify({
         title:document.getElementById('input_question_title').value,
         body:document.getElementById('input_question_body').value
