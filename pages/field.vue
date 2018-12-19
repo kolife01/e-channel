@@ -9,27 +9,37 @@
       >
         <v-flex>
           <v-card >
-            <v-card-text>
-              <v-flex class="headline"><nuxt-link :to="`/questions/${question.question_key}`">{{ question.title }}</nuxt-link></v-flex> 
-              <v-flex class="caption"> {{ question.time_stamp }}</v-flex>
-              <v-flex class="caption"> Post by {{ question.pub_key }}</v-flex>
-              <v-flex>
-                <v-icon dark right color="grey">insert_comment</v-icon>
-                {{ question.answer_count }}
-                <v-icon dark right color="grey">star</v-icon>
+            <v-card-title>
+              <div style = "width:100%">
+                <div class="headline"><nuxt-link :to="`/questions/${question.question_key}`">{{ question.title }}</nuxt-link></div>
+                <div style="float: left;"class="grey--text" >ID: {{ question.pub_key.substring(4, 18) }}</div>
+                <div style="text-align:right;" class="grey--text"> {{ question.time_stamp.substring(0, 10) }} {{ question.time_stamp.substring(11, 19) }}</div>
+                <div>{{question.body.substring(0, 140)}} <nuxt-link :to="`/questions/${question.question_key}`"><v-icon small>expand_more</v-icon></nuxt-link></div>
+              </div>
+            </v-card-title > 
+            <v-card-actions>
+                <v-chip>
+                <v-icon dark color="grey">insert_comment</v-icon>
+                {{ question.answer_count }} 
+                &nbsp;
+                <v-icon dark color="grey">star</v-icon>
                 {{ question.allpoint }}
-                
-                <v-btn fab dark small color="teal lighten-1" @click="set2(index)" >
+                </v-chip>
+                <v-spacer></v-spacer>
+                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                &nbsp;  &nbsp;                
+                <v-btn dark small color="teal lighten-1" @click="set2(index)" >
                   <v-icon dark>attach_money</v-icon>
+                  TIP
                 </v-btn>
-              </v-flex>
+            </v-card-actions>
                 <!-- <v-btn color="info" dark
                 @click="set2(index)"
                 >Tip
                   <v-icon dark right>attach_money</v-icon>
                 </v-btn> -->
                 
-            </v-card-text>
+
           </v-card>
         </v-flex>
       </v-layout>
