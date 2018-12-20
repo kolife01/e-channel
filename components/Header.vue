@@ -26,15 +26,23 @@
         </v-list-tile>
         <v-list-tile to="/ask">
           <v-list-tile-action>
-            <v-icon>help_outline</v-icon>
+            <v-icon>help</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Ask</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile to="/tutorial">
+          <v-list-tile-action>
+            <v-icon>description</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Tutorial</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>        
         <v-list-tile to="/mypage">
           <v-list-tile-action>
-            <v-icon>person_outline</v-icon>
+            <v-icon>person</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Mypage</v-list-tile-title>
@@ -50,6 +58,7 @@
       <v-btn flat to="/">Home</v-btn>
       <v-btn flat to="/field">Qestions</v-btn>
       <v-btn flat to="/ask">Ask</v-btn>
+      <v-btn flat to="/tutorial">Tutorial</v-btn>
       <v-btn flat to="/mypage">Mypage</v-btn>
     </v-toolbar-items>
     </v-toolbar>
