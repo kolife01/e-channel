@@ -40,14 +40,6 @@
             <v-list-tile-title>Mypage</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile to="/tutorial">
-          <v-list-tile-action>
-            <v-icon>person_outline</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Tutorial</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar fixed app dark color="teal lighten-1">
