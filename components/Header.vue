@@ -42,7 +42,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed app dark color="teal lighten-1">
+    <v-toolbar fixed app dark color="teal lighten-2">
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title class="display-1 font-weight-thin" >E-Channel</v-toolbar-title>
     <v-spacer></v-spacer>
