@@ -241,4 +241,36 @@ router.post("/tipanswer", (req, res) => {
 
 })
 
+router.post("/exchange", (req, res) => {
+
+    var options = {
+        httpEndpoint: process.env.ENDPOINT,
+        keyProvider: process.env.PRIV_KEY,
+        chainId: process.env.CHAINID
+    }
+
+    const eos = Eos(options)
+
+    options = {
+        authorization: process.env.ACCOUNT + '@' + 'active',
+        broadcast: true,
+        sign: true
+    }
+
+
+    const param = req.body;
+    console.log(param)
+    console.log(options)
+    eos.contract(process.env.CONTRACT).then(contract => {
+        contract.exchange(param.username, param.point, param.sig, process.env.ACCOUNT, param.pub_key, options).then(response => {
+            res.json({status: true})
+            console.log("success");
+        }).catch(err => {
+            res.json({status: false, msg: err})
+            console.log(err);
+        });
+    });    
+
+})
+
 module.exports = router
