@@ -45,6 +45,13 @@
     <v-toolbar fixed app dark color="teal lighten-1">
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title class="display-1 font-weight-thin" >E-Channel</v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-toolbar-items class="hidden-sm-and-down">
+      <v-btn flat to="/">Home</v-btn>
+      <v-btn flat to="/field">Qestions</v-btn>
+      <v-btn flat to="/ask">Ask</v-btn>
+      <v-btn flat to="/mypage">Mypage</v-btn>
+    </v-toolbar-items>
     </v-toolbar>
   </div>
 </template>
