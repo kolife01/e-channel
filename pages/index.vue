@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <v-container> <h2>E-Channel</h2> </v-container>
+    <v-container> <img src="~/assets/img/logo.png"> </v-container>
   </v-content>
 </template>
 
