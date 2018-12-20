@@ -12,7 +12,12 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { hid: 'description', name: 'description', content: pkg.description },
+      { hid: 'author', name: 'author', content: pkg.auther },
+      { hid: 'twitter:card', name: 'desctwitter:cardription', content: "summary" },
+      { hid: 'twitter:title"', name: 'twitter:title"', content: pkg.name },
+      { hid: 'twitter:description', name: 'twitter:description', content: pkg.description },
+      { hid: 'twitter:image', name: 'twitter:image', content: pkg.description }
     ],
     script: [
       { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js' },
@@ -27,7 +32,7 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#2196F3', height: '5px' },
+  loading: { color: '#2196F3', height: '3px' },
 
   /*
   ** Global CSS

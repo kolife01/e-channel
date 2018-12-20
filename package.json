@@ -1,8 +1,8 @@
 {
-  "name": "nuxt_eosqa_test",
+  "name": "E-Channel",
   "version": "1.0.0",
-  "description": "My flawless Nuxt.js project",
-  "author": "Kohei Tanaka",
+  "description": "Ask & Answer with insentive on blockchain. No wallet, account, gas cost is required for the ecosystem.",
+  "author": "BlockBase",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
