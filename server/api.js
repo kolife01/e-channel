@@ -1,91 +1,6 @@
 const express = require('express')
 var router = express.Router();
 const Eos = require('eosjs')
-const { GoogleApis } = require('googleapis');
-
-
-router.get("/views", (req, res) => {
-
-    const google = new GoogleApis();
-    var analytics = google.analyticsreporting('v4');      //準備時に生成したJSONファイルを指定
-    var viewId = process.env.ANALYTICS_VIEWID;                           //GoogleAnalyticsのビューidを指定
-    var startDate = "2018-01-01";
-    var endDate = "2019-04-01";
-
-    var jwtClient = new google.auth.JWT(process.env.ANALYTICS_EMAIL, null, process.env.ANALYTICS_KEY.replace(/\\n/g, '\n'), ["https://www.googleapis.com/auth/analytics.readonly"], null);
-
-    jwtClient.authorize((error, tokens) => {
-        if (error) {
-            console.log(error);
-            return;
-        }
-        analytics.reports.batchGet({
-            resource: {
-                "reportRequests": [
-                    {
-                        "dateRanges": [
-                            {
-                                "startDate": startDate,
-                                "endDate": endDate
-                            }
-                        ],
-                        "viewId": viewId,
-                        "dimensions": [
-                            {
-                                "name": "ga:pagePath"
-                            }
-                        ],
-                        "dimensionFilterClauses": [
-                            {
-                                "filters": [
-                                    {
-                                        "dimensionName": "ga:pagePath",
-                                        "operator": "BEGINS_WITH",
-                                        "expressions": ["/questions/"]
-                                    }
-                                ]
-                            }
-                        ],
-                        "metrics": [
-                            {
-                                "expression": "ga:pageviews"
-                            }
-                        ],
-                        "orderBys": [
-                            {
-                                "fieldName": 'ga:pagePath',
-                                "orderType": 'VALUE',
-                                "sortOrder": 'ASCENDING'
-                            }
-                        ],
-                    }
-                ]
-            },
-            auth: jwtClient
-        }, (error, response) => {
-            if (error) {
-                console.log(error);
-            }
-    
-            var result = [];
-    
-            for (var i = 0; i < response.data.reports[0].data.rows.length; i++) {
-                var index = response.data.reports[0].data.rows[i].dimensions[0].substring(11, 20)
-                var views = response.data.reports[0].data.rows[i].metrics[0].values[0]
-                if (!isNaN(index)) {
-                    var jsonVariable = {}
-                    jsonVariable[index] = views
-                    result.push(jsonVariable)
-                }
-            }
-    
-            res.json({views: result})
-    
-        });
-    });
-})
-
-
 
 router.post("/addanswer", (req, res) => {
 
@@ -274,3 +189,89 @@ router.post("/exchange", (req, res) => {
 })
 
 module.exports = router
+
+/*
+const { GoogleApis } = require('googleapis');
+
+
+router.get("/views", (req, res) => {
+
+    const google = new GoogleApis();
+    var analytics = google.analyticsreporting('v4');      //準備時に生成したJSONファイルを指定
+    var viewId = process.env.ANALYTICS_VIEWID;                           //GoogleAnalyticsのビューidを指定
+    var startDate = "2018-01-01";
+    var endDate = "2019-04-01";
+
+    var jwtClient = new google.auth.JWT(process.env.ANALYTICS_EMAIL, null, process.env.ANALYTICS_KEY.replace(/\\n/g, '\n'), ["https://www.googleapis.com/auth/analytics.readonly"], null);
+
+    jwtClient.authorize((error, tokens) => {
+        if (error) {
+            console.log(error);
+            return;
+        }
+        analytics.reports.batchGet({
+            resource: {
+                "reportRequests": [
+                    {
+                        "dateRanges": [
+                            {
+                                "startDate": startDate,
+                                "endDate": endDate
+                            }
+                        ],
+                        "viewId": viewId,
+                        "dimensions": [
+                            {
+                                "name": "ga:pagePath"
+                            }
+                        ],
+                        "dimensionFilterClauses": [
+                            {
+                                "filters": [
+                                    {
+                                        "dimensionName": "ga:pagePath",
+                                        "operator": "BEGINS_WITH",
+                                        "expressions": ["/questions/"]
+                                    }
+                                ]
+                            }
+                        ],
+                        "metrics": [
+                            {
+                                "expression": "ga:pageviews"
+                            }
+                        ],
+                        "orderBys": [
+                            {
+                                "fieldName": 'ga:pagePath',
+                                "orderType": 'VALUE',
+                                "sortOrder": 'ASCENDING'
+                            }
+                        ],
+                    }
+                ]
+            },
+            auth: jwtClient
+        }, (error, response) => {
+            if (error) {
+                console.log(error);
+            }
+    
+            var result = [];
+    
+            for (var i = 0; i < response.data.reports[0].data.rows.length; i++) {
+                var index = response.data.reports[0].data.rows[i].dimensions[0].substring(11, 20)
+                var views = response.data.reports[0].data.rows[i].metrics[0].values[0]
+                if (!isNaN(index)) {
+                    var jsonVariable = {}
+                    jsonVariable[index] = views
+                    result.push(jsonVariable)
+                }
+            }
+    
+            res.json({views: result})
+    
+        });
+    });
+})
+*/
