@@ -12,7 +12,8 @@ EosManager.prototype.read = function (param) {
         this.eos.getTableRows(
             param
         ).then(async result => {
-            resolve(result.rows)
+            var output = result.rows.reverse(); 
+            resolve(output)
         }).catch(err =>
             console.log(err)
         );
@@ -30,6 +31,7 @@ EosManager.prototype.readByQuestionKey = function (param, index) {
                     output.push(result.rows[i])
                 }
             }
+            var output = output.reverse(); 
             resolve(output)
         }).catch(err =>
             console.log(err)
