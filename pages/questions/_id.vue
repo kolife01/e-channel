@@ -7,7 +7,7 @@
             <v-card-title>
               <div style = "width:100%">
                 <div class="headline"><nuxt-link color="blue" :to="`/questions/${question.question_key}`">{{ question.title }}</nuxt-link></div>
-                <div style="float: left;"class="grey--text" >ID: {{ question.pub_key.substring(4, 18) }}</div>
+                <div style="float: left;" class="grey--text" >ID: {{ question.pub_key.substring(4, 18) }}</div>
                 <div style="text-align:right;" class="grey--text"> {{ question.time_stamp.substring(0, 10) }} {{ question.time_stamp.substring(11, 19) }}</div>
                 <v-divider></v-divider>
                 <br>
