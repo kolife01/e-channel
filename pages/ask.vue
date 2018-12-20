@@ -24,7 +24,11 @@ import IpfsManager from '../assets/js/ipfs';
 
 const eosManager = new EosManager('https://kylin.eoscanada.com')
 
+
+
 export default {
+
+
 
   methods: {
     async addquestion() {
