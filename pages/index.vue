@@ -70,7 +70,7 @@
             </div>
           </v-flex>
           <v-flex xs12 sm4 class="my-3">
-            <v-btn dark color="teal lighten-2" to="/tutorial">Getting Started</v-btn>
+            <v-btn dark color="teal lighten-2" to="/field">Getting Started</v-btn>
           </v-flex>
         </v-layout>
       </section>
