@@ -42,7 +42,7 @@
             1000Pointからご自身のEOSアカウントに出金することが出来ます。
             レートは100Point = 0.00035EOS相当です。
             注意)Point付与額、レートは予告なく変更する可能性があります。
-            <!-- <nuxt-link></nuxt-link> -->
+            <nuxt-link to="/terms">利用規約</nuxt-link>
         </p>
         <img class="text-md-center" src="~/assets/img/tutorial/e4.png" alt="">
         <br>
