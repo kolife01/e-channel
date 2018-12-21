@@ -3,9 +3,13 @@
     <v-container grid-list-md v-if="question != null">
       <v-layout row wrap>
         <v-flex>
+          <div class="display-1">Question</div>
+          <br>
           <v-card>
             <v-card-title>
+              
               <div style = "width:100%">
+                
                 <div class="headline"><nuxt-link color="blue" :to="`/questions/${question.question_key}`">{{ question.title }}</nuxt-link></div>
                 <div style="float: left;" class="grey--text" >ID: {{ question.pub_key.substring(4, 18) }}</div>
                 <div style="text-align:right;" class="grey--text"> {{ question.time_stamp.substring(0, 10) }} {{ question.time_stamp.substring(11, 19) }}</div>
@@ -34,6 +38,9 @@
           </v-card>
         </v-flex>
       </v-layout>
+      <br>
+      <div class="display-1">Answer</div>
+      <br>
       <v-layout
         row
         wrap
@@ -41,6 +48,7 @@
         :key="answer.answer_key"
       >
         <v-flex>
+          
           <v-card>
 
             <v-card-title>
