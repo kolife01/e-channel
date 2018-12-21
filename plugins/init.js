@@ -15,10 +15,15 @@ async function usercheck(){
     nonce = await eosManager.nonce(param, pub_key)
     console.log(nonce)
 
+
+    /*
+
     if(nonce == 0 && window.location.href != window.location.origin + '/create'){
         console.log(window.location.origin)
         window.location.href = window.location.origin + '/create'
     }
+
+    */
 
 } 
 
@@ -37,11 +42,11 @@ if (process.browser) {
     
             })
 
-            window.location.href = 'create'
+            //window.location.href = 'create'
           
     } else {
+
         usercheck();
-    
         console.log("Your Account: " + localStorage.getItem('eosclip_account'))
         
     }
