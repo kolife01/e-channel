@@ -17,7 +17,7 @@ module.exports = {
       { hid: 'twitter:card', name: 'desctwitter:cardription', content: "summary" },
       { hid: 'twitter:title"', name: 'twitter:title"', content: pkg.name },
       { hid: 'twitter:description', name: 'twitter:description', content: pkg.description },
-      { hid: 'twitter:image', name: 'twitter:image', content: pkg.description }
+      { hid: 'twitter:image', name: 'twitter:image', content: 'https://raw.githubusercontent.com/block-base/e-channel/master/assets/img/screen.png' }
     ],
     script: [
       { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js' },
