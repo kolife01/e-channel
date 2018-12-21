@@ -77,7 +77,8 @@ export default {
         }
       
         nonce = await eosManager.nonce(param, pub_key)
-        if(nonce > 0){
+
+        if(nonce == 0){
           window.location.href = window.location.origin + '/create'
         }
     }

@@ -157,23 +157,22 @@ export default {
       }
     },
 
-    mounted:function(){
+    mounted: async function(){
         if(localStorage.getItem('eosclip_priveKey') != null) {
+          console.log("tete")
+          var param = {
+            scope: process.env.CONTRACT,
+            code: process.env.CONTRACT,
+            table: 'user',
+            json: true,
+            limit: 10000
+          }
 
-            var param = {
-              scope: process.env.CONTRACT,
-              code: process.env.CONTRACT,
-              table: 'user',
-              json: true,
-              limit: 10000
-            }
-
-            var nonce = await eosManager.nonce(param, localStorage.getItem('eosclip_account'))
-            
-            if(nonce > 0){
-                window.location.href = window.location.origin + '/'
-            }            
-
+          var nonce = await eosManager.nonce(param, localStorage.getItem('eosclip_account'))
+          
+          if(nonce > 0){
+            window.location.href = window.location.origin + '/'
+          }
         }
     }
 

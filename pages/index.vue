@@ -72,6 +72,18 @@
         </v-layout>
       </section>
 
+        <v-layout
+          column
+          wrap
+          align-center
+        >
+          <v-flex xs12 sm4 class="my-5">
+            <v-btn dark color="blue lighten-2" to="/field">質問を見る</v-btn>
+            <v-btn dark color="blue lighten-2" to="/ask">質問をする</v-btn>
+          </v-flex>
+        
+      </v-layout>
+
       <section>
       <v-timeline>
         <v-timeline-item
