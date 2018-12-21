@@ -25,11 +25,16 @@
       required
     >
     </v-checkbox>
+        <a @click="dialog = true">Terms of Service</a>
     </v-flex>
 
     <v-flex right>
-    <a @click="dialog = true">Terms of Service</a>
     &nbsp;
+    <v-btn
+      @click="import_account"
+      dark large color="grey lighten-1">
+      Import Account
+    </v-btn>    
     &nbsp;  
     <v-btn
       @click="submit"
@@ -37,12 +42,6 @@
       submit
     </v-btn>
     &nbsp;  
-    <v-btn
-      @click="import_account"
-      dark large color="blue lighten-1">
-      Import Account
-    </v-btn>
-
     </v-flex>
 
     <v-dialog
@@ -100,7 +99,7 @@ export default {
     methods: {
 
       async import_account () {
-         var privateKey = prompt("秘密鍵をインポートする", "秘密鍵")
+         var privateKey = prompt("以前に作成した秘密鍵をインポートすることができます", "秘密鍵を入力してください")
          console.log(privateKey)
          
          var publicKey = eosjs_ecc.privateToPublic(privateKey);
@@ -144,7 +143,7 @@ export default {
               if(response.data.status){
                 
                 window.location.href = '/'
-                alert('E-Channelをお楽しみいただくために500ポイントが付与されました！ アカウントにアクセスするためには、この秘密鍵が必要になりますので、大切に保存してください。 \n 秘密鍵: ' + prive_key)
+                alert('E-Channelをお楽しみいただくために500ポイントが付与されました！ アカウントにアクセスするためには、この秘密鍵が必要になりますので、大切に保存してください。\n\n秘密鍵: ' + prive_key)
               }else{
                 console.log(response.data.msg)
                 alert("error")

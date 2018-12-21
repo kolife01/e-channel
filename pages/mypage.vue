@@ -3,29 +3,29 @@
     <v-content>
     <v-container>
       <v-layout
-        row
-        wrap
         v-for="user in users"
         :key="user.user_key"
       >
         <v-card style = "width:100%"> 
           <v-card-title>
-            <p class="headline">{{JSON.parse(user.meta).name}}</p>
+            <div class="headline">{{JSON.parse(user.meta).name}}</div> 
           </v-card-title>
           <v-card-text>
+            <div class="grey--text">{{ user.pub_key }}</div>
             <p>POINT: {{ user.point }}</p>
-            <p>PUBLICK KEY : {{ user.pub_key }}</p>
+
+            <v-btn dark color="blue" id="withdraw_eos" @click="dialog = true" large>Withdraw EOS</v-btn>   
+            <v-btn dark color="red" id="add_answer" v-on:click="export_key" large>Export SecretKey</v-btn> 
+            <v-btn dark color="black" id="add_answer" v-on:click="logout" large>Logout</v-btn>        
+
           </v-card-text>
           <v-card-actions>
-          <v-flex>
-            <div right>
-              <v-btn dark color="blue" id="withdraw_eos" @click="dialog = true" large>Withdraw EOS</v-btn>
-              <v-btn dark color="red" id="add_answer" v-on:click="export_key" large>Export SecretKey</v-btn>
-              <v-btn dark color="black" id="add_answer" v-on:click="logout" large>Logout</v-btn>
-            </div>
-          </v-flex>
+     
           </v-card-actions>
         </v-card>
+      </v-layout>
+      
+    </v-container>
 
     <v-dialog
       v-model="dialog"
@@ -77,8 +77,6 @@
     </v-dialog>
 
 
-      </v-layout>
-    </v-container>
   </v-content>
 
 </template>
@@ -94,7 +92,7 @@ import axios from 'axios'
 export default {
   
   data: () => ({
-      dialog: false,
+      dialog: false
     }),
 
   // async asyncData(context) {
@@ -102,15 +100,7 @@ export default {
   //   await store.dispatch('users/fetchUsers')
   // },
   computed: {
-    ...mapGetters('users', ['users']),
-    status () {
-      if(localStorage.getItem('eosclip_priveKey') == null) {
-          return false
-      } else {
-          return true
-      }
-    }
-    
+    ...mapGetters('users', ['users'])
 
   },
   methods: {

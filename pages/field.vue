@@ -46,6 +46,9 @@
         </v-flex>
       </v-layout>
     </v-container>
+
+
+    
     <v-dialog
       v-model="dialog"
       max-width="350"
