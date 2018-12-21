@@ -46,6 +46,17 @@
         <img class="text-md-center" src="~/assets/img/tutorial/e4.png" alt="">
         <br>
         <br>
+        <div class="display-1" color="teal">引き出し方法について</div>
+        <p>irex等でEOSアカウントを作成します。<a href="https://irex.io/ja">https://irex.io/ja</a></p>
+        
+        <p>
+            マイページからWithdraw EOSを選択し、作成したアカウント、金額を入力しsendボタンを押すとEOSを引き出すことが出来ます。
+        </p>
+        <img class="text-md-center" src="~/assets/img/tutorial/e5.png" alt="">
+        <br>
+        <br>
+
+
        
         <div class="display-1" color="teal">実装技術について</div>
         <p>
