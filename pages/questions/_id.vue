@@ -25,7 +25,7 @@
                 <v-spacer></v-spacer>
                 <a :href="'https://twitter.com/share?url=http://localhost:3000/questions/' + question.question_key + '&text=Check out this post!&hashtags=E-Channel'" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 &nbsp;  &nbsp;                
-                <v-btn dark small color="teal lighten-1" @click="set2(index)" >
+                <v-btn dark small color="teal lighten-1" @click="set2(index)">
                   <v-icon dark>attach_money</v-icon>
                   TIP
                 </v-btn>
@@ -172,7 +172,7 @@ export default {
       this.$nuxt.$loading.finish()      
     })
     */
-
+    
 
   },
 
@@ -184,7 +184,12 @@ export default {
     },
     answers() {
       return this.$store.getters['answers/answers'] 
+    },
+    mypub() {
+      return localStorage.getItem('eosclip_account')
     }
+
+
   },
 
   methods: {
