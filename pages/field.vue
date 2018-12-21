@@ -144,8 +144,8 @@ export default {
         window.location.href = window.location.origin + '/create'
     } else {
         var param = {
-          scope: 'eosqatest334',
-          code: 'eosqatest334',
+          scope:  process.env.CONTRACT,
+          code: process.env.CONTRACT,
           table: 'user',
           json: true,
           limit: 100
