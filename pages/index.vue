@@ -12,7 +12,7 @@
             <div class="text-xs-center">
               <h2 class="display-3 blue--text">EOSのエアドロ質問箱</h2>
               <span class="subheading">
-                質問、回答をするだけでEOSトークンが手に入る質問箱サービス
+                質問、回答をするだけでEOSトークンが簡単に手に入る質問箱サービス
               </span>
             </div>
           </v-flex>
@@ -28,7 +28,7 @@
                       <div class="headline text-xs-center">エアドロ</div>
                     </v-card-title>
                     <v-card-text>
-                      質問と回答のインセンティブとして、運営からEOSトークンをエアドロップします。
+                      質問や質問に対する回答を行うと、投稿した人にEOSトークンがエアドロップされます。
                     </v-card-text>
                   </v-card>
                 </v-flex>
@@ -41,20 +41,20 @@
                       <div class="headline">投げ銭</div>
                     </v-card-title>
                     <v-card-text>
-                      ユーザー間で投げ銭を行うことで、P2Pでインセンティブを発生させることが可能です。
+                      ユーザー間で投げ銭を行うことで、投稿への評価と感謝の気持ちを表現することができます
                     </v-card-text>
                   </v-card>
                 </v-flex>
                 <v-flex xs12 md4>
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
-                      <v-icon x-large class="blue--text text--lighten-2">account_box</v-icon>
+                      <v-icon x-large class="blue--text text--lighten-2">nature_people</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
                       <div class="headline text-xs-center">分散化</div>
                     </v-card-title>
                     <v-card-text>
-                      E-Channel上に自分のdAppsを開発することでインセンティブを受け取ることが可能です。
+                      E-Channel上に自分のdAppsを開発することで、エアドロップを受けることができます。
                     </v-card-text>
                   </v-card>
                 </v-flex>
@@ -65,7 +65,7 @@
           <v-flex xs12 sm4 class="my-5">
             <div class="text-xs-center">
               <span class="subheading blue--text">
-                ウォレット、ガス代、アカウント不要で始められる新感覚のEOSフルチェーン質問箱サービス
+                ウォレット、ガス代、アカウント不要で始められる新感覚のEOSフルオンチェーンの質問箱サービス
               </span>
             </div>
           </v-flex>
@@ -95,7 +95,7 @@
             <v-card-title class="headline">α版リリース</v-card-title>
             <v-card-text>
                - EOSのフルオンチェーンで実装<br>
-               - ウォレット、ガス代、アカウントのいらないモデルを導入<br>
+               - 利用のためにウォレット、ガス代、アカウントのいらない設計<br>
                - 既存クラウドDBとの使用感や運用コストの比較
             </v-card-text>
           </v-card>
@@ -110,7 +110,7 @@
             <v-card-text>
                - パブリックチェーンのメリット、ユースケースの模索<br>
                - β版の仕様確定<br>
-               - B版の開発<br>
+               - β版の開発<br>
             </v-card-text>
           </v-card>
         </v-timeline-item>
@@ -122,7 +122,7 @@
           <v-card class="elevation-2">
             <v-card-title class="headline">β版リリース</v-card-title>
             <v-card-text>
-              - α版のフィードバックをもとにアップデートしたB版のリリース
+              - α版のフィードバックをもとにアップデートしたβ版のリリース
             </v-card-text>
           </v-card>
         </v-timeline-item>
@@ -132,7 +132,7 @@
         >
           <span slot="opposite">2019 - Spring</span>
           <v-card class="elevation-2">
-            <v-card-title class="headline">DAPPSへのアップデート</v-card-title>
+            <v-card-title class="headline">dAppsへのアップデート</v-card-title>
             <v-card-text>
               - 運営の分散化<br>
               - dApps開発のプラットフォームとしての拡張
