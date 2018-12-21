@@ -144,7 +144,7 @@ export default {
               if(response.data.status){
                 
                 window.location.href = '/'
-                alert('ようこそE-Channelへ！ アカウントにアクセスするためには、この秘密鍵が必要になりますので、大切に保存してください。 \n 秘密鍵: ' + prive_key)
+                alert('E-Channelをお楽しみいただくために500ポイントが付与されました！ アカウントにアクセスするためには、この秘密鍵が必要になりますので、大切に保存してください。 \n 秘密鍵: ' + prive_key)
               }else{
                 console.log(response.data.msg)
                 alert("error")
