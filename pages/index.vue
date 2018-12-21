@@ -8,11 +8,11 @@
           wrap
           align-center
         >
-          <v-flex xs12 sm4 class="my-3">
+          <v-flex xs12 sm4 class="my-5">
             <div class="text-xs-center">
-              <h2 class="display-3 blue--text">E-Channel</h2>
+              <h2 class="display-3 blue--text">EOSのエアドロ質問箱</h2>
               <span class="subheading">
-                ウォレット、ガス代、アカウント不要、1分で始められるブロックチェーンサービス
+                質問、回答をするだけでEOSトークンが手に入る質問箱サービス
               </span>
             </div>
           </v-flex>
@@ -25,10 +25,10 @@
                       <v-icon x-large class="blue--text text--lighten-2">account_balance_wallet</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
-                      <div class="headline text-xs-center">ウォレット不要</div>
+                      <div class="headline text-xs-center">エアドロ</div>
                     </v-card-title>
                     <v-card-text>
-                      アプリやブラウザーエクステンションのウォレットをインストールすることなく、すぐにサービスを利用することができます。
+                      質問と回答のインセンティブとして、運営からEOSトークンをエアドロップします。
                     </v-card-text>
                   </v-card>
                 </v-flex>
@@ -38,10 +38,10 @@
                       <v-icon x-large class="blue--text text--lighten-2">flash_on</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
-                      <div class="headline">ガス代不要</div>
+                      <div class="headline">投げ銭</div>
                     </v-card-title>
                     <v-card-text>
-                      すべてのトランザクションの手数料は運営が負担しているため、ユーザーはトランザクションの手数料を支払う必要がありません。
+                      ユーザー間で投げ銭を行うことで、P2Pでインセンティブを発生させることが可能です。
                     </v-card-text>
                   </v-card>
                 </v-flex>
@@ -51,10 +51,10 @@
                       <v-icon x-large class="blue--text text--lighten-2">account_box</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
-                      <div class="headline text-xs-center">アカウント不要</div>
+                      <div class="headline text-xs-center">分散化</div>
                     </v-card-title>
                     <v-card-text>
-                      運営はユーザーの個人情報と秘密鍵を一切管理しません。ユーザーは生成された秘密鍵のみを管理することでサービスを利用できます。
+                      E-Channel上に自分のdAppsを開発することでインセンティブを受け取ることが可能です。
                     </v-card-text>
                   </v-card>
                 </v-flex>
@@ -62,26 +62,101 @@
             </v-container>
           </v-flex>
 
-          <v-flex xs12 sm4 class="my-2">
+          <v-flex xs12 sm4 class="my-5">
             <div class="text-xs-center">
-              <span class="subheading display-3 blue--text">
-                質問、回答をするとEOSトークンと交換可能なポイントがインセンティブとして発生します。
+              <span class="subheading blue--text">
+                ウォレット、ガス代、アカウント不要で始められる新感覚のEOSフルチェーン質問箱サービス
               </span>
             </div>
-          </v-flex>
-          <v-flex xs12 sm4 class="my-3">
-            <v-btn dark color="teal lighten-2" to="/field">Getting Started</v-btn>
           </v-flex>
         </v-layout>
       </section>
 
+      <section>
+      <v-timeline>
+        <v-timeline-item
+          color="red lighten-2"
+          large
+        >
+          <span slot="opposite">2018 December</span>
+          <v-card class="elevation-2">
+            <v-card-title class="headline">α版リリース</v-card-title>
+            <v-card-text>
+               - EOSのフルオンチェーンで実装<br>
+               - ウォレット、ガス代、アカウントのいらないモデルを導入<br>
+               - 既存クラウドDBとの使用感や運用コストの比較
+            </v-card-text>
+          </v-card>
+        </v-timeline-item>
+                <v-timeline-item
+          color="red lighten-2"
+          large
+        >
+          <span slot="opposite">2018 December - 2019 - January</span>
+          <v-card class="elevation-2">
+            <v-card-title class="headline">フィードバック収集 & アップデート</v-card-title>
+            <v-card-text>
+               - パブリックチェーンのメリット、ユースケースの模索<br>
+               - β版の仕様確定<br>
+               - B版の開発<br>
+            </v-card-text>
+          </v-card>
+        </v-timeline-item>
+                <v-timeline-item
+          color="red lighten-2"
+          large
+        >
+          <span slot="opposite">2019 - January</span>
+          <v-card class="elevation-2">
+            <v-card-title class="headline">β版リリース</v-card-title>
+            <v-card-text>
+              - α版のフィードバックをもとにアップデートしたB版のリリース
+            </v-card-text>
+          </v-card>
+        </v-timeline-item>
+                <v-timeline-item
+          color="red lighten-2"
+          large
+        >
+          <span slot="opposite">2019 - Spring</span>
+          <v-card class="elevation-2">
+            <v-card-title class="headline">DAPPSへのアップデート</v-card-title>
+            <v-card-text>
+              - 運営の分散化<br>
+              - dApps開発のプラットフォームとしての拡張
+            </v-card-text>
+          </v-card>
+        </v-timeline-item>
+      </v-timeline>
+      </section>
+
+        <v-layout
+          column
+          wrap
+          align-center
+        >
+          <v-flex xs12 sm4 class="my-5">
+            <v-btn dark color="blue lighten-2" to="/field">質問を見る</v-btn>
+            <v-btn dark color="blue lighten-2" to="/ask">質問をする</v-btn>
+          </v-flex>
+        
+      </v-layout>
 
    </v-container>
   </v-content>
+
+
+
+
 </template>
 
 <script>
-export default {}
+export default {
+
+
+
+
+}
 </script>
 
 <style scoped>

@@ -13,6 +13,16 @@ import Footer from '~/components/Footer.vue'
     components:{
       Header,
       Footer
+    },
+
+    mounted: function (){
+
+      $(function() {
+        $(document).on("keypress", "input:not(.allow_submit)", function(event) {
+          return event.which !== 13;
+        });
+      });
+
     }
   }
 
