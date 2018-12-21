@@ -100,7 +100,6 @@ export default {
 
       async import_account () {
          var privateKey = prompt("以前に作成した秘密鍵をインポートすることができます", "秘密鍵を入力してください")
-         console.log(privateKey)
          
          var publicKey = eosjs_ecc.privateToPublic(privateKey);
          console.log('Public Key: ' +  publicKey) // EOSkey...

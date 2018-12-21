@@ -323,7 +323,7 @@ export default {
           limit: 10000
         }
       
-        nonce = await eosManager.nonce(param, pub_key)
+        nonce = await eosManager.nonce(param, localStorage.getItem('eosclip_account'))
         if(nonce == 0){
           window.location.href = window.location.origin + '/create'
         }
