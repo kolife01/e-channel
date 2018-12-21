@@ -3,28 +3,29 @@
     <v-content>
     <v-container>
       <v-layout
-        row
-        wrap
         v-for="user in users"
         :key="user.user_key"
       >
         <v-card style = "width:100%"> 
           <v-card-title>
-            <p class="headline">{{JSON.parse(user.meta).name}}</p>
+            <div class="headline">{{JSON.parse(user.meta).name}}</div> 
           </v-card-title>
           <v-card-text>
+            <div class="grey--text">{{ user.pub_key }}</div>
             <p>POINT: {{ user.point }}</p>
-            <p>PUBLICK KEY : {{ user.pub_key }}</p>
+
+            <v-btn dark color="blue" id="withdraw_eos" @click="dialog = true" large>Withdraw EOS</v-btn>   
+            <v-btn dark color="red" id="add_answer" v-on:click="export_key" large>Export SecretKey</v-btn> 
+            <v-btn dark color="black" id="add_answer" v-on:click="logout" large>Logout</v-btn>        
+
           </v-card-text>
           <v-card-actions>
-          <v-flex>
-            <div right>
-              <v-btn dark color="blue" id="withdraw_eos" @click="dialog = true" large>Withdraw EOS</v-btn>
-              <v-btn dark color="red" id="add_answer" v-on:click="export_key" large>Export PrivateKey</v-btn>
-            </div>
-          </v-flex>
+     
           </v-card-actions>
         </v-card>
+      </v-layout>
+      
+    </v-container>
 
     <v-dialog
       v-model="dialog"
@@ -70,13 +71,12 @@
           >
             Send
           </v-btn>
+          
         </v-card-actions>
       </v-card>
     </v-dialog>
 
 
-      </v-layout>
-    </v-container>
   </v-content>
 
 </template>
@@ -92,7 +92,7 @@ import axios from 'axios'
 export default {
   
   data: () => ({
-      dialog: false,
+      dialog: false
     }),
 
   // async asyncData(context) {
@@ -101,12 +101,20 @@ export default {
   // },
   computed: {
     ...mapGetters('users', ['users'])
+
   },
   methods: {
     async export_key() {
       var prive_key = localStorage.getItem('eosclip_priveKey');
-      alert("DO NOT share this key with anybody! Your PrivateKey: " + prive_key)
+      alert("この秘密鍵は次回ログイン時に必要になります。誰にも見られないように安全に保管してください。紛失した場合、復元することはできません。\n " + prive_key)
     },
+
+    async logout() {
+      var result = confirm("ログアウトする前に秘密鍵をEXPORT SECRETKEYから保存してください。 秘密鍵を保存せずにログアウトするとアカウントを復元することはできません。ログアウトする場合はOKをクリックしてください。\n");
+      localStorage.clear();
+      alert("ログアウトしました。")
+      window.location.href = window.location.origin + '/'
+    },   
 
     async send() {
 
@@ -162,11 +170,13 @@ export default {
 
           })       
     }
-
-
   },
 
-  
+    mounted:function(){
+      if(localStorage.getItem('eosclip_priveKey') == null) {
+          window.location.href = window.location.origin + '/create'
+      }
+  } 
 
 
 }
