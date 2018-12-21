@@ -27,7 +27,7 @@ export const actions = {
       code: process.env.CONTRACT,
       table: 'answer',
       json: true,
-      limit: 100
+      limit: 10000
     }
 
     var answers = await eosManager.read(answerParam)
@@ -46,7 +46,7 @@ export const actions = {
       code: process.env.CONTRACT,
       table: 'answer',
       json: true,
-      limit: 100
+      limit: 10000
     }
 
     var answers = await eosManager.readByQuestionKey(answerParam, index)

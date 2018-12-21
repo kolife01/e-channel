@@ -225,7 +225,7 @@ export default {
           code: process.env.CONTRACT,
           table: 'user',
           json: true,
-          limit: 100
+          limit: 10000
         }
       
         nonce = await eosManager.nonce(param, pub_key)
@@ -253,7 +253,7 @@ export default {
         code: process.env.CONTRACT,
         table: 'user',
         json: true,
-        limit: 100
+        limit: 10000
     }
 
     var nonce = await eosManager.nonce(param, pub_key)
@@ -312,7 +312,7 @@ export default {
           code: process.env.CONTRACT,
           table: 'user',
           json: true,
-          limit: 100
+          limit: 10000
         }
       
         nonce = await eosManager.nonce(param, pub_key)
@@ -333,7 +333,7 @@ export default {
             code: process.env.CONTRACT,
             table: 'user',
             json: true,
-            limit: 100
+            limit: 10000
         }
   
         var nonce = await eosManager.nonce(param, pub_key)

@@ -23,10 +23,11 @@ export const actions = {
       code: process.env.CONTRACT,
       table: 'user',
       json: true,
-      limit: 100
+      limit: 10000
     }
 
-    var users = await eosManager.read(userParam)
+
+    var users = await eosManager.read(userParam)    
     var user = [];
     
     
