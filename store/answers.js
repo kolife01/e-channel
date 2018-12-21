@@ -23,8 +23,8 @@ export const mutations = {
 export const actions = {
   async fetchAnswers({ state, commit }) {
     var answerParam = {
-      scope: 'eosqatest334',
-      code: 'eosqatest334',
+      scope: process.env.CONTRACT,
+      code: process.env.CONTRACT,
       table: 'answer',
       json: true,
       limit: 100
@@ -42,8 +42,8 @@ export const actions = {
 
   async fetchAnswersByQuestionKey({ state, commit }, index) {
     var answerParam = {
-      scope: 'eosqatest334',
-      code: 'eosqatest334',
+      scope: process.env.CONTRACT,
+      code: process.env.CONTRACT,
       table: 'answer',
       json: true,
       limit: 100

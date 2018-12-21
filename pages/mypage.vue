@@ -118,8 +118,8 @@ export default {
         var pub_key = localStorage.getItem('eosclip_account')
 
         var param = {
-            scope: 'eosqatest334',
-            code: 'eosqatest334',
+            scope: process.env.CONTRACT,
+            code: process.env.CONTRACT,
             table: 'user',
             json: true,
             limit: 100
