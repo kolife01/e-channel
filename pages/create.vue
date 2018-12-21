@@ -105,7 +105,8 @@ export default {
          var publicKey = eosjs_ecc.privateToPublic(privateKey);
          console.log('Public Key: ' +  publicKey) // EOSkey...
          localStorage.setItem("eosclip_priveKey", privateKey);
-         localStorage.setItem("eosclip_account", publicKey);         
+         localStorage.setItem("eosclip_account", publicKey);
+         window.location.href = '/'      
          alert("ログインしました。")
       },
  
@@ -143,7 +144,7 @@ export default {
               if(response.data.status){
                 
                 window.location.href = '/'
-                alert('E-Channelをお楽しみいただくために500ポイントが付与されました！ アカウントにアクセスするためには、この秘密鍵が必要になりますので、大切に保存してください。\n\n秘密鍵: ' + prive_key)
+                alert('E-Channelをお楽しみいただくために500ポイントが付与されました！ アカウントにアクセスするためには、この秘密鍵が必要になりますので、大切に保存してください。秘密鍵: ' + prive_key)
               }else{
                 alert(JSON.parse(response.data.msg).error.details[0].message)
                 

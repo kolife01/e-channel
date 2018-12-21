@@ -106,14 +106,19 @@ export default {
   methods: {
     async export_key() {
       var prive_key = localStorage.getItem('eosclip_priveKey');
-      alert("この秘密鍵は次回ログイン時に必要になります。誰にも見られないように安全に保管してください。紛失した場合、復元することはできません。\n " + prive_key)
+      
+      alert("この秘密鍵は次回ログイン時に必要になります。誰にも見られないように安全に保管してください。紛失した場合、復元することはできません。" + prive_key)
     },
 
     async logout() {
       var result = confirm("ログアウトする前に秘密鍵をEXPORT SECRETKEYから保存してください。 秘密鍵を保存せずにログアウトするとアカウントを復元することはできません。ログアウトする場合はOKをクリックしてください。\n");
-      localStorage.clear();
+      if(result){
+        localStorage.clear();
       alert("ログアウトしました。")
       window.location.href = window.location.origin + '/'
+
+      }
+      
     },   
 
     async send() {
