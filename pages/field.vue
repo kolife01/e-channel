@@ -27,9 +27,7 @@
                 <v-icon dark color="grey">star</v-icon>
                 {{ question.allpoint }}
                 </v-chip>
-                <v-spacer></v-spacer>
-                <a :href="'https://twitter.com/share?url=http://localhost:3000/questions/' + question.question_key + '&text=Check out this post!&hashtags=E-Channel'" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                &nbsp;  &nbsp;                
+                <v-spacer></v-spacer>              
                 <v-btn dark small color="teal lighten-1" @click="set2('question', question.question_key)" >
                   <v-icon dark>attach_money</v-icon>
                   TIP

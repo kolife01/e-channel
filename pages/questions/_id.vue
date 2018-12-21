@@ -23,7 +23,7 @@
                 {{ question.allpoint }}
                 </v-chip>
                 <v-spacer></v-spacer>
-                <a :href="'https://twitter.com/share?url=http://localhost:3000/questions/' + question.question_key + '&text=Check out this post!&hashtags=E-Channel'" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <a :href="'https://twitter.com/share?url=http://localhost:3000/questions/' + question.question_key + '&text=' + question.title + ' - ' + question.body.substring(0, 80) + '&hashtags=E-Channel, EOSのエアドロ質問箱'" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 &nbsp;  &nbsp;                
                 <v-btn dark small color="teal lighten-1" @click="set2('question',question.question_key)" >
 
