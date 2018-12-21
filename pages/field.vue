@@ -103,7 +103,7 @@ import EosManager from '~/assets/js/eos'
 import eosjs_ecc from 'eosjs-ecc'
 import axios from 'axios'
 
-const eosManager = new EosManager('https://kylin.eoscanada.com')
+const eosManager = new EosManager(process.env.ENDPOINT)
 
 export default {
 

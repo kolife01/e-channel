@@ -41,7 +41,7 @@ import eosjs_ecc from 'eosjs-ecc'
 import axios from 'axios'
 import IpfsManager from '../assets/js/ipfs';
 
-const eosManager = new EosManager('https://kylin.eoscanada.com')
+const eosManager = new EosManager(process.env.ENDPOINT)
 
 export default {
 

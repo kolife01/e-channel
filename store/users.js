@@ -1,5 +1,5 @@
 import EosManager from '~/assets/js/eos'
-const eosManager = new EosManager('https://kylin.eoscanada.com')
+const eosManager = new EosManager(process.env.ENDPOINT)
 
 export const state = () => ({
   users: [],
