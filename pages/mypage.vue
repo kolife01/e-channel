@@ -84,7 +84,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import EosManager from '~/assets/js/eos'
-const eosManager = new EosManager('https://kylin.eoscanada.com')
+const eosManager = new EosManager(process.env.ENDPOINT)
 import eosjs_ecc from 'eosjs-ecc'
 const Eos = require('eosjs')
 import axios from 'axios'
