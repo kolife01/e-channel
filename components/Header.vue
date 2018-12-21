@@ -56,7 +56,7 @@
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat to="/">Home</v-btn>
-      <v-btn flat to="/field">Qestions</v-btn>
+      <v-btn flat to="/field">Questions</v-btn>
       <v-btn flat to="/ask">Ask</v-btn>
       <v-btn flat to="/tutorial">Tutorial</v-btn>
       <v-btn flat to="/mypage">Mypage</v-btn>
