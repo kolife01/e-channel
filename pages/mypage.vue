@@ -177,10 +177,26 @@ export default {
     }
   },
 
-    mounted:function(){
-      if(localStorage.getItem('eosclip_priveKey') == null) {
-          window.location.href = window.location.origin + '/create'
-      }
+    mounted: async function(){
+      if (localStorage.getItem('eosclip_account') == null || localStorage.getItem('eosclip_priveKey') == null ) {
+        console.log("test")
+            window.location.href = window.location.origin +  '/create'
+        } else {
+          var param = {
+            scope: process.env.CONTRACT,
+            code: process.env.CONTRACT,
+            table: 'user',
+            json: true,
+            limit: 10000
+          }
+
+          var nonce = await eosManager.nonce(param, localStorage.getItem('eosclip_account'))
+          
+
+          if(nonce == 0){
+            window.location.href = window.location.origin + '/create'
+          }
+        }
   } 
 
 
