@@ -30,7 +30,7 @@
                 <v-spacer></v-spacer>
                 <a :href="'https://twitter.com/share?url=http://localhost:3000/questions/' + question.question_key + '&text=Check out this post!&hashtags=E-Channel'" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 &nbsp;  &nbsp;                
-                <v-btn dark small color="teal lighten-1" @click="set2(index)" >
+                <v-btn dark small color="teal lighten-1" @click="set2('question', question.question_key)" >
                   <v-icon dark>attach_money</v-icon>
                   TIP
                 </v-btn>
@@ -110,7 +110,8 @@ export default {
         return {
         dialog: false,
         point: 0,
-        index: 0
+        index: 0,
+        table:"",
         }
     },
   async asyncData(context) {
@@ -128,56 +129,55 @@ export default {
           this.point = value
           console.log(this.point)
       },
-      set2(index){
+      set2(table,index){
+        this.table = table
         this.dialog = true
         this.index = index
         console.log("index:" + this.index)
       },
+      
       async send(){
-    
         this.$nuxt.$loading.start()
-        var question_key = this.index;
-        console.log("key:" + question_key)
+        var table = this.table
+        var qa_key = this.index;
         var point = this.point;
         var pub_key = localStorage.getItem('eosclip_account')
         var prive_key = localStorage.getItem('eosclip_priveKey');  
 
-        console.log(point)
-        console.log(pub_key)
-        console.log(prive_key)
 
         var param = {
-            scope: 'eosqatest334',
-            code: 'eosqatest334',
+            scope: process.env.CONTRACT,
+            code: process.env.CONTRACT,
             table: 'user',
             json: true,
             limit: 100
         }
-        console.log(param)
+  
         var nonce = await eosManager.nonce(param, pub_key)
-        console.log("nonce:" + nonce)
-
-        var message = String(question_key) + String(point) +String(nonce)
+        var message = String(qa_key) + String(point) +String(nonce)
         var sig = eosjs_ecc.sign(message, prive_key);
         
-        console.log("sig:" + sig)
 
-        const res = await axios.post('/api/tipquestion', {
-            question_key: question_key,
+        var endpoint = "tip" + table
+        console.log(table)
+
+        // const res = await axios.post("`/api/${api}`", {
+          const res = await axios.post(`/api/${endpoint}`, {
+            question_key: qa_key,
+            answer_key: qa_key,
             point: point,
             sig: sig,
             pub_key: pub_key
         })
+        this.dialog = false
+        
+        this.$nuxt.$loading.finish()
 
-          this.dialog = false
-          this.$nuxt.$loading.finish()
-          //question更新処理入れる
+        window.location.reload(true)
 
-          window.location.reload(true)
-
-      }
-
+    }
   }
+
 }
 </script>
 

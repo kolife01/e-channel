@@ -16,7 +16,6 @@
             <p>POINT: {{ user.point }}</p>
             <p>PUBLICK KEY : {{ user.pub_key }}</p>
           </v-card-text>
-          </v-card-title>
           <v-card-actions>
           <v-flex>
             <div right>
