@@ -262,7 +262,8 @@ export default {
             document.getElementById('add_answer').disabled = false
             document.getElementById('add_answer').innerHTML = "Add Answer"
         } else {
-          alert("Error: Please try again")
+          alert(JSON.parse(response.data.msg).error.details[0].message)
+          // alert("Error: Please try again")
         }
 
       })
@@ -312,13 +313,19 @@ export default {
             point: point,
             sig: sig,
             pub_key: pub_key
+        }).then(async function (response){
+              if(response.data.status){
+                
+                window.location.reload(true)
+                
+              }else{
+                
+                alert(JSON.parse(response.data.msg).error.details[0].message)
+                
+              }
         })
-        this.dialog = false
         
         this.$nuxt.$loading.finish()
-
-
-        window.location.reload(true)
 
     }
   }

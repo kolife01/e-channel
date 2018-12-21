@@ -120,14 +120,12 @@ export default {
                    alert('Welcome! You got 500 POINT!!')
                 
               }else{
-                console.log(response.data.msg)
-                alert("error")
+                alert(JSON.parse(response.data.msg).error.details[0].message)
+                
               }
           })
           this.$nuxt.$loading.finish()
           
-      }else{
-        console.log("error")
       }
         
       }
