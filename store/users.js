@@ -19,8 +19,8 @@ export const mutations = {
 export const actions = {
   async fetchUsers({ state, commit }, pub_key) {
     var userParam = {
-      scope: 'eosqatest334',
-      code: 'eosqatest334',
+      scope: process.env.CONTRACT,
+      code: process.env.CONTRACT,
       table: 'user',
       json: true,
       limit: 100
