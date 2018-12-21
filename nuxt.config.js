@@ -8,15 +8,15 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title: 'EOSのエアドロ質問箱',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description },
+      { hid: 'description', name: 'description', content: '質問、回答をするだけでEOSトークンが手に入る質問箱サービス' },
       { hid: 'author', name: 'author', content: pkg.auther },
       { hid: 'twitter:card', name: 'desctwitter:cardription', content: "summary" },
-      { hid: 'twitter:title"', name: 'twitter:title"', content: pkg.name },
-      { hid: 'twitter:description', name: 'twitter:description', content: pkg.description },
+      { hid: 'twitter:title"', name: 'twitter:title"', content: 'EOSのエアドロ質問箱' },
+      { hid: 'twitter:description', name: 'twitter:description', content: '質問、回答をするだけでEOSトークンが手に入る質問箱サービス' },
       { hid: 'twitter:image', name: 'twitter:image', content: 'https://raw.githubusercontent.com/block-base/e-channel/master/assets/img/screen.png' }
     ],
     script: [
