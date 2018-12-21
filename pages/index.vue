@@ -10,9 +10,9 @@
         >
           <v-flex xs12 sm4 class="my-3">
             <div class="text-xs-center">
-              <h2 class="display-3 blue--text">EOSのエアドロ掲示板</h2>
+              <h2 class="display-3 blue--text">EOSのエアドロ質問箱</h2>
               <span class="subheading">
-                質問、回答をするだけでEOSトークンが手に入る掲示板サービス
+                質問、回答をするだけでEOSトークンが手に入る質問箱サービス
               </span>
             </div>
           </v-flex>
@@ -65,7 +65,7 @@
           <v-flex xs12 sm4 class="my-2">
             <div class="text-xs-center">
               <span class="subheading display-3 blue--text">
-                ウォレット、ガス代、アカウント不要で始められる新感覚のEOSフルチェーン掲示板サービス
+                ウォレット、ガス代、アカウント不要で始められる新感覚のEOSフルチェーン質問箱サービス
               </span>
             </div>
           </v-flex>
