@@ -107,6 +107,8 @@ export default {
           var prive_key = localStorage.getItem('eosclip_priveKey');  
           var sig = eosjs_ecc.sign(meta, prive_key);
           
+          alert(pub_key)
+
           const res = await axios.post('/api/registeruser', {
             pub_key: pub_key,
             meta: meta,

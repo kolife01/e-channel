@@ -2,8 +2,6 @@ import eosjs_ecc from 'eosjs-ecc'
 import EosManager from '~/assets/js/eos'
 
 const eosManager = new EosManager('https://kylin.eoscanada.com')
-var pub_key = localStorage.getItem('eosclip_account')
-var nonce = ""
 
 async function usercheck(){
     var param = {
@@ -17,15 +15,23 @@ async function usercheck(){
     nonce = await eosManager.nonce(param, pub_key)
     console.log(nonce)
 
+
+    /*
+
     if(nonce == 0 && window.location.href != window.location.origin + '/create'){
         console.log(window.location.origin)
-        window.location.href = 'create'
+        window.location.href = window.location.origin + '/create'
     }
+
+    */
 
 } 
 
 if (process.browser) {
-    
+
+    var pub_key = localStorage.getItem('eosclip_account')
+    var nonce = ""
+
     if (localStorage.getItem('eosclip_account') == null || localStorage.getItem('eosclip_priveKey') == null ) {
     
             eosjs_ecc.randomKey().then(privateKey => {
@@ -35,18 +41,18 @@ if (process.browser) {
                 localStorage.setItem("eosclip_account", publicKey);
     
             })
-            window.location.href = 'create'
+
+            //window.location.href = 'create'
           
     } else {
+
         usercheck();
-        
         console.log("Your Account: " + localStorage.getItem('eosclip_account'))
         
     }
+
     window.onNuxtReady(async ({$store}) => {
         $store.dispatch('users/fetchUsers', localStorage.getItem('eosclip_account'))
-
-
     })
 
 }
