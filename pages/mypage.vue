@@ -20,7 +20,8 @@
           <v-flex>
             <div right>
               <v-btn dark color="blue" id="withdraw_eos" @click="dialog = true" large>Withdraw EOS</v-btn>
-              <v-btn dark color="red" id="add_answer" v-on:click="export_key" large>Export PrivateKey</v-btn>
+              <v-btn dark color="red" id="add_answer" v-on:click="export_key" large>Export SecretKey</v-btn>
+              <v-btn dark color="black" id="add_answer" v-on:click="logout" large>Logout</v-btn>
             </div>
           </v-flex>
           </v-card-actions>
@@ -70,6 +71,7 @@
           >
             Send
           </v-btn>
+          
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -100,13 +102,29 @@ export default {
   //   await store.dispatch('users/fetchUsers')
   // },
   computed: {
-    ...mapGetters('users', ['users'])
+    ...mapGetters('users', ['users']),
+    status () {
+      if(localStorage.getItem('eosclip_priveKey') == null) {
+          return false
+      } else {
+          return true
+      }
+    }
+    
+
   },
   methods: {
     async export_key() {
       var prive_key = localStorage.getItem('eosclip_priveKey');
-      alert("DO NOT share this key with anybody! Your PrivateKey: " + prive_key)
+      alert("この秘密鍵は次回ログイン時に必要になります。誰にも見られないように安全に保管してください。紛失した場合、復元することはできません。\n " + prive_key)
     },
+
+    async logout() {
+      var result = confirm("ログアウトする前に秘密鍵をEXPORT SECRETKEYから保存してください。 秘密鍵を保存せずにログアウトするとアカウントを復元することはできません。ログアウトする場合はOKをクリックしてください。\n");
+      localStorage.clear();
+      alert("ログアウトしました。")
+      window.location.href = window.location.origin + '/'
+    },   
 
     async send() {
 
@@ -161,11 +179,13 @@ export default {
 
           })       
     }
-
-
   },
 
-  
+    mounted:function(){
+      if(localStorage.getItem('eosclip_priveKey') == null) {
+          window.location.href = window.location.origin + '/create'
+      }
+  } 
 
 
 }

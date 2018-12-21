@@ -216,6 +216,24 @@ export default {
 
   methods: {
     async addanswer() {
+
+    if (localStorage.getItem('eosclip_account') == null || localStorage.getItem('eosclip_priveKey') == null ) {
+        window.location.href = window.location.origin + '/create'
+    } else {
+        var param = {
+          scope: 'eosqatest334',
+          code: 'eosqatest334',
+          table: 'user',
+          json: true,
+          limit: 100
+        }
+      
+        nonce = await eosManager.nonce(param, pub_key)
+        if(nonce > 0){
+          window.location.href = window.location.origin + '/create'
+        }
+    }
+
       if (this.$refs.form.validate()) {
     this.$nuxt.$loading.start()
     var question_key = Number(this.$route.params.id)
@@ -282,7 +300,26 @@ export default {
       },
 
       async send(){
+
         this.$nuxt.$loading.start()
+
+    if (localStorage.getItem('eosclip_account') == null || localStorage.getItem('eosclip_priveKey') == null ) {
+        window.location.href = window.location.origin + '/create'
+    } else {
+        var param = {
+          scope: 'eosqatest334',
+          code: 'eosqatest334',
+          table: 'user',
+          json: true,
+          limit: 100
+        }
+      
+        nonce = await eosManager.nonce(param, pub_key)
+        if(nonce > 0){
+          window.location.href = window.location.origin + '/create'
+        }
+    }
+
         var table = this.table
         var qa_key = this.index;
         var point = this.point;

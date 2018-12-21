@@ -64,6 +64,27 @@ export default {
 
   methods: {
     async addquestion() {
+
+    if (localStorage.getItem('eosclip_account') == null || localStorage.getItem('eosclip_priveKey') == null ) {
+        window.location.href = window.location.origin + '/create'
+    } else {
+        var param = {
+          scope: 'eosqatest334',
+          code: 'eosqatest334',
+          table: 'user',
+          json: true,
+          limit: 100
+        }
+      
+        nonce = await eosManager.nonce(param, pub_key)
+        if(nonce > 0){
+          window.location.href = window.location.origin + '/create'
+        }
+    }
+
+      
+
+
       // console.log(1)
       if (this.$refs.form.validate()) {
         // console.log(2)
