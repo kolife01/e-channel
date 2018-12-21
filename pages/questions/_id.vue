@@ -25,7 +25,7 @@
                 <v-spacer></v-spacer>
                 <a :href="'https://twitter.com/share?url=http://localhost:3000/questions/' + question.question_key + '&text=Check out this post!&hashtags=E-Channel'" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 &nbsp;  &nbsp;                
-                <v-btn dark small color="teal lighten-1" @click="set2(index)" >
+                <v-btn dark small color="teal lighten-1" @click="set2('question',question.question_key)" >
                   <v-icon dark>attach_money</v-icon>
                   TIP
                 </v-btn>
@@ -44,7 +44,7 @@
 
             <v-card-title>
               <div style = "width:100%">
-                <div style="float: left;"class="grey--text" >ID: {{ answer.pub_key.substring(4, 18) }}</div>
+                <div style="float: left;" class="grey--text" >ID: {{ answer.pub_key.substring(4, 18) }}</div>
                 <div style="text-align:right;" class="grey--text"> {{ answer.time_stamp.substring(0, 10) }} {{ answer.time_stamp.substring(11, 19) }}</div>
                 <v-divider></v-divider>
                 <br>
@@ -58,7 +58,7 @@
                 {{ answer.point }}
                 </v-chip>
                 <v-spacer></v-spacer>
-                <a :href="'https://twitter.com/share?url=http://localhost:3000/questions/' + question.question_key + '&text=Check out this post!&hashtags=E-Channel'" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <!-- <a :href="'https://twitter.com/share?url=http://localhost:3000/questions/' + question.question_key + '&text=Check out this post!&hashtags=E-Channel'" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
                 &nbsp;  &nbsp;                
                 <v-btn dark small color="teal lighten-1" @click="set2('answer', answer.answer_key)" >
                   <v-icon dark>attach_money</v-icon>
@@ -68,19 +68,33 @@
           </v-card>
         </v-flex>
       </v-layout>
-      <v-layout>
+      
+        <v-form ref="form" v-model="valid" lazy-validation>
+        <v-layout>
         <v-flex>
           <v-textarea
             label="You Answer"
             id="input_answer"
             rows="10"
+            model="answer"
+            :rules="answerRules"
+            :counter="140"
+            required
           ></v-textarea>
         <v-flex right>
-          <v-btn dark color="teal lighten-1" id="add_answer" v-on:click="addanswer" large>Add Answer</v-btn>
+          <v-btn 
+          dark 
+          color="teal lighten-1" 
+          id="add_answer"
+          :disabled="!valid"
+          @click="addanswer" 
+          large>Add Answer</v-btn>
         </v-flex>
 
         </v-flex>
-      </v-layout>
+        </v-layout>
+        </v-form>
+      
     </v-container>
 
     <v-dialog
@@ -142,14 +156,21 @@ const eosManager = new EosManager('https://kylin.eoscanada.com')
 
 export default {
 
-  data () {
-        return {
-        dialog: false,
-        point: 0,
-        index: 0,
-        table:""
-        }
-    },
+  data: () => ({
+      dialog: false,
+      point: 0,
+      index: 0,
+      table:"",
+
+      valid: true,
+      answer: '',
+      answerRules: [
+        v => !!v || 'Answer is required',
+        v => (v && v.length <= 140) || 'Answer must be less than 140 characters'
+      ],
+      
+    }),
+  
 
   async asyncData({ store, params }) {
     await Promise.all(
@@ -189,6 +210,7 @@ export default {
 
   methods: {
     async addanswer() {
+      if (this.$refs.form.validate()) {
     this.$nuxt.$loading.start()
     var question_key = Number(this.$route.params.id)
 
@@ -203,8 +225,8 @@ export default {
     var pub_key = localStorage.getItem('eosclip_account')
 
     var param = {
-        scope: 'eosqatest334',
-        code: 'eosqatest334',
+        scope: process.env.CONTRACT,
+        code: process.env.CONTRACT,
         table: 'user',
         json: true,
         limit: 100
@@ -238,6 +260,7 @@ export default {
         }
 
       })
+      }
     },
 
       set(value){
@@ -249,9 +272,6 @@ export default {
         this.dialog = true
         this.index = index
         console.log("index:" + this.index)
-
-
-
 
       },
 
@@ -265,8 +285,8 @@ export default {
 
 
         var param = {
-            scope: 'eosqatest334',
-            code: 'eosqatest334',
+            scope: process.env.CONTRACT,
+            code: process.env.CONTRACT,
             table: 'user',
             json: true,
             limit: 100
@@ -287,8 +307,6 @@ export default {
             sig: sig,
             pub_key: pub_key
         })
-            // await self.$store.dispatch('answers/fetchAnswersByQuestionKey', self.$route.params.id)
-            // this.$nuxt.$loading.finish()
         this.dialog = false
         
         this.$nuxt.$loading.finish()

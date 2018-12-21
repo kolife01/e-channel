@@ -1,15 +1,34 @@
 <template>
   <v-content>
     <v-container>
-      <v-form>
-        <v-text-field label="Title" id="input_question_title"></v-text-field>
+      <v-form ref="form" v-model="valid" lazy-validation>
+        <v-text-field 
+        label="Title" 
+        id="input_question_title"
+        model="title"
+        :rules="titleRules"
+        :counter="40"
+        required
+        
+        
+        ></v-text-field>
         <v-textarea
           label="Question"
           id="input_question_body"
           rows="10"
+          model="question"
+          :rules="questionRules"
+          :counter="140"
+          required
         ></v-textarea>
         <v-flex right>
-          <v-btn dark color="teal lighten-1" id="add_question" large v-on:click="addquestion">Ask Question</v-btn>
+          <v-btn dark 
+          color="teal lighten-1" 
+          id="add_question" 
+          :disabled="!valid"
+          large 
+          @click="addquestion"
+          >Ask Question</v-btn>
         </v-flex>
       </v-form>
     </v-container>
@@ -26,8 +45,28 @@ const eosManager = new EosManager('https://kylin.eoscanada.com')
 
 export default {
 
+  data: () => ({
+      dialog: false,
+      valid: true,
+      title: '',
+      titleRules: [
+        v => !!v || 'Title is required',
+        v => (v && v.length <= 40) || 'title must be less than 40 characters'
+      ],
+      question: '',
+      questionRules: [
+        v => !!v || 'Question is required',
+        v => (v && v.length <= 140) || 'Question must be less than 140 characters'
+      ],
+      
+    }),
+  
+
   methods: {
     async addquestion() {
+      // console.log(1)
+      if (this.$refs.form.validate()) {
+        // console.log(2)
       this.$nuxt.$loading.start()
       var question = JSON.stringify({
         title:document.getElementById('input_question_title').value,
@@ -46,8 +85,8 @@ export default {
       var pub_key = localStorage.getItem('eosclip_account')
 
       var param = {
-        scope: 'eosqatest334',
-        code: 'eosqatest334',
+        scope: process.env.CONTRACT,
+        code: process.env.CONTRACT,
         table: 'user',
         json: true,
         limit: 100
@@ -71,14 +110,15 @@ export default {
           if(response.data.status == true){
 
             var questionParam = {
-              scope: 'eosqatest334',
-              code: 'eosqatest334',
+              scope: process.env.CONTRACT,
+              code: process.env.CONTRACT,
               table: 'question',
               json: true,
               limit: 100
             }
 
-            var questions = await eosManager.read(questionParam)
+            var questions1 = await eosManager.read(questionParam)
+            var questions = questions1.reverse()
 
             for (var i = questions.length - 1; i >= 0; i--) {
               if (questions[i].pub_key == pub_key) {
@@ -91,6 +131,7 @@ export default {
           }
         })
     }
+  }
   }
 }
 </script>
