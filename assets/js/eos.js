@@ -47,6 +47,7 @@ EosManager.prototype.nonce = function (param, pub_key) {
             var count = 0
             for(let i = 0; i< result.rows.length; i++){
                 if(pub_key == result.rows[i].pub_key){
+                    
                     count = result.rows[i].count
                 }
             }

@@ -76,10 +76,10 @@ export default {
           limit: 10000
         }
       
-        nonce = await eosManager.nonce(param, pub_key)
-
+        
+        nonce = await eosManager.nonce(param, localStorage.getItem('eosclip_account'))　　
         if(nonce == 0){
-          window.location.href = window.location.origin + '/create'
+          //window.location.href = window.location.origin + '/create'
         }
     }
 
@@ -115,6 +115,7 @@ export default {
       }
 
       var nonce = await eosManager.nonce(param, pub_key)
+      console.log(nonce)
       var prive_key = localStorage.getItem('eosclip_priveKey');  
      
       //var message = hash + nonce  
