@@ -2,10 +2,10 @@
 <v-content>
     <v-container>
         <v-card-text color="teal">
-        <div class="display-1 text-md-center" color="teal">EOSのエアドロ質問箱の使い方</div>
+        <div class="display-1 text-md-center" color="teal">E-Channelの使い方</div>
         <br>
         <p class="text-md-center">
-        EOSのエアドロ質問箱とは質問、回答をすると報酬がもらえるサービスです。<br>
+        E-Channel - EOSのエアドロ質問箱 - とは質問、回答をすると報酬がもらえるサービスです。<br>
         全てのデータをEOSのパブリックブロックチェーンで管理しています。
         </p>
         <br>
