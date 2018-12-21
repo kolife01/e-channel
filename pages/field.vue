@@ -4,7 +4,7 @@
       <v-layout
         row
         wrap
-        v-for="(question, index) in questions"
+        v-for="question in questions"
         :key="question.question_key"
       >
         <v-flex>
@@ -168,12 +168,20 @@ export default {
             point: point,
             sig: sig,
             pub_key: pub_key
+        }).then(async function (response){
+              if(response.data.status){
+                
+                window.location.reload(true)
+                
+              }else{
+                
+                alert(JSON.parse(response.data.msg).error.details[0].message)
+                
+              }
         })
         this.dialog = false
         
         this.$nuxt.$loading.finish()
-
-        window.location.reload(true)
 
     }
   }

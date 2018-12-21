@@ -127,7 +127,8 @@ export default {
               }
             }
           } else {
-            alert("Error: Please try again.")
+            alert(JSON.parse(response.data.msg).error.details[0].message)
+            // alert("Error: Please try again.")
           }
         })
     }

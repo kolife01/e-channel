@@ -24,7 +24,7 @@ router.post("/addanswer", (req, res) => {
         contract.addanswer(param.question_key, param.body, process.env.ACCOUNT, param.sig, param.pub_key, options).then(response => {
             res.json({status: true})
         }).catch(err => {
-            res.json({status: false})
+            res.json({status: false, msg: err})
             console.log(err)
         });
     });    
@@ -51,7 +51,7 @@ router.post("/addquestion", (req, res) => {
         contract.addquestion(param.body, process.env.ACCOUNT, param.sig, param.pub_key, options).then(response => {
             res.json({status: true})
         }).catch(err => {
-            res.json({status: false})
+            res.json({status: false, msg: err})
             console.log(err)
         });
     });    
