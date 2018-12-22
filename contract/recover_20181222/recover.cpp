@@ -178,55 +178,16 @@ void ec::updaterate(double rate)
     {
         _rate.emplace(_self, [&](auto &r) {
             r.owner = _self;
-            r.rate = 0.0035;
+            r.rate = rate;
             r.time_stamp = eosio::time_point_sec(now());
         });
     }
     else
     {
         _rate.modify(owner_index, _self, [&](auto &r) {
-            r.rate = 0.0035;
+            r.rate = rate;
             r.time_stamp = eosio::time_point_sec(now());
         });
-    }
-};
-
-void ec::deleteall()
-{
-    std::vector<uint64_t> keysForUser;
-    for (auto &item : _user)
-    {
-        keysForUser.push_back(item.user_key);
-    }
-
-    for (uint64_t key : keysForUser)
-    {
-        auto itr = _user.find(key);
-        _user.erase(itr);
-    }
-
-    std::vector<uint64_t> keysForAnswer;
-    for (auto &item : _answer)
-    {
-        keysForAnswer.push_back(item.answer_key);
-    }
-
-    for (uint64_t key : keysForAnswer)
-    {
-        auto itr = _answer.find(key);
-        _answer.erase(itr);
-    }
-
-    std::vector<uint64_t> keysForQuestion;
-    for (auto &item : _question)
-    {
-        keysForQuestion.push_back(item.question_key);
-    }
-
-    for (uint64_t key : keysForQuestion)
-    {
-        auto itr = _question.find(key);
-        _question.erase(itr);
     }
 };
 
