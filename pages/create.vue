@@ -38,7 +38,8 @@
     &nbsp;  
     <v-btn
       @click="submit"
-      dark large color="teal lighten-1">
+      dark large color="teal lighten-1"
+      :disabled="!valid">
       submit
     </v-btn>
     &nbsp;  
@@ -113,6 +114,7 @@ export default {
       async submit () {
 
         if (this.$refs.form.validate()) {
+          this.valid = false,
 
           // Native form submission is not yet supported
           this.$nuxt.$loading.start()
