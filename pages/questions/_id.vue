@@ -71,10 +71,10 @@
                 <v-spacer></v-spacer>
                 <!-- <a :href="'https://twitter.com/share?url=http://localhost:3000/questions/' + question.question_key + '&text=Check out this post!&hashtags=E-Channel'" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
                 &nbsp;  &nbsp;                
-                <v-btn dark small color="teal lighten-1" @click="set2('answer', answer.answer_key)" >
+                <!-- <v-btn dark small color="teal lighten-1" @click="set2('answer', answer.answer_key)" >
                   <v-icon dark>attach_money</v-icon>
                   TIP
-                </v-btn>
+                </v-btn> -->
             </v-card-actions>
           </v-card>
         </v-flex>
