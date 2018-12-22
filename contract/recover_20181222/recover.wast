@@ -22764,9 +22764,9 @@
       )
       (i32.const 880)
      )
-     (i64.store offset=8
+     (f64.store offset=8
       (get_local $6)
-      (i64.const 4570216873058560377)
+      (get_local $1)
      )
      (set_local $2
       (i64.load
@@ -22909,9 +22909,9 @@
     )
     (get_local $5)
    )
-   (i64.store offset=8
+   (f64.store offset=8
     (get_local $6)
-    (i64.const 4570216873058560377)
+    (get_local $1)
    )
    (i64.store
     (get_local $6)
