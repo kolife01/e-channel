@@ -188,6 +188,8 @@ class ec: public eosio::contract {
     const uint64_t USER_FUND = 500;
     const uint64_t QUESTION_FUND = 200;
     const uint64_t ANSWER_FUND = 300;
+    const uint64_t PERSON_COUNT = 2;
+    const uint64_t EXCHANGE_LIMIT = 1000;
 
     int checkexist(std::string pub_key);
 

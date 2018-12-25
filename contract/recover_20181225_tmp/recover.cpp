@@ -59,7 +59,8 @@ void ec::addanswer(uint64_t question_key, std::string body, account_name sender,
     eosio_assert(pub_key == rec_pub_key, "Not found your public key!");
 
     auto user = _user.find(keysForDeletion[1]);
-    auto owner = _question.find(question_key);
+    auto question_index = _question.find(question_key);
+    auto owner = _user.find(question_index->user_key);
     auto supply = _supply.find(_self);
 
     _answer.emplace(sender, [&](auto &a) {
@@ -71,7 +72,7 @@ void ec::addanswer(uint64_t question_key, std::string body, account_name sender,
         a.time_stamp = eosio::time_point_sec(now());
     });
 
-    _question.modify(owner, sender, [&](auto &q) {
+    _question.modify(question_index, sender, [&](auto &q) {
         q.answer_count++;
     });
 
@@ -80,8 +81,12 @@ void ec::addanswer(uint64_t question_key, std::string body, account_name sender,
         u.count++;
     });
 
+    _user.modify(owner, sender, [&](auto &u) {
+        u.point = u.point + ANSWER_FUND;
+    });
+
     _supply.modify(supply, sender, [&](auto &s) {
-        s.total_supply = s.total_supply - ANSWER_FUND;
+        s.total_supply = s.total_supply - (ANSWER_FUND * PERSON_COUNT);
     });
 };
 
@@ -158,7 +163,7 @@ void ec::exchange(account_name username, uint64_t rec_point, signature &sig, acc
     require_auth(_self);
     //require_auth(sender);
     //eosio_assert(rec_point >= 10000, "Can not exchange!");
-    eosio_assert(rec_point >= 1000, "Can not exchange!");
+    eosio_assert(rec_point >= EXCHANGE_LIMIT, "Can not exchange!");
 
     auto name = account_name{username};
     std::string name_str = std::to_string(name);
