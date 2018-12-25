@@ -160,6 +160,16 @@ class ec: public eosio::contract {
         uint64_t primary_key() const { return owner; }
     };
 
+    //@abi table supply
+    struct supply
+    {
+        account_name owner;
+        uint64_t total_supply = 0;
+        eosio::time_point_sec time_stamp;
+
+        uint64_t primary_key() const { return owner; }
+    };
+
     typedef eosio::multi_index<N(question), question> question_table;
     question_table _question;
 
@@ -172,17 +182,20 @@ class ec: public eosio::contract {
     typedef eosio::multi_index<N(rate), rate> rate_table;
     rate_table _rate;
 
+    typedef eosio::multi_index<N(supply), supply> supply_table;
+    supply_table _supply;
+
+    const uint64_t USER_FUND = 500;
+    const uint64_t QUESTION_FUND = 200;
+    const uint64_t ANSWER_FUND = 300;
+
     int checkexist(std::string pub_key);
 
     std::vector<uint64_t> findkey(std::string rec_pub_key);
 
-    // std::vector<uint64_t> findquestion(std::string rec_pub_key, uint64_t question_key);
-
-    // std::vector<uint64_t> findanswer(std::string rec_pub_key, uint64_t answer_key);
-
   public:
     using contract::contract;
-    ec(account_name self) : contract(self), _question(self, self), _answer(self, self), _user(self, self), _rate(self, self) {}
+    ec(account_name self) : contract(self), _question(self, self), _answer(self, self), _user(self, self), _rate(self, self), _supply(self, self) {}
 
     void registeruser(std::string pub_key, account_name sender, std::string meta, signature &sig);
 
@@ -197,4 +210,6 @@ class ec: public eosio::contract {
     void exchange(account_name username, uint64_t point, signature &sig, account_name sender, std::string rec_pub_key);
 
     void updaterate(double rate);
+
+    void createsupply(uint64_t supply);
 };

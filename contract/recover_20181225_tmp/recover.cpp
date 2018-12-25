@@ -5,6 +5,7 @@ void ec::registeruser(std::string rec_pub_key, account_name sender, std::string 
     require_auth(sender);
     uint64_t check = checkexist(rec_pub_key);
 
+    auto supply = _supply.find(_self);
     auto pub_key = getpubkey(meta, sig);
     eosio_assert(pub_key == rec_pub_key, "Not found your public key!");
 
@@ -12,6 +13,10 @@ void ec::registeruser(std::string rec_pub_key, account_name sender, std::string 
         u.user_key = _user.available_primary_key();
         u.pub_key = pub_key;
         u.meta = meta;
+    });
+
+    _supply.modify(supply, sender, [&](auto &s) {
+        s.total_supply = s.total_supply - USER_FUND;
     });
 };
 
@@ -25,6 +30,8 @@ void ec::addquestion(std::string body, account_name sender, signature &sig, std:
     eosio_assert(pub_key == rec_pub_key, "Not found your public key!");
 
     auto user = _user.find(keysForDeletion[1]);
+    auto supply = _supply.find(_self);
+
     _question.emplace(sender, [&](auto &q) {
         q.question_key = _question.available_primary_key();
         q.body = body;
@@ -34,8 +41,12 @@ void ec::addquestion(std::string body, account_name sender, signature &sig, std:
     });
 
     _user.modify(user, sender, [&](auto &u) {
-        u.point = u.point + 200;
+        u.point = u.point + QUESTION_FUND;
         u.count++;
+    });
+
+    _supply.modify(supply, sender, [&](auto &s) {
+        s.total_supply = s.total_supply - QUESTION_FUND;
     });
 };
 
@@ -49,6 +60,7 @@ void ec::addanswer(uint64_t question_key, std::string body, account_name sender,
 
     auto user = _user.find(keysForDeletion[1]);
     auto owner = _question.find(question_key);
+    auto supply = _supply.find(_self);
 
     _answer.emplace(sender, [&](auto &a) {
         a.answer_key = _answer.available_primary_key();
@@ -64,8 +76,12 @@ void ec::addanswer(uint64_t question_key, std::string body, account_name sender,
     });
 
     _user.modify(user, sender, [&](auto &u) {
-        u.point = u.point + 300;
+        u.point = u.point + ANSWER_FUND;
         u.count++;
+    });
+
+    _supply.modify(supply, sender, [&](auto &s) {
+        s.total_supply = s.total_supply - ANSWER_FUND;
     });
 };
 
@@ -192,4 +208,25 @@ void ec::updaterate(double rate)
     }
 };
 
-EOSIO_ABI(ec, (registeruser)(addquestion)(addanswer)(tipquestion)(tipanswer)(exchange)(updaterate));
+void ec::createsupply(uint64_t supply)
+{
+    require_auth(_self);
+    auto owner_index = _supply.find(_self);
+    if (owner_index == _supply.end())
+    {
+        _supply.emplace(_self, [&](auto &s) {
+            s.owner = _self;
+            s.total_supply = supply;
+            s.time_stamp = eosio::time_point_sec(now());
+        });
+    }
+    else
+    {
+        _supply.modify(owner_index, _self, [&](auto &s) {
+            s.total_supply = supply;
+            s.time_stamp = eosio::time_point_sec(now());
+        });
+    }
+};
+
+EOSIO_ABI(ec, (registeruser)(addquestion)(addanswer)(tipquestion)(tipanswer)(exchange)(updaterate)(createsupply));

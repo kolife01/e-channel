@@ -32,37 +32,3 @@ std::vector<uint64_t> ec::findkey(std::string rec_pub_key)
 
     return keysForDeletion;
 };
-
-// std::vector<uint64_t> ec::findquestion(std::string rec_pub_key, uint64_t question_key)
-// {
-//     std::vector<uint64_t> keysForDeletion;
-//     for (auto &item : _user)
-//     {
-//         if (item.pub_key == rec_pub_key)
-//         {
-//             keysForDeletion.push_back(item.count);
-//             keysForDeletion.push_back(item.user_key);
-//             break;
-//         }
-//     }
-//     eosio_assert(keysForDeletion[1] != NULL, "Not found your user_key !");
-
-//     return keysForDeletion;
-// };
-
-// std::vector<uint64_t> ec::findanswer(std::string rec_pub_key, uint64_t answer_key)
-// {
-//     std::vector<uint64_t> keysForDeletion;
-//     for (auto &item : _user)
-//     {
-//         if (item.pub_key == rec_pub_key)
-//         {
-//             keysForDeletion.push_back(item.count);
-//             keysForDeletion.push_back(item.user_key);
-//             break;
-//         }
-//     }
-//     eosio_assert(keysForDeletion[1] != NULL, "Not found your user_key !");
-
-//     return keysForDeletion;
-// };
