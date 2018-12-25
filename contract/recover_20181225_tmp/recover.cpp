@@ -188,8 +188,8 @@ void ec::exchange(account_name username, uint64_t rec_point, signature &sig, acc
     eosio_assert(from_point >= rec_point, "There is not enough money!");
 
     auto rate = _rate.find(_self);
-    uint64_t pay_token = (rec_point * 0.01) * rate->rate * 10000;
-    asset quantity = asset(pay_token, S(4, EOS));
+    uint64_t pay_token = (rec_point * CHANGE_RATE) * rate->rate * REFUND_REAL;
+    asset quantity = asset(pay_token, S(DECIMAL, EOS));
 
     action(permission_level{get_self(), N(active)},
            N(eosio.token), N(transfer),

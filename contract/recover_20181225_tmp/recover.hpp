@@ -185,14 +185,18 @@ class ec: public eosio::contract {
     typedef eosio::multi_index<N(supply), supply> supply_table;
     supply_table _supply;
 
+    //const
     const uint64_t USER_FUND = 500;
     const uint64_t QUESTION_FUND = 200;
     const uint64_t ANSWER_FUND = 300;
     const uint64_t PERSON_COUNT = 2;
     const uint64_t EXCHANGE_LIMIT = 1000;
-
+    const double CHANGE_RATE = 0.01;
+    const uint64_t REFUND_REAL = 10000;
+    const uint64_t DECIMAL = 4;
+    
+    //function
     int checkexist(std::string pub_key);
-
     std::vector<uint64_t> findkey(std::string rec_pub_key);
 
   public:
