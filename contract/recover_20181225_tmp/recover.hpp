@@ -176,9 +176,9 @@ class ec: public eosio::contract {
 
     std::vector<uint64_t> findkey(std::string rec_pub_key);
 
-    std::vector<uint64_t> findquestion(std::string rec_pub_key, uint64_t question_key);
+    // std::vector<uint64_t> findquestion(std::string rec_pub_key, uint64_t question_key);
 
-    std::vector<uint64_t> findanswer(std::string rec_pub_key, uint64_t answer_key);
+    // std::vector<uint64_t> findanswer(std::string rec_pub_key, uint64_t answer_key);
 
   public:
     using contract::contract;

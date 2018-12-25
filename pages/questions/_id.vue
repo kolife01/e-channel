@@ -7,9 +7,9 @@
           <br>
           <v-card>
             <v-card-title>
-              
+
               <div style = "width:100%">
-                
+
                 <div class="headline"><nuxt-link color="blue" :to="`/questions/${question.question_key}`">{{ question.title }}</nuxt-link></div>
                 <div style="float: left;" class="grey--text" >ID: {{ question.pub_key.substring(4, 18) }}</div>
                 <div style="text-align:right;" class="grey--text"> {{ question.time_stamp.substring(0, 10) }} {{ question.time_stamp.substring(11, 19) }}</div>
@@ -17,19 +17,19 @@
                 <br>
                 <div>{{question.body}}</div>
               </div>
-            </v-card-title > 
+            </v-card-title >
             <v-card-actions>
                 <v-chip disabled>
                 <v-icon dark color="grey">insert_comment</v-icon>
-                {{ question.answer_count }} 
+                {{ question.answer_count }}
                 &nbsp;
                 <v-icon dark color="grey">star</v-icon>
                 {{ question.allpoint }}
                 </v-chip>
                 <v-spacer></v-spacer>
                 <a :href="'https://twitter.com/share?url=http://e-channel.io/questions/' + question.question_key + '&text=' + question.title + ' - ' + question.body.substring(0, 80) + '&hashtags=E-Channel, EOSのエアドロ質問箱'" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                &nbsp;  &nbsp;     
-                <!--           
+                &nbsp;  &nbsp;
+                <!--
                 <v-btn dark small color="teal lighten-1" @click="set2('question',question.question_key)" >
 
                   <v-icon dark>attach_money</v-icon>
@@ -50,7 +50,7 @@
         :key="answer.answer_key"
       >
         <v-flex>
-          
+
           <v-card>
 
             <v-card-title>
@@ -61,7 +61,7 @@
                 <br>
                 <div>{{answer.body}}</div>
               </div>
-            </v-card-title > 
+            </v-card-title >
 
             <v-card-actions>
                 <v-chip disabled>
@@ -70,7 +70,7 @@
                 </v-chip>
                 <v-spacer></v-spacer>
                 <!-- <a :href="'https://twitter.com/share?url=http://localhost:3000/questions/' + question.question_key + '&text=Check out this post!&hashtags=E-Channel'" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
-                &nbsp;  &nbsp;                
+                &nbsp;  &nbsp;
                 <!-- <v-btn dark small color="teal lighten-1" @click="set2('answer', answer.answer_key)" >
                   <v-icon dark>attach_money</v-icon>
                   TIP
@@ -79,7 +79,7 @@
           </v-card>
         </v-flex>
       </v-layout>
-      
+
         <v-form ref="form" v-model="valid" lazy-validation>
         <v-layout>
         <v-flex>
@@ -93,19 +93,19 @@
             required
           ></v-textarea>
         <v-flex right>
-          <v-btn 
-          dark 
-          color="teal lighten-1" 
+          <v-btn
+          dark
+          color="teal lighten-1"
           id="add_answer"
           :disabled="!valid"
-          @click="addanswer" 
+          @click="addanswer"
           large>Add Answer</v-btn>
         </v-flex>
 
         </v-flex>
         </v-layout>
         </v-form>
-      
+
     </v-container>
 
     <v-dialog
@@ -116,9 +116,9 @@
         <v-card-title class="headline">Let's send a tip to favorite post</v-card-title>
 
         <v-card-text>
-        <v-text-field 
-        id="input_amount" 
-        label="Tip Amount*" 
+        <v-text-field
+        id="input_amount"
+        label="Tip Amount*"
         v-model="point"
         required >
         </v-text-field>
@@ -130,7 +130,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          
+
           <v-spacer></v-spacer>
           <br>
 
@@ -179,9 +179,9 @@ export default {
         v => !!v || 'Answer is required',
         v => (v && v.length <= 140) || 'Answer must be less than 140 characters'
       ],
-      
+
     }),
-  
+
 
   async asyncData({ store, params }) {
     await Promise.all(
@@ -193,7 +193,7 @@ export default {
 
 
   mounted: async function() {
-    
+
     /*
     this.$nextTick(async () => {
       this.$nuxt.$loading.start()
@@ -201,21 +201,21 @@ export default {
         [this.$store.dispatch('questions/fetchQuestionsByQuestionKey', this.$route.params.id),
         this.$store.dispatch('answers/fetchAnswersByQuestionKey', this.$route.params.id)]
       )
-      this.$nuxt.$loading.finish()      
+      this.$nuxt.$loading.finish()
     })
     */
-    
+
 
   },
 
-  
+
 
   computed: {
     question() {
       return this.$store.getters['questions/questions'][0]
     },
     answers() {
-      return this.$store.getters['answers/answers'] 
+      return this.$store.getters['answers/answers']
     },
     mypub() {
       return localStorage.getItem('eosclip_account')
@@ -237,7 +237,7 @@ export default {
           json: true,
           limit: 10000
         }
-      
+
         nonce = await eosManager.nonce(param, localStorage.getItem('eosclip_account'))
         if(nonce == 0){
           window.location.href = window.location.origin + '/create'
@@ -275,7 +275,7 @@ export default {
     var sig = eosjs_ecc.sign(message, prive_key);
 
     var self = this
-    
+
     const res = await axios.post('/api/addanswer', {
         question_key: question_key,
         //body: hash,
@@ -324,7 +324,7 @@ export default {
           json: true,
           limit: 10000
         }
-      
+
         nonce = await eosManager.nonce(param, localStorage.getItem('eosclip_account'))
         if(nonce == 0){
           window.location.href = window.location.origin + '/create'
@@ -335,7 +335,7 @@ export default {
         var qa_key = this.index;
         var point = this.point;
         var pub_key = localStorage.getItem('eosclip_account')
-        var prive_key = localStorage.getItem('eosclip_priveKey');  
+        var prive_key = localStorage.getItem('eosclip_priveKey');
 
 
         var param = {
@@ -345,11 +345,11 @@ export default {
             json: true,
             limit: 10000
         }
-  
+
         var nonce = await eosManager.nonce(param, pub_key)
         var message = String(qa_key) + String(point) +String(nonce)
         var sig = eosjs_ecc.sign(message, prive_key);
-        
+
 
         var endpoint = "tip" + table
 
@@ -362,16 +362,16 @@ export default {
             pub_key: pub_key
         }).then(async function (response){
               if(response.data.status){
-                
+
                 window.location.reload(true)
-                
+
               }else{
-                
+
                 alert(JSON.parse(response.data.msg).error.details[0].message)
-                
+
               }
         })
-        
+
         this.$nuxt.$loading.finish()
 
     }

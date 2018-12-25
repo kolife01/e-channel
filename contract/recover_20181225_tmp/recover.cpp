@@ -71,17 +71,17 @@ void ec::addanswer(uint64_t question_key, std::string body, account_name sender,
 
 void ec::tipquestion(uint64_t question_key, uint64_t point, account_name sender, signature &sig, std::string rec_pub_key)
 {
-    require_auth(_self);
+    require_auth(sender);
     eosio_assert(point > 0, "point 0 is can not send!");
 
-    std::vector<uint64_t> keysForDeletion = findquestion(rec_pub_key, question_key);
+    std::vector<uint64_t> keysForDeletion = findkey(rec_pub_key);
     std::string con_tip = std::to_string(question_key) + std::to_string(point) + std::to_string(keysForDeletion[0]);
     auto pub_key = getpubkey(con_tip, sig);
     eosio_assert(pub_key == rec_pub_key, "Not found your public key!");
 
-    auto from = _user.find(keysForDeletion[1]);
-    auto to = _user.find(keysForDeletion[2]);
     auto question_index = _question.find(question_key);
+    auto from = _user.find(keysForDeletion[1]);
+    auto to = _user.find(question_index->user_key);
 
     eosio_assert(from != to, "Can not send point by myself!");
     eosio_assert(from->point >= point, "There is not enough money!");
@@ -103,18 +103,18 @@ void ec::tipquestion(uint64_t question_key, uint64_t point, account_name sender,
 
 void ec::tipanswer(uint64_t answer_key, uint64_t point, account_name sender, signature &sig, std::string rec_pub_key)
 {
-    require_auth(_self);
+    require_auth(sender);
     eosio_assert(point > 0, "point 0 is can not send!");
 
-    std::vector<uint64_t> keysForDeletion = findanswer(rec_pub_key, answer_key);
+    std::vector<uint64_t> keysForDeletion = findkey(rec_pub_key);
     std::string con_tip = std::to_string(answer_key) + std::to_string(point) + std::to_string(keysForDeletion[0]);
     auto pub_key = getpubkey(con_tip, sig);
     eosio_assert(pub_key == rec_pub_key, "Not found your public key!");
 
-    auto from = _user.find(keysForDeletion[1]);
-    auto to = _user.find(keysForDeletion[2]);
     auto answer_index = _answer.find(answer_key);
     auto question_index = _question.find(answer_index->question_key);
+    auto from = _user.find(keysForDeletion[1]);
+    auto to = _user.find(answer_index->user_key);
 
     eosio_assert(from != to, "Can not send point by myself!");
     eosio_assert(from->point >= point, "There is not enough money!");
