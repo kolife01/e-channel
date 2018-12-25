@@ -31,7 +31,7 @@ EosManager.prototype.readByQuestionKey = function (param, index) {
                     output.push(result.rows[i])
                 }
             }
-            var output = output.reverse(); 
+            // var output = output.reverse(); 
             resolve(output)
         }).catch(err =>
             console.log(err)

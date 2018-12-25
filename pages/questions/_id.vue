@@ -172,7 +172,6 @@ export default {
       point: 0,
       index: 0,
       table:"",
-
       valid: true,
       answer: '',
       answerRules: [
@@ -219,9 +218,7 @@ export default {
     },
     mypub() {
       return localStorage.getItem('eosclip_account')
-    }
-
-
+    },
   },
 
   methods: {
@@ -249,12 +246,15 @@ export default {
     var question_key = Number(this.$route.params.id)
 
     var answer = JSON.stringify({body: document.getElementById('input_answer').value})
+    // this.answer = "";
+    console.log(answer)
+    console.log(this.answer)
     document.getElementById('input_answer').value = ""
     document.getElementById('input_answer').disabled = true
     document.getElementById('add_answer').disabled = true
     document.getElementById('add_answer').innerHTML = "Broadcasting..."
 
-    var hash = await IpfsManager.add(answer);
+    // var hash = await IpfsManager.add(answer);
 
     var pub_key = localStorage.getItem('eosclip_account')
 
@@ -286,9 +286,15 @@ export default {
         if (response.data.status == true) {
             await self.$store.dispatch('answers/fetchAnswersByQuestionKey', self.$route.params.id)
             this.$nuxt.$loading.finish()
+            
+            document.getElementById('input_answer').value = ""
             document.getElementById('input_answer').disabled = false
             document.getElementById('add_answer').disabled = false
             document.getElementById('add_answer').innerHTML = "Add Answer"
+
+            //暫定対応
+            window.location.reload(true)
+            
         } else {
           alert(JSON.parse(response.data.msg).error.details[0].message)
           // alert("Error: Please try again")
