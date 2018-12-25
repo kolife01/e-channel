@@ -1,0 +1,9 @@
+cleos -u https://kylin.eoscanada.com/ push action eosqatest334 insertall '["EOS7Knrv3PVekVS4bnV21AvjBqEtWJVwwn61BkGsKZSESvzi7VvmW","{\"name\":\"テストユーザー2\"}"]' -p eosqatest334@active
+cleos -u https://kylin.eoscanada.com/ push action eosqatest334 insertall '["EOS62yioFiVXeuiXxeiqE6FdB4tco5LGiAYjxYrtJfd9f4fY5zZmG","{\"name\":\"テストユーザー2\"}"]' -p eosqatest334@active
+cleos -u https://kylin.eoscanada.com/ push action eosqatest334 insertall '["EOS793QQSTo5MbztioPYXVtFJiuVcv7YmtPZmhBEkAngxsM3853wj","{\"name\":\"テストユーザー2\"}"]' -p eosqatest334@active
+cleos -u https://kylin.eoscanada.com/ push action eosqatest334 insertall '["EOS6kk8z5i3Eq7A1fYvxpYSjfhu9nXqCCiCuCgFTtw7dHrMEmFeeZ","{\"name\":\"テストユーザー2\"}"]' -p eosqatest334@active
+cleos -u https://kylin.eoscanada.com/ push action eosqatest334 insertall '["EOS8mphQ3g2bSjinq2JRE7UANWCrFG8kARFJqxRYXSvRPrjJGt7Ht","{\"name\":\"テストユーザー2\"}"]' -p eosqatest334@active
+cleos -u https://kylin.eoscanada.com/ push action eosqatest334 insertall '["EOS8Z4jMwFk2oVQs78at8o3ouwcE7jxAdq2uJnTtFqUqYwBTmdCZn","{\"name\":\"テストユーザー2\"}"]' -p eosqatest334@active
+cleos -u https://kylin.eoscanada.com/ push action eosqatest334 insertall '["EOS6hUnVZ8svEDfcRGcaaPQta5tLygoQ3Lc75CEKbompr2Zq6hocs","{\"name\":\"テストユーザー2\"}"]' -p eosqatest334@active
+cleos -u https://kylin.eoscanada.com/ push action eosqatest334 insertall '["EOS73qY1Kzeg8QJSdzLbSrmVzSiEPTCbzXd3aE4stUKya1MBKvugp","{\"name\":\"テストユーザー2\"}"]' -p eosqatest334@active
+cleos -u https://kylin.eoscanada.com/ push action eosqatest334 insertall '["EOS7cMA61zSH8ZDUVYoemiHkXjAF9FMFc4Yud9bna6L8DhmpKxd7W","{\"name\":\"テストユーザー2\"}"]' -p eosqatest334@active
