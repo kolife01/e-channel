@@ -6,6 +6,9 @@ void ec::registeruser(std::string rec_pub_key, account_name sender, std::string 
     uint64_t check = checkexist(rec_pub_key);
 
     auto supply = _supply.find(_self);
+    auto total_supply = supply->total_supply;
+    eosio_assert(total_supply > USER_FUND, "Nothing pay point!");
+
     auto pub_key = getpubkey(meta, sig);
     eosio_assert(pub_key == rec_pub_key, "Not found your public key!");
 
@@ -24,13 +27,16 @@ void ec::addquestion(std::string body, account_name sender, signature &sig, std:
 {
     require_auth(sender);
 
+    auto supply = _supply.find(_self);
+    auto total_supply = supply->total_supply;
+    eosio_assert(total_supply > QUESTION_FUND, "Nothing pay point!");
+
     std::vector<uint64_t> keysForDeletion = findkey(rec_pub_key);
     std::string con_question = body + std::to_string(keysForDeletion[0]);
     auto pub_key = getpubkey(con_question, sig);
     eosio_assert(pub_key == rec_pub_key, "Not found your public key!");
 
     auto user = _user.find(keysForDeletion[1]);
-    auto supply = _supply.find(_self);
 
     _question.emplace(sender, [&](auto &q) {
         q.question_key = _question.available_primary_key();
@@ -53,6 +59,11 @@ void ec::addquestion(std::string body, account_name sender, signature &sig, std:
 void ec::addanswer(uint64_t question_key, std::string body, account_name sender, signature &sig, std::string rec_pub_key)
 {
     require_auth(sender);
+
+    auto supply = _supply.find(_self);
+    auto total_supply = supply->total_supply;
+    eosio_assert(total_supply > ANSWER_FUND * PERSON_COUNT, "Nothing pay point!");
+
     std::vector<uint64_t> keysForDeletion = findkey(rec_pub_key);
     std::string con_answer = body + std::to_string(keysForDeletion[0]);
     auto pub_key = getpubkey(con_answer, sig);
@@ -61,7 +72,6 @@ void ec::addanswer(uint64_t question_key, std::string body, account_name sender,
     auto user = _user.find(keysForDeletion[1]);
     auto question_index = _question.find(question_key);
     auto owner = _user.find(question_index->user_key);
-    auto supply = _supply.find(_self);
 
     _answer.emplace(sender, [&](auto &a) {
         a.answer_key = _answer.available_primary_key();
