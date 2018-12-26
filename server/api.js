@@ -1,6 +1,7 @@
 const express = require('express')
 var router = express.Router();
 const Eos = require('eosjs')
+const ScatterJS = require('scatterjs-core')
 
 router.post("/addanswer", (req, res) => {
 
@@ -49,6 +50,47 @@ router.post("/addquestion", (req, res) => {
 
     eos.contract(process.env.CONTRACT).then(contract => {
         contract.addquestion(param.body, process.env.ACCOUNT, param.sig, param.pub_key, options).then(response => {
+            res.json({status: true})
+        }).catch(err => {
+            res.json({status: false, msg: err})
+            console.log(err)
+        });
+    });    
+
+})
+
+
+router.post("/addquestion2", (req, res) => {
+    // var options = {
+    //     httpEndpoint: process.env.ENDPOINT,
+    //     keyProvider: process.env.PRIV_KEY,
+    //     chainId: process.env.CHAINID
+    // }
+
+    const network = {
+        blockchain: 'eos',
+        host: 'kylin-testnet.jeda.one',
+        port: 8888,
+        protocol: 'http',
+        chainId: '5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191'
+    };
+
+    // const eos = Eos(options)
+    const eos = ScatterJS.scatter.Eos(network, Eos, { expireInSeconds: 60 });
+    const account = ScatterJS.scatter.identity.accounts.find(x => x.blockchain === 'eos');
+    console,log(account)
+    console.log('account' + account)
+
+    options = {
+        authorization: 'koheitanaka1' + '@' + 'active',
+        broadcast: true,
+        sign: true
+    }
+
+    const param = req.body;
+
+    eos.contract(process.env.CONTRACT).then(contract => {
+        contract.addquestion(param.body, 'koheitanaka1', param.sig, param.pub_key, options).then(response => {
             res.json({status: true})
         }).catch(err => {
             res.json({status: false, msg: err})

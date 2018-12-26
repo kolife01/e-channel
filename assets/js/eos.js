@@ -20,6 +20,49 @@ EosManager.prototype.read = function (param) {
     })
 }
 
+EosManager.prototype.readTrend = function (param) {
+    return new Promise(resolve => { 
+        this.eos.getTableRows(
+            param
+        ).then(async result => {
+            
+            var output = result.rows
+            output.sort(function(a,b){
+                if(a.answer_count < b.answer_count) return -1;
+                if(a.answer_count > b.answer_count) return 1;
+                return 0;
+            });
+
+            var output = output.reverse(); 
+            resolve(output)
+            }).catch(err =>
+                console.log(err)
+            );
+        })
+    }
+
+EosManager.prototype.readPoint = function (param) {
+    return new Promise(resolve => { 
+        this.eos.getTableRows(
+            param
+        ).then(async result => {
+            
+            var output = result.rows
+            output.sort(function(a,b){
+                if(a.allpoint < b.allpoint) return -1;
+                if(a.allpoint > b.allpoint) return 1;
+                return 0;
+            });
+
+            var output = output.reverse(); 
+            resolve(output)
+            }).catch(err =>
+                console.log(err)
+            );
+        })
+    }
+
+
 EosManager.prototype.readByQuestionKey = function (param, index) {
     return new Promise(resolve => {
         this.eos.getTableRows(
