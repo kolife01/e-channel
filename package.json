@@ -24,6 +24,8 @@
     "googleapis": "^36.0.0",
     "ipfs": "^0.33.1",
     "nuxt": "^2.0.0",
+    "scatterjs-core": "^2.5.0",
+    "scatterjs-plugin-eosjs": "^1.4.0",
     "vuelidate": "^0.7.4",
     "vuetify": "^1.2.4"
   },

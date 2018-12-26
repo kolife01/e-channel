@@ -1,6 +1,56 @@
 <template>
   <v-content>
+
+    
+
     <v-container grid-list-md>
+       <v-card height="80px" flat>
+    
+    <v-bottom-nav
+    :active.sync="bottomNav"
+      :value="true"
+      absolute
+      color="transparent"
+    >
+      
+      <v-btn
+        color="teal"
+        flat
+        value="recent"
+        @click="resent"
+      >
+      
+        <span>Recent</span>
+        <v-icon>history</v-icon>
+       
+      </v-btn>
+       
+      
+      
+      <v-btn
+        color="teal"
+        flat
+        value="favorites"
+        @click="trend"
+      >
+        <span>Trend</span>
+        <v-icon>favorite</v-icon>
+      </v-btn>
+      
+      <v-btn
+        color="teal"
+        flat
+        value="nearby"
+        @click="point1"
+      >
+        <span>Point</span>
+        <v-icon>star</v-icon>
+      </v-btn>
+
+      
+    </v-bottom-nav>
+    </v-card>
+      
       <v-layout
         row
         wrap
@@ -102,7 +152,7 @@
 
 <script>
 
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import EosManager from '~/assets/js/eos'
 import eosjs_ecc from 'eosjs-ecc'
 import axios from 'axios'
@@ -117,6 +167,7 @@ export default {
         point: 0,
         index: 0,
         table:"",
+        bottomNav: 'recent'
         }
     },
   async asyncData(context) {
@@ -124,12 +175,25 @@ export default {
     await store.dispatch('questions/fetchQuestions')
   },
   computed: {
-    // ...mapGetters('questions', ['questions'])
     questions() {
       return this.$store.getters['questions/questions']
     }
   },
   methods: {
+
+    ...mapActions({
+      resent: ('questions/fetchQuestions')
+    }),
+
+    ...mapActions({
+      trend: ('questions/fetchQuestionsTrend')
+    }),
+
+    ...mapActions({
+      point1: ('questions/fetchQuestionsPoint')
+    }),
+
+
       set(value){
           this.point = value
           console.log(this.point)

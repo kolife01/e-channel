@@ -29,6 +29,14 @@
           large 
           @click="addquestion"
           >Ask Question</v-btn>
+
+          <v-btn dark 
+          color="teal lighten-1" 
+          id="add_question" 
+          :disabled="!valid"
+          large 
+          @click="addquestion2"
+          >Ask Question2</v-btn>
         </v-flex>
       </v-form>
     </v-container>
@@ -40,6 +48,9 @@ import EosManager from '~/assets/js/eos'
 import eosjs_ecc from 'eosjs-ecc'
 import axios from 'axios'
 import IpfsManager from '../assets/js/ipfs';
+import ScatterJS from 'scatterjs-core';
+import ScatterEOS from 'scatterjs-plugin-eosjs'
+import Eos from 'eosjs-api'
 
 const eosManager = new EosManager(process.env.ENDPOINT)
 
@@ -75,20 +86,15 @@ export default {
           json: true,
           limit: 10000
         }
-      
         
-        nonce = await eosManager.nonce(param, localStorage.getItem('eosclip_account'))　　
+        nonce = await eosManager.nonce(param, localStorage.getItem('eosclip_account'))
         if(nonce == 0){
-          //window.location.href = window.location.origin + '/create'
+          window.location.href = window.location.origin + '/create'
         }
     }
 
-      
-
-
-      // console.log(1)
       if (this.$refs.form.validate()) {
-        // console.log(2)
+       
       this.$nuxt.$loading.start()
       var question = JSON.stringify({
         title:document.getElementById('input_question_title').value,
@@ -155,8 +161,133 @@ export default {
           }
         })
     }
+  },
+
+  async addquestion2() {
+    
+    const network = {
+    blockchain: 'eos',
+    host: 'kylin-testnet.jeda.one',
+    port: 8888,
+    protocol: 'http',
+    chainId: '5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191'
+    };
+
+    ScatterJS.plugins( new ScatterEOS() );
+    const connectionOptions = {initTimeout:10000}
+
+
+    ScatterJS.scatter.connect("e-channel", connectionOptions).then(connected => {
+    if(!connected) {
+        // User does not have Scatter installed/unlocked.
+        return false;
+    }
+     const scatter = ScatterJS.scatter;
+    
+    
+      if (ScatterJS.scatter.identity != null) {
+        console.log("logged in")
+
+        const requiredFields = { accounts: [network] };
+          ScatterJS.scatter.getIdentity(requiredFields).then(identity => {
+              console.log(identity)
+          }).catch(error => {
+              console.error(error);
+          });
+        };
+
+            const eos = ScatterJS.scatter.eos(network, Eos, { expireInSeconds: 60 });
+            const account = ScatterJS.scatter.identity.accounts.find(x => x.blockchain === 'eos');
+            console.log(account.name)
+            console.log(account.authority)
+            // console.log('account' + account)
+
+            var options = {
+                authorization: account.name + '@' + account.authority,
+                broadcast: true,
+                sign: true
+            }
+          // if (ScatterJS.scatter.identity == null) {
+          //     alert("Attach Identity first");
+          //     return;
+          // }
+        send()
+
+      });
+
+      async function send(){
+        // if (this.$refs.form.validate()) {
+       
+      this.$nuxt.$loading.start()
+      var question = JSON.stringify({
+        title:document.getElementById('input_question_title').value,
+        body:document.getElementById('input_question_body').value
+      })
+
+      document.getElementById('input_question_title').value = ""
+      document.getElementById('input_question_body').value = ""
+      document.getElementById('input_question_title').disabled = true
+      document.getElementById('input_question_body').disabled = true    
+      document.getElementById('add_question').disabled = true
+      document.getElementById('add_question').innerHTML = "Broadcasting..."
+
+      //var hash = await IpfsManager.add(question);
+
+      var pub_key = localStorage.getItem('eosclip_account')
+
+      var param = {
+        scope: process.env.CONTRACT,
+        code: process.env.CONTRACT,
+        table: 'user',
+        json: true,
+        limit: 10000
+      }
+
+      var nonce = await eosManager.nonce(param, pub_key)
+      console.log(nonce)
+      var prive_key = localStorage.getItem('eosclip_priveKey');  
+     
+      //var message = hash + nonce  
+      var message = question + nonce  
+      var sig = eosjs_ecc.sign(message, prive_key);
+
+      var self = this
+
+      // const eos = Eos(options)
+      // const eos = ScatterJS.scatter.eos(network, Eos, { expireInSeconds: 60 });
+      // const account = ScatterJS.scatter.identity.accounts.find(x => x.blockchain === 'eos');
+      // console.log('account' + account)
+
+    // const param = req.body;
+
+
+    // eos.contract(process.env.CONTRACT).then(contract => {
+    //     contract.addquestion(question, account.name, sig, pub_key, options).then(response => {
+    //         res.json({status: true})
+    //     }).catch(err => {
+    //         res.json({status: false, msg: err})
+    //         console.log(err)
+    //     });
+    // });    
+
+
+      const res = await axios.post('/api/addquestion2', {
+        //body: hash,
+        body: question,
+        sig: sig,
+        pub_key: pub_key
+      })
+
+      // }
+
+      
+    
+    }
+   
   }
-  }
+  
+}
+
 }
 </script>
 
