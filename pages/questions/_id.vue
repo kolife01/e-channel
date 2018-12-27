@@ -178,15 +178,30 @@ export default {
         v => !!v || 'Answer is required',
         v => (v && v.length <= 140) || 'Answer must be less than 140 characters'
       ],
-      
     }),
-  
 
+  head () {
+    var ogp = this.$store.getters['questions/questions'][0]
+    console.log(ogp)
+    return {
+      meta: [
+        { hid: 'description', name: 'description', content: ogp.content},
+        { hid: 'og:site_name', property: 'og:site_name', content: 'E-Channel - EOSのエアドロ質問箱 -' },
+        { hid: 'og:type', property: 'og:type', content: 'article' },
+        { hid: 'og:url', property: 'og:url', content: 'http://e-channel.io/' },
+        { hid: 'og:title', property: 'og:title', content:  'E-Channel - ' + ogp.title },
+        { hid: 'og:description', property: 'og:description', content: '回答するだけでEOSがもらえる質問箱: ' + ogp.body },
+        { hid: 'og:image', property: 'og:image', content: 'https://raw.githubusercontent.com/block-base/e-channel/master/assets/img/share.png' },
+      ]
+    }
+  },
+  
   async asyncData({ store, params }) {
     await Promise.all(
       [store.dispatch('questions/fetchQuestionsByQuestionKey', params.id),
       store.dispatch('answers/fetchAnswersByQuestionKey', params.id)]
     )
+
   },
 
 
