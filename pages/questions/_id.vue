@@ -12,7 +12,7 @@
 
                 <div class="headline"><nuxt-link color="blue" :to="`/questions/${question.question_key}`">{{ question.title }}</nuxt-link></div>
                 <div style="float: left;" class="grey--text" >ID: {{ question.pub_key.substring(4, 18) }}</div>
-                <div style="text-align:right;" class="grey--text"> {{ question.time_stamp.substring(0, 10) }} {{ question.time_stamp.substring(11, 19) }}</div>
+                <div style="text-align:right;" class="grey--text"> {{ getTime(question.time_stamp) }}</div>
                 <v-divider></v-divider>
                 <br>
                 <div>{{question.body}}</div>
@@ -179,14 +179,32 @@ export default {
         v => (v && v.length <= 140) || 'Answer must be less than 140 characters'
       ],
 
+
     }),
 
 
+  head () {
+    var ogp = this.$store.getters['questions/questions'][0]
+    console.log(ogp)
+    return {
+      meta: [
+        { hid: 'description', name: 'description', content: ogp.content},
+        { hid: 'og:site_name', property: 'og:site_name', content: 'E-Channel - EOSのエアドロ質問箱 -' },
+        { hid: 'og:type', property: 'og:type', content: 'article' },
+        { hid: 'og:url', property: 'og:url', content: 'http://e-channel.io/' },
+        { hid: 'og:title', property: 'og:title', content:  'E-Channel - ' + ogp.title },
+        { hid: 'og:description', property: 'og:description', content: '回答するだけでEOSがもらえる質問箱: ' + ogp.body },
+        { hid: 'og:image', property: 'og:image', content: 'https://raw.githubusercontent.com/block-base/e-channel/master/assets/img/share.png' },
+      ]
+    }
+  },
+  
   async asyncData({ store, params }) {
     await Promise.all(
       [store.dispatch('questions/fetchQuestionsByQuestionKey', params.id),
       store.dispatch('answers/fetchAnswersByQuestionKey', params.id)]
     )
+
   },
 
 
@@ -222,6 +240,29 @@ export default {
   },
 
   methods: {
+
+    getTime(time){
+      var dt = new Date(time)
+      //console.log("before" + dt)
+      var dif = dt.getTimezoneOffset() * -1
+      dt.setMinutes(dt.getMinutes() + dif)
+      console.log("after" +  dt)
+
+      var monthNames = [
+        "Jan", "Feb", "Mar",
+        "Apr", "May", "Jun", "Jul",
+        "Aug", "Sep", "Oct",
+        "Nov", "Dec"
+      ];
+
+      var day = dt.getDate();
+      var monthIndex = dt.getMonth();
+      var year = dt.getFullYear();
+
+      return year + ' ' + monthNames[monthIndex] + ' ' + day + ' - ' +  dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds() ;
+
+    },
+
     async addanswer() {
 
     if (localStorage.getItem('eosclip_account') == null || localStorage.getItem('eosclip_priveKey') == null ) {
