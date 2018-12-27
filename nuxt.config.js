@@ -26,6 +26,7 @@ module.exports = {
       { hid: 'og:title', property: 'og:title', content: 'E-Channel - EOSのエアドロ質問箱 -' },
       { hid: 'og:description', property: 'og:description', content: '質問、回答をするだけでEOSトークンが手に入る質問箱サービス' },
       { hid: 'og:image', property: 'og:image', content: 'https://raw.githubusercontent.com/block-base/e-channel/master/assets/img/share.png' },
+      { hid: 'twitter:card', property: 'twitter:card', content: 'summary_large_image'}
   
     ],
     script: [
