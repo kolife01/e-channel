@@ -23,6 +23,15 @@
         ></v-textarea>
         <v-flex right>
           <v-btn dark 
+          color="light-blue accent-2" 
+          :disabled="!scatter || !valid"
+          id="add_question_scatter" 
+          large 
+          @click="addquestionScatter"
+          >Use Scatter</v-btn>
+
+
+          <v-btn dark 
           color="teal lighten-1" 
           id="add_question" 
           :disabled="!valid"
@@ -30,13 +39,7 @@
           @click="addquestion"
           >Ask Question</v-btn>
 
-          <v-btn dark 
-          color="teal lighten-1" 
-          id="add_question" 
-          :disabled="!valid"
-          large 
-          @click="addquestion2"
-          >Ask Question2</v-btn>
+          
         </v-flex>
       </v-form>
     </v-container>
@@ -50,9 +53,11 @@ import axios from 'axios'
 import IpfsManager from '../assets/js/ipfs';
 import ScatterJS from 'scatterjs-core';
 import ScatterEOS from 'scatterjs-plugin-eosjs'
-import Eos from 'eosjs-api'
+import Eos from 'eosjs'
+import scatterManager from '~/assets/js/scatter'
 
 const eosManager = new EosManager(process.env.ENDPOINT)
+
 
 export default {
 
@@ -69,9 +74,15 @@ export default {
         v => !!v || 'Question is required',
         v => (v && v.length <= 140) || 'Question must be less than 140 characters'
       ],
+      scatter: false
       
     }),
   
+  created: async function () {
+    this.scatter =  await scatterManager.scatter.connect("e-channel",{initTimeout:10000})
+    console.log(this.scatter)
+
+  },
 
   methods: {
     async addquestion() {
@@ -137,6 +148,7 @@ export default {
         pub_key: pub_key
       }).then(async function (response){          
           if(response.data.status == true){
+            this.$nuxt.$loading.finish()
 
             var questionParam = {
               scope: process.env.CONTRACT,
@@ -163,131 +175,116 @@ export default {
     }
   },
 
-  async addquestion2() {
-    
-    const network = {
-    blockchain: 'eos',
-    host: 'kylin-testnet.jeda.one',
-    port: 8888,
-    protocol: 'http',
-    chainId: '5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191'
-    };
+  async addquestionScatter() {
 
-    ScatterJS.plugins( new ScatterEOS() );
-    const connectionOptions = {initTimeout:10000}
-
-
-    ScatterJS.scatter.connect("e-channel", connectionOptions).then(connected => {
-    if(!connected) {
-        // User does not have Scatter installed/unlocked.
-        return false;
+    if (localStorage.getItem('eosclip_account') == null || localStorage.getItem('eosclip_priveKey') == null ) {
+        window.location.href = window.location.origin + '/create'
+    } else {
+        var param = {
+          scope: process.env.CONTRACT,
+          code: process.env.CONTRACT,
+          table: 'user',
+          json: true,
+          limit: 10000
+        }
+        
+        nonce = await eosManager.nonce(param, localStorage.getItem('eosclip_account'))
+        if(nonce == 0){
+          window.location.href = window.location.origin + '/create'
+        }
     }
-     const scatter = ScatterJS.scatter;
-    
-    
-      if (ScatterJS.scatter.identity != null) {
-        console.log("logged in")
-
-        const requiredFields = { accounts: [network] };
-          ScatterJS.scatter.getIdentity(requiredFields).then(identity => {
-              console.log(identity)
-          }).catch(error => {
-              console.error(error);
-          });
-        };
-
-            const eos = ScatterJS.scatter.eos(network, Eos, { expireInSeconds: 60 });
-            const account = ScatterJS.scatter.identity.accounts.find(x => x.blockchain === 'eos');
-            console.log(account.name)
-            console.log(account.authority)
-            // console.log('account' + account)
-
-            var options = {
-                authorization: account.name + '@' + account.authority,
-                broadcast: true,
-                sign: true
-            }
-          // if (ScatterJS.scatter.identity == null) {
-          //     alert("Attach Identity first");
-          //     return;
-          // }
-        send()
-
-      });
-
-      async function send(){
-        // if (this.$refs.form.validate()) {
        
-      this.$nuxt.$loading.start()
-      var question = JSON.stringify({
-        title:document.getElementById('input_question_title').value,
-        body:document.getElementById('input_question_body').value
-      })
-
-      document.getElementById('input_question_title').value = ""
-      document.getElementById('input_question_body').value = ""
-      document.getElementById('input_question_title').disabled = true
-      document.getElementById('input_question_body').disabled = true    
-      document.getElementById('add_question').disabled = true
-      document.getElementById('add_question').innerHTML = "Broadcasting..."
-
-      //var hash = await IpfsManager.add(question);
-
-      var pub_key = localStorage.getItem('eosclip_account')
-
-      var param = {
-        scope: process.env.CONTRACT,
-        code: process.env.CONTRACT,
-        table: 'user',
-        json: true,
-        limit: 10000
-      }
-
-      var nonce = await eosManager.nonce(param, pub_key)
-      console.log(nonce)
-      var prive_key = localStorage.getItem('eosclip_priveKey');  
-     
-      //var message = hash + nonce  
-      var message = question + nonce  
-      var sig = eosjs_ecc.sign(message, prive_key);
-
-      var self = this
-
-      // const eos = Eos(options)
-      // const eos = ScatterJS.scatter.eos(network, Eos, { expireInSeconds: 60 });
-      // const account = ScatterJS.scatter.identity.accounts.find(x => x.blockchain === 'eos');
-      // console.log('account' + account)
-
-    // const param = req.body;
-
-
-    // eos.contract(process.env.CONTRACT).then(contract => {
-    //     contract.addquestion(question, account.name, sig, pub_key, options).then(response => {
-    //         res.json({status: true})
-    //     }).catch(err => {
-    //         res.json({status: false, msg: err})
-    //         console.log(err)
-    //     });
-    // });    
-
-
-      const res = await axios.post('/api/addquestion2', {
-        //body: hash,
-        body: question,
-        sig: sig,
-        pub_key: pub_key
-      })
-
-      // }
-
-      
-    
+    if (ScatterJS.scatter.identity == null) {
+        alert("Attach Scatter first");
+        return;
     }
+
+    if (this.$refs.form.validate()) {
+       
+      
+    var account = scatterManager.scatter.identity.accounts.find(x => x.blockchain === 'eos')
+    var options = {
+        authorization: account.name + '@' + account.authority,
+        broadcast: true,
+        sign: true
+    }
+
+    console.log(account.name)
+    console.log(account.authority)
+      
+    var question = JSON.stringify({
+      title:document.getElementById('input_question_title').value,
+      body:document.getElementById('input_question_body').value
+    })
+
+    document.getElementById('input_question_title').value = ""
+    document.getElementById('input_question_body').value = ""
+    document.getElementById('input_question_title').disabled = true
+    document.getElementById('input_question_body').disabled = true    
+    document.getElementById('add_question').disabled = true
+    document.getElementById('add_question').innerHTML = "Broadcasting..."
+    document.getElementById('add_question_scatter').disabled = true
+    document.getElementById('add_question_scatter').innerHTML = "Broadcasting..."
+
+    var pub_key = localStorage.getItem('eosclip_account')
+    var param = {
+                  scope: process.env.CONTRACT,
+                  code: process.env.CONTRACT,
+                  table: 'user',
+                  json: true,
+                  limit: 10000
+                }
+
+
+        var nonce =  await eosManager.nonce(param, pub_key)
+
+        console.log('nonce'+ nonce)
+        var prive_key = localStorage.getItem('eosclip_priveKey');  
+      
+        //var message = hash + nonce  
+        var message = question + nonce  
+        var sig = eosjs_ecc.sign(message, prive_key);
+        var self = this
+
+        scatterManager.eos.contract(process.env.CONTRACT).then(contract => {
+          //TODO
+          //Scatterチェックしてからloadingスタートしたい
+          this.$nuxt.$loading.start()
+          console.log("start")
+          contract.addquestion(question, account.name, sig, pub_key, options).then(async function(response){
+              // res.json({status: true})
+              console.log("suc")
+              this.$nuxt.$loading.finish()
+
+              var questionParam = {
+              scope: process.env.CONTRACT,
+              code: process.env.CONTRACT,
+              table: 'question',
+              json: true,
+              limit: 10000
+            }
+
+            var questions1 = await eosManager.read(questionParam)
+            var questions = questions1.reverse()
+            console.log(questions)
+
+            for (var i = questions.length - 1; i >= 0; i--) {
+              if (questions[i].pub_key == pub_key) {
+                self.$store.$router.push({ path: `/questions/${i}` })
+                break
+              }
+            }
+
+          }).catch(err => {
+              alert(JSON.parse(err).error.details[0].message)
+              console.log(err)
+          });
+        });
+    }
+    },
    
   }
   
-}
-
 }
 </script>
 

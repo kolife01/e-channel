@@ -93,6 +93,15 @@
             required
           ></v-textarea>
         <v-flex right>
+
+          <v-btn dark 
+          color="light-blue accent-2" 
+          id="add_answer_scatter"
+          :disabled="!scatter || !valid"
+          large 
+          @click="addanswerScatter"
+          >Use Scatter</v-btn>
+
           <v-btn 
           dark 
           color="teal lighten-1" 
@@ -162,6 +171,11 @@ import EosManager from '~/assets/js/eos'
 import IpfsManager from '~/assets/js/ipfs';
 import eosjs_ecc from 'eosjs-ecc'
 import axios from 'axios'
+import ScatterJS from 'scatterjs-core';
+import ScatterEOS from 'scatterjs-plugin-eosjs'
+import Eos from 'eosjs'
+import scatterManager from '~/assets/js/scatter'
+
 
 const eosManager = new EosManager(process.env.ENDPOINT)
 
@@ -178,8 +192,21 @@ export default {
         v => !!v || 'Answer is required',
         v => (v && v.length <= 140) || 'Answer must be less than 140 characters'
       ],
+      scatter: false
       
     }),
+
+  created: async function () {
+    this.scatter =  await scatterManager.scatter.connect("e-channel",{initTimeout:10000})
+    console.log(this.scatter)
+
+  },
+
+
+
+
+
+
   
 
   async asyncData({ store, params }) {
@@ -253,6 +280,8 @@ export default {
     document.getElementById('input_answer').disabled = true
     document.getElementById('add_answer').disabled = true
     document.getElementById('add_answer').innerHTML = "Broadcasting..."
+    document.getElementById('add_answer_scatter').disabled = true
+    document.getElementById('add_answer_scatter').innerHTML = "Broadcasting..."
 
     // var hash = await IpfsManager.add(answer);
 
@@ -304,6 +333,101 @@ export default {
       }
     },
 
+    async addanswerScatter() {
+
+    if (localStorage.getItem('eosclip_account') == null || localStorage.getItem('eosclip_priveKey') == null ) {
+        window.location.href = window.location.origin + '/create'
+    } else {
+        var param = {
+          scope: process.env.CONTRACT,
+          code: process.env.CONTRACT,
+          table: 'user',
+          json: true,
+          limit: 10000
+        }
+        
+        nonce = await eosManager.nonce(param, localStorage.getItem('eosclip_account'))
+        if(nonce == 0){
+          window.location.href = window.location.origin + '/create'
+        }
+    }
+       
+    if (ScatterJS.scatter.identity == null) {
+        alert("Attach Scatter first");
+        return;
+    }
+
+    var account = scatterManager.scatter.identity.accounts.find(x => x.blockchain === 'eos')
+    var options = {
+        authorization: account.name + '@' + account.authority,
+        broadcast: true,
+        sign: true
+    }
+
+    this.$nuxt.$loading.start()
+    var question_key = Number(this.$route.params.id)
+
+    var answer = JSON.stringify({body: document.getElementById('input_answer').value})
+    // this.answer = "";
+    console.log(answer)
+    console.log(this.answer)
+    var body = answer
+    document.getElementById('input_answer').value = ""
+    document.getElementById('input_answer').disabled = true
+    document.getElementById('add_answer').disabled = true
+    document.getElementById('add_answer').innerHTML = "Broadcasting..."
+    document.getElementById('add_answer_scatter').disabled = true
+    document.getElementById('add_answer_scatter').innerHTML = "Broadcasting..."
+
+    var hash = await IpfsManager.add(answer);
+
+    var pub_key = localStorage.getItem('eosclip_account')
+
+    var param = {
+        scope: process.env.CONTRACT,
+        code: process.env.CONTRACT,
+        table: 'user',
+        json: true,
+        limit: 10000
+    }
+
+    var nonce = await eosManager.nonce(param, pub_key)
+
+    var prive_key = localStorage.getItem('eosclip_priveKey');
+
+    //var message = hash + nonce
+    var message = answer + nonce
+    var sig = eosjs_ecc.sign(message, prive_key);
+
+    var self = this
+
+
+    scatterManager.eos.contract(process.env.CONTRACT).then(contract => {
+        contract.addanswer(question_key, body, account.name, sig, pub_key, options).then(async function(response) {
+             console.log("suc")
+
+            await self.$store.dispatch('answers/fetchAnswersByQuestionKey', self.$route.params.id)
+            this.$nuxt.$loading.finish()
+            
+            document.getElementById('input_answer').value = ""
+            document.getElementById('input_answer').disabled = false
+            document.getElementById('add_answer').disabled = false
+            document.getElementById('add_answer').innerHTML = "Add Answer"
+
+            //暫定対応
+            window.location.reload(true)
+
+
+        }).catch(err => {
+            
+            console.log(err)
+            alert(JSON.parse(err).error.details[0].message)
+        });
+      });    
+    },
+
+
+
       set(value){
           this.point = value
           console.log(this.point)
@@ -316,7 +440,7 @@ export default {
 
       },
 
-      async send(){
+  async send(){
 
         this.$nuxt.$loading.start()
 
