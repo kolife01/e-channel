@@ -1,6 +1,7 @@
 const express = require('express')
 var router = express.Router();
 const Eos = require('eosjs')
+const ScatterJS = require('scatterjs-core')
 
 router.post("/addanswer", (req, res) => {
 
@@ -57,6 +58,8 @@ router.post("/addquestion", (req, res) => {
     });    
 
 })
+
+
 
 router.post("/registeruser", (req, res) => {
 

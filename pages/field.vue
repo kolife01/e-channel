@@ -1,6 +1,49 @@
 <template>
   <v-content>
+
     <v-container grid-list-md>
+       <v-card height="80px" flat>
+
+    <v-bottom-nav
+    :active.sync="bottomNav"
+      :value="true"
+      absolute
+      color="transparent"
+    >
+
+      <v-btn
+        color="teal"
+        flat
+        value="recent"
+        @click="resent"
+      >
+        <span>Recent</span>
+        <v-icon>history</v-icon>
+      </v-btn>
+
+      <v-btn
+        color="teal"
+        flat
+        value="favorites"
+        @click="trend"
+      >
+        <span>Trend</span>
+        <v-icon>favorite</v-icon>
+      </v-btn>
+
+      <v-btn
+        color="teal"
+        flat
+        value="nearby"
+        @click="point1"
+      >
+        <span>Point</span>
+        <v-icon>star</v-icon>
+      </v-btn>
+
+    </v-bottom-nav>
+    </v-card>
+
       <v-layout
         row
         wrap
@@ -13,7 +56,7 @@
               <div style = "width:100%">
                 <div class="headline"><nuxt-link color="blue" :to="`/questions/${question.question_key}`">{{ question.title }}</nuxt-link></div>
                 <div style="float: left;" class="grey--text" >ID: {{ question.pub_key.substring(4, 18) }}</div>
-                <div style="text-align:right;" class="grey--text"> {{ question.time_stamp.substring(0, 10) }} {{ question.time_stamp.substring(11, 19) }}</div>
+                <div style="text-align:right;" class="grey--text"> {{ getTime(question.time_stamp) }}</div>
                 <v-divider></v-divider>
                 <br>
                 <div>{{question.body.substring(0, 130)}}<span v-if="question.body.length > 130">...</span><nuxt-link :to="`/questions/${question.question_key}`"><v-icon color="teal" small>expand_more</v-icon></nuxt-link></div>
@@ -29,12 +72,11 @@
                 </v-chip>
                 <v-spacer></v-spacer>
 
-                <!--
+<<
                 <v-btn dark small color="teal lighten-1" @click="set2('question', question.question_key)" >
                   <v-icon dark>attach_money</v-icon>
                   TIP
                 </v-btn>
-                -->
 
             </v-card-actions>
                 <!-- <v-btn color="info" dark
@@ -102,7 +144,7 @@
 
 <script>
 
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import EosManager from '~/assets/js/eos'
 import eosjs_ecc from 'eosjs-ecc'
 import axios from 'axios'
@@ -117,6 +159,7 @@ export default {
         point: 0,
         index: 0,
         table:"",
+        bottomNav: 'recent'
         }
     },
   async asyncData(context) {
@@ -124,21 +167,53 @@ export default {
     await store.dispatch('questions/fetchQuestions')
   },
   computed: {
-    // ...mapGetters('questions', ['questions'])
     questions() {
       return this.$store.getters['questions/questions']
-    }
+    },
+
   },
   methods: {
+
+    ...mapActions({
+      resent: ('questions/fetchQuestions')
+    }),
+
+    ...mapActions({
+      trend: ('questions/fetchQuestionsTrend')
+    }),
+
+    ...mapActions({
+      point1: ('questions/fetchQuestionsPoint')
+    }),
+
+    getTime(time){
+      var dt = new Date(time)
+      //console.log("before" + dt)
+      var dif = dt.getTimezoneOffset() * -1
+      dt.setMinutes(dt.getMinutes() + dif)
+      var monthNames = [
+        "Jan", "Feb", "Mar",
+        "Apr", "May", "Jun", "Jul",
+        "Aug", "Sep", "Oct",
+        "Nov", "Dec"
+      ];
+
+      var day = dt.getDate();
+      var monthIndex = dt.getMonth();
+      var year = dt.getFullYear();
+
+      return year + ' ' + monthNames[monthIndex] + ' ' + day + ' - ' +  dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds() ;
+
+    },
+
+
       set(value){
           this.point = value
-          console.log(this.point)
       },
       set2(table,index){
         this.table = table
         this.dialog = true
         this.index = index
-        console.log("index:" + this.index)
       },
 
       async send(){
@@ -182,7 +257,6 @@ export default {
 
 
         var endpoint = "tip" + table
-        console.log(table)
 
         // const res = await axios.post("`/api/${api}`", {
           const res = await axios.post(`/api/${endpoint}`, {

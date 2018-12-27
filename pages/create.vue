@@ -2,7 +2,7 @@
 <v-content>
     <v-container >
       <!-- <input type="text" id="input_name"> -->
-    <div>投稿、回答、Tipにはユーザー名の登録が必要です。登録時に500ポイントもらえるキャンペーン開催中です！</div>
+    <div>投稿、回答、Tipにはユーザー名の登録が必要です。</div>
     <br>
     <v-form ref="form" v-model="valid" lazy-validation>
     <v-text-field
@@ -132,7 +132,6 @@ export default {
 
           var pub_key = localStorage.getItem('eosclip_account')
           var meta = JSON.stringify({name: name})
-          console.log(meta)
 
           var prive_key = localStorage.getItem('eosclip_priveKey');  
           var sig = eosjs_ecc.sign(meta, prive_key);
@@ -145,7 +144,7 @@ export default {
               if(response.data.status){
                 
                 window.location.href = '/'
-                alert('E-Channelをお楽しみいただくために500ポイントが付与されました！ アカウントにアクセスするためには、この秘密鍵が必要になりますので、大切に保存してください。秘密鍵: ' + prive_key)
+                alert('アカウントにアクセスするためには、この秘密鍵が必要になりますので、大切に保存してください。秘密鍵: ' + prive_key)
               }else{
                 alert(JSON.parse(response.data.msg).error.details[0].message)
                 
@@ -160,7 +159,6 @@ export default {
 
     mounted: async function(){
         if(localStorage.getItem('eosclip_priveKey') != null) {
-          console.log("tete")
           var param = {
             scope: process.env.CONTRACT,
             code: process.env.CONTRACT,
