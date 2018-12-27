@@ -20,7 +20,8 @@ const eos = ScatterJS.scatter.eos(options, Eos, { expireInSeconds: 60 });
 
 export default {
     eos : eos,
-    scatter : ScatterJS.scatter
+    scatter : ScatterJS.scatter,
+    options : options
 }
     
 

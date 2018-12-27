@@ -195,13 +195,13 @@ export default {
     }
        
     if (ScatterJS.scatter.identity == null) {
-        alert("Attach Scatter first");
-        return;
+        //alert("Attach Scatter first");
+        //return;
     }
 
     if (this.$refs.form.validate()) {
        
-      
+    await scatterManager.scatter.getIdentity({accounts:[scatterManager.options]})      
     var account = scatterManager.scatter.identity.accounts.find(x => x.blockchain === 'eos')
     var options = {
         authorization: account.name + '@' + account.authority,

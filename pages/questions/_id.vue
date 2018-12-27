@@ -300,6 +300,7 @@ export default {
         }
 
         nonce = await eosManager.nonce(param, localStorage.getItem('eosclip_account'))
+
         if(nonce == 0){
           window.location.href = window.location.origin + '/create'
         }
@@ -390,10 +391,10 @@ export default {
     }
        
     if (ScatterJS.scatter.identity == null) {
-        alert("Attach Scatter first");
-        return;
+        //await scatterManager.scatter.getIdentity()
     }
 
+    await scatterManager.scatter.getIdentity({accounts:[scatterManager.options]})
     var account = scatterManager.scatter.identity.accounts.find(x => x.blockchain === 'eos')
     var options = {
         authorization: account.name + '@' + account.authority,
