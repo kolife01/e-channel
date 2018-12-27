@@ -1,8 +1,6 @@
 <template>
   <v-content>
 
-
-
     <v-container grid-list-md>
        <v-card height="80px" flat>
 
@@ -19,13 +17,9 @@
         value="recent"
         @click="resent"
       >
-
         <span>Recent</span>
         <v-icon>history</v-icon>
-
       </v-btn>
-
-
 
       <v-btn
         color="teal"
@@ -46,7 +40,6 @@
         <span>Point</span>
         <v-icon>star</v-icon>
       </v-btn>
-
 
     </v-bottom-nav>
     </v-card>

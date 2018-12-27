@@ -1,5 +1,6 @@
 import eosjs_ecc from 'eosjs-ecc'
 import EosManager from '~/assets/js/eos'
+import ScatterJS from 'scatterjs-core';
 
 const eosManager = new EosManager(process.env.ENDPOINT)
 
@@ -26,6 +27,13 @@ async function usercheck(){
 } 
 
 if (process.browser) {
+
+    // ScatterJS.scatter.connect("e-channel", connectionOptions).then(connected => {
+    //     if(!connected) {
+    //         // User does not have Scatter installed/unlocked.
+    //         return false;
+    //     }
+    // })
 
     var pub_key = localStorage.getItem('eosclip_account')
     var nonce = ""
