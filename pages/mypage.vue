@@ -35,8 +35,10 @@
         <v-card-title class="headline">Withdraw EOS</v-card-title>
 
         <v-card-text>
+          <p>EOSは2019/1/8から引き出し可能になります。</p>
 
-        <v-text-field 
+
+        <!-- <v-text-field 
           id="sendto_account" 
           label="Account" 
           required >
@@ -46,7 +48,7 @@
           id="input_amount" 
           label="Amount of point" 
           required >
-        </v-text-field>       
+        </v-text-field>        -->
 
         </v-card-text>
 
@@ -64,13 +66,13 @@
             Cancel
           </v-btn>
 
-          <v-btn
+          <!-- <v-btn
             color="teal darken-1"
             flat="flat"
             @click="send"
           >
             Send
-          </v-btn>
+          </v-btn> -->
           
         </v-card-actions>
       </v-card>
@@ -122,58 +124,59 @@ export default {
     },   
 
     async send() {
+      //Withdrowは2018/1/8から
 
-      this.$nuxt.$loading.start()
+      // this.$nuxt.$loading.start()
 
-        var sendto_account = document.getElementById("sendto_account").value;
-        var input_amount = document.getElementById("input_amount").value;
+      //   var sendto_account = document.getElementById("sendto_account").value;
+      //   var input_amount = document.getElementById("input_amount").value;
 
-        var pub_key = localStorage.getItem('eosclip_account')
+      //   var pub_key = localStorage.getItem('eosclip_account')
 
-        var param = {
-            scope: process.env.CONTRACT,
-            code: process.env.CONTRACT,
-            table: 'user',
-            json: true,
-            limit: 100
-        }
+      //   var param = {
+      //       scope: process.env.CONTRACT,
+      //       code: process.env.CONTRACT,
+      //       table: 'user',
+      //       json: true,
+      //       limit: 100
+      //   }
 
-        var nonce = await eosManager.nonce(param, pub_key)
-        console.log(pub_key)
-        console.log(nonce)
+      //   var nonce = await eosManager.nonce(param, pub_key)
+      //   console.log(pub_key)
+      //   console.log(nonce)
        
-        var prive_key = localStorage.getItem('eosclip_priveKey');
+      //   var prive_key = localStorage.getItem('eosclip_priveKey');
 
 
-        var sendto_account_encode = Eos.modules.format.encodeName(sendto_account, false)
-        var message = sendto_account_encode.toString() + input_amount.toString() + nonce
+      //   var sendto_account_encode = Eos.modules.format.encodeName(sendto_account, false)
+      //   var message = sendto_account_encode.toString() + input_amount.toString() + nonce
 
-        console.log(message)
+      //   console.log(message)
 
-        var sig = eosjs_ecc.sign(message, prive_key);
+      //   var sig = eosjs_ecc.sign(message, prive_key);
 
-        var self = this
+      //   var self = this
 
-        console.log(sendto_account)
-        console.log(input_amount)
-        console.log(sig)
-        console.log(pub_key)
+      //   console.log(sendto_account)
+      //   console.log(input_amount)
+      //   console.log(sig)
+      //   console.log(pub_key)
 
-        const res = await axios.post('/api/exchange', {
-            username:sendto_account,
-            point:input_amount,
-            sig: sig,
-            pub_key: pub_key
-        }).then(async function (response) {
-            if (response.data.status == true) {
-              this.dialog = false
-              this.$nuxt.$loading.finish()
-            } else {
-              alert(JSON.parse(response.data.msg).error.details[0].message)
-              // alert("Error: Please try again")
-            }
+      //   const res = await axios.post('/api/exchange', {
+      //       username:sendto_account,
+      //       point:input_amount,
+      //       sig: sig,
+      //       pub_key: pub_key
+      //   }).then(async function (response) {
+      //       if (response.data.status == true) {
+      //         this.dialog = false
+      //         this.$nuxt.$loading.finish()
+      //       } else {
+      //         alert(JSON.parse(response.data.msg).error.details[0].message)
+      //         // alert("Error: Please try again")
+      //       }
 
-          })       
+      //     })       
     }
   },
 

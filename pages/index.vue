@@ -38,7 +38,7 @@
                       <v-icon x-large class="blue--text text--lighten-2">flash_on</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
-                      <div class="headline">投げ銭(メンテナンス中)</div>
+                      <div class="headline">投げ銭</div>
                     </v-card-title>
                     <v-card-text>
                       ユーザー間で投げ銭を行うことで、投稿への評価と感謝の気持ちを表現することができます
