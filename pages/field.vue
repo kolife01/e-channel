@@ -1,32 +1,32 @@
 <template>
   <v-content>
 
-    
+
 
     <v-container grid-list-md>
        <v-card height="80px" flat>
-    
+
     <v-bottom-nav
     :active.sync="bottomNav"
       :value="true"
       absolute
       color="transparent"
     >
-      
+
       <v-btn
         color="teal"
         flat
         value="recent"
         @click="resent"
       >
-      
+
         <span>Recent</span>
         <v-icon>history</v-icon>
-       
+
       </v-btn>
-       
-      
-      
+
+
+
       <v-btn
         color="teal"
         flat
@@ -36,7 +36,7 @@
         <span>Trend</span>
         <v-icon>favorite</v-icon>
       </v-btn>
-      
+
       <v-btn
         color="teal"
         flat
@@ -47,10 +47,10 @@
         <v-icon>star</v-icon>
       </v-btn>
 
-      
+
     </v-bottom-nav>
     </v-card>
-      
+
       <v-layout
         row
         wrap
@@ -68,23 +68,21 @@
                 <br>
                 <div>{{question.body.substring(0, 130)}}<span v-if="question.body.length > 130">...</span><nuxt-link :to="`/questions/${question.question_key}`"><v-icon color="teal" small>expand_more</v-icon></nuxt-link></div>
               </div>
-            </v-card-title > 
+            </v-card-title >
             <v-card-actions>
                 <v-chip disabled>
                 <v-icon dark color="grey">insert_comment</v-icon>
-                {{ question.answer_count }} 
+                {{ question.answer_count }}
                 &nbsp;
                 <v-icon dark color="grey">star</v-icon>
                 {{ question.allpoint }}
                 </v-chip>
-                <v-spacer></v-spacer>   
+                <v-spacer></v-spacer>
 
-                <!--           
                 <v-btn dark small color="teal lighten-1" @click="set2('question', question.question_key)" >
                   <v-icon dark>attach_money</v-icon>
                   TIP
                 </v-btn>
-                -->
 
             </v-card-actions>
                 <!-- <v-btn color="info" dark
@@ -92,7 +90,7 @@
                 >Tip
                   <v-icon dark right>attach_money</v-icon>
                 </v-btn> -->
-                
+
 
           </v-card>
         </v-flex>
@@ -100,7 +98,7 @@
     </v-container>
 
 
-    
+
     <v-dialog
       v-model="dialog"
       max-width="350"
@@ -109,9 +107,9 @@
         <v-card-title class="headline">Let's send a tip to favorite post</v-card-title>
 
         <v-card-text>
-        <v-text-field 
-        id="input_amount" 
-        label="Tip Amount*" 
+        <v-text-field
+        id="input_amount"
+        label="Tip Amount*"
         v-model="point"
         required >
         </v-text-field>
@@ -123,7 +121,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          
+
           <v-spacer></v-spacer>
           <br>
 
@@ -145,9 +143,9 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    
+
   </v-content>
-  
+
 </template>
 
 <script>
@@ -227,7 +225,7 @@ export default {
         this.index = index
         console.log("index:" + this.index)
       },
-      
+
       async send(){
         this.$nuxt.$loading.start()
 
@@ -241,7 +239,7 @@ export default {
           json: true,
           limit: 10000
         }
-      
+
         nonce = await eosManager.nonce(param, localStorage.getItem('eosclip_account'))
         if(nonce == 0){
           window.location.href = window.location.origin + '/create'
@@ -252,7 +250,7 @@ export default {
         var qa_key = this.index;
         var point = this.point;
         var pub_key = localStorage.getItem('eosclip_account')
-        var prive_key = localStorage.getItem('eosclip_priveKey');  
+        var prive_key = localStorage.getItem('eosclip_priveKey');
 
 
         var param = {
@@ -262,11 +260,11 @@ export default {
             json: true,
             limit: 10000
         }
-  
+
         var nonce = await eosManager.nonce(param, pub_key)
         var message = String(qa_key) + String(point) +String(nonce)
         var sig = eosjs_ecc.sign(message, prive_key);
-        
+
 
         var endpoint = "tip" + table
         console.log(table)
@@ -280,17 +278,17 @@ export default {
             pub_key: pub_key
         }).then(async function (response){
               if(response.data.status){
-                
+
                 window.location.reload(true)
-                
+
               }else{
-                
+
                 alert(JSON.parse(response.data.msg).error.details[0].message)
-                
+
               }
         })
         this.dialog = false
-        
+
         this.$nuxt.$loading.finish()
 
     }
