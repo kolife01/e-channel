@@ -14,10 +14,19 @@ module.exports = {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '質問、回答をするだけでEOSトークンが手に入る質問箱サービス' },
       { hid: 'author', name: 'author', content: pkg.auther },
-      { hid: 'twitter:card', name: 'desctwitter:cardription', content: "summary" },
-      { hid: 'twitter:title"', name: 'twitter:title"', content: 'EOSのエアドロ質問箱' },
-      { hid: 'twitter:description', name: 'twitter:description', content: '質問、回答をするだけでEOSトークンが手に入る質問箱サービス' },
-      { hid: 'twitter:image', name: 'twitter:image', content: 'https://raw.githubusercontent.com/block-base/e-channel/master/assets/img/screen.png' }
+//      { hid: 'twitter:card', name: 'desctwitter:cardription', content: "summary" },
+//      { hid: 'twitter:title"', name: 'twitter:title"', content: 'EOSのエアドロ質問箱' },
+//      { hid: 'twitter:description', name: 'twitter:description', content: '質問、回答をするだけでEOSトークンが手に入る質問箱サービス' },
+//      { hid: 'twitter:image', name: 'twitter:image', content: 'https://raw.githubusercontent.com/block-base/e-channel/master/assets/img/screen.png' },
+  
+      { hid: 'description', name: 'description', content: '質問、回答をするだけでEOSトークンが手に入る質問箱サービス' },
+      { hid: 'og:site_name', property: 'og:site_name', content: 'E-Channel - EOSのエアドロ質問箱 -' },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: 'og:url', property: 'og:url', content: 'http://e-channel.io/' },
+      { hid: 'og:title', property: 'og:title', content: 'E-Channel - EOSのエアドロ質問箱 -' },
+      { hid: 'og:description', property: 'og:description', content: '質問、回答をするだけでEOSトークンが手に入る質問箱サービス' },
+      { hid: 'og:image', property: 'og:image', content: 'https://raw.githubusercontent.com/block-base/e-channel/master/assets/img/share.png' },
+  
     ],
     script: [
       { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js' },
