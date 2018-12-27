@@ -12,7 +12,7 @@
                 
                 <div class="headline"><nuxt-link color="blue" :to="`/questions/${question.question_key}`">{{ question.title }}</nuxt-link></div>
                 <div style="float: left;" class="grey--text" >ID: {{ question.pub_key.substring(4, 18) }}</div>
-                <div style="text-align:right;" class="grey--text"> {{ question.time_stamp.substring(0, 10) }} {{ question.time_stamp.substring(11, 19) }}</div>
+                <div style="text-align:right;" class="grey--text"> {{ getTime(question.time_stamp) }}</div>
                 <v-divider></v-divider>
                 <br>
                 <div>{{question.body}}</div>
@@ -237,6 +237,29 @@ export default {
   },
 
   methods: {
+
+    getTime(time){
+      var dt = new Date(time)
+      //console.log("before" + dt)
+      var dif = dt.getTimezoneOffset() * -1
+      dt.setMinutes(dt.getMinutes() + dif)
+      console.log("after" +  dt)
+
+      var monthNames = [
+        "Jan", "Feb", "Mar",
+        "Apr", "May", "Jun", "Jul",
+        "Aug", "Sep", "Oct",
+        "Nov", "Dec"
+      ];
+
+      var day = dt.getDate();
+      var monthIndex = dt.getMonth();
+      var year = dt.getFullYear();
+
+      return year + ' ' + monthNames[monthIndex] + ' ' + day + ' - ' +  dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds() ;
+
+    },
+
     async addanswer() {
 
     if (localStorage.getItem('eosclip_account') == null || localStorage.getItem('eosclip_priveKey') == null ) {
