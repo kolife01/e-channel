@@ -71,8 +71,6 @@
                 {{ question.allpoint }}
                 </v-chip>
                 <v-spacer></v-spacer>
-
-<<
                 <v-btn dark small color="teal lighten-1" @click="set2('question', question.question_key)" >
                   <v-icon dark>attach_money</v-icon>
                   TIP
