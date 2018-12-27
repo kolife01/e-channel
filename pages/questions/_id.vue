@@ -216,7 +216,6 @@ export default {
 
   created: async function () {
     this.scatter =  await scatterManager.scatter.connect("e-channel",{initTimeout:10000})
-    console.log(this.scatter)
 
   },
 
@@ -224,7 +223,6 @@ export default {
 
   head () {
     var ogp = this.$store.getters['questions/questions'][0]
-    console.log(ogp)
     return {
       meta: [
         { hid: 'description', name: 'description', content: ogp.content},
@@ -285,7 +283,6 @@ export default {
       //console.log("before" + dt)
       var dif = dt.getTimezoneOffset() * -1
       dt.setMinutes(dt.getMinutes() + dif)
-      console.log("after" +  dt)
 
       var monthNames = [
         "Jan", "Feb", "Mar",
@@ -316,6 +313,7 @@ export default {
         }
 
         nonce = await eosManager.nonce(param, localStorage.getItem('eosclip_account'))
+
         if(nonce == 0){
           window.location.href = window.location.origin + '/create'
         }
@@ -327,8 +325,6 @@ export default {
 
     var answer = JSON.stringify({body: document.getElementById('input_answer').value})
     // this.answer = "";
-    console.log(answer)
-    console.log(this.answer)
     document.getElementById('input_answer').value = ""
     document.getElementById('input_answer').disabled = true
     document.getElementById('add_answer').disabled = true
@@ -406,10 +402,10 @@ export default {
     }
        
     if (ScatterJS.scatter.identity == null) {
-        alert("Attach Scatter first");
-        return;
+        //await scatterManager.scatter.getIdentity()
     }
 
+    await scatterManager.scatter.getIdentity({accounts:[scatterManager.options]})
     var account = scatterManager.scatter.identity.accounts.find(x => x.blockchain === 'eos')
     var options = {
         authorization: account.name + '@' + account.authority,
@@ -422,8 +418,6 @@ export default {
 
     var answer = JSON.stringify({body: document.getElementById('input_answer').value})
     // this.answer = "";
-    console.log(answer)
-    console.log(this.answer)
     var body = answer
     document.getElementById('input_answer').value = ""
     document.getElementById('input_answer').disabled = true
@@ -457,7 +451,6 @@ export default {
 
     scatterManager.eos.contract(process.env.CONTRACT).then(contract => {
         contract.addanswer(question_key, body, account.name, sig, pub_key, options).then(async function(response) {
-             console.log("suc")
 
             await self.$store.dispatch('answers/fetchAnswersByQuestionKey', self.$route.params.id)
             this.$nuxt.$loading.finish()
@@ -483,13 +476,11 @@ export default {
 
       set(value){
           this.point = value
-          console.log(this.point)
       },
       set2(table,index){
         this.table = table
         this.dialog = true
         this.index = index
-        console.log("index:" + this.index)
 
       },
 
