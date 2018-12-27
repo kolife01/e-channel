@@ -2,7 +2,23 @@
   <v-content>
     <v-container grid-list-md v-if="question != null">
       <v-layout row wrap>
+       
         <v-flex>
+          <v-alert
+            :value="true"
+            class="white--text"
+            type="info"
+            color="teal lighten-1"
+          >
+            <nuxt-link 
+            to="/"
+            class="white--text"
+            color="white"
+            >
+            E-Channelは質問、回答をするだけでEOSトークンが簡単に手に入る質問箱サービスです。
+            </nuxt-link>
+          </v-alert>
+          <br>
           <div class="display-1">Question</div>
           <br>
           <v-card>
