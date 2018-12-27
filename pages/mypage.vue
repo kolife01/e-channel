@@ -139,8 +139,6 @@ export default {
         }
 
         var nonce = await eosManager.nonce(param, pub_key)
-        console.log(pub_key)
-        console.log(nonce)
        
         var prive_key = localStorage.getItem('eosclip_priveKey');
 
@@ -148,16 +146,10 @@ export default {
         var sendto_account_encode = Eos.modules.format.encodeName(sendto_account, false)
         var message = sendto_account_encode.toString() + input_amount.toString() + nonce
 
-        console.log(message)
 
         var sig = eosjs_ecc.sign(message, prive_key);
 
         var self = this
-
-        console.log(sendto_account)
-        console.log(input_amount)
-        console.log(sig)
-        console.log(pub_key)
 
         const res = await axios.post('/api/exchange', {
             username:sendto_account,
@@ -179,7 +171,6 @@ export default {
 
     mounted: async function(){
       if (localStorage.getItem('eosclip_account') == null || localStorage.getItem('eosclip_priveKey') == null ) {
-        console.log("test")
             window.location.href = window.location.origin +  '/create'
         } else {
           var param = {

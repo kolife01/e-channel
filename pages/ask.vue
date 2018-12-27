@@ -209,9 +209,6 @@ export default {
         sign: true
     }
 
-    console.log(account.name)
-    console.log(account.authority)
-      
     var question = JSON.stringify({
       title:document.getElementById('input_question_title').value,
       body:document.getElementById('input_question_body').value
@@ -238,7 +235,6 @@ export default {
 
         var nonce =  await eosManager.nonce(param, pub_key)
 
-        console.log('nonce'+ nonce)
         var prive_key = localStorage.getItem('eosclip_priveKey');  
       
         //var message = hash + nonce  
@@ -250,10 +246,10 @@ export default {
           //TODO
           //Scatterチェックしてからloadingスタートしたい
           this.$nuxt.$loading.start()
-          console.log("start")
+
           contract.addquestion(question, account.name, sig, pub_key, options).then(async function(response){
               // res.json({status: true})
-              console.log("suc")
+
               this.$nuxt.$loading.finish()
 
               var questionParam = {
@@ -266,7 +262,6 @@ export default {
 
             var questions1 = await eosManager.read(questionParam)
             var questions = questions1.reverse()
-            console.log(questions)
 
             for (var i = questions.length - 1; i >= 0; i--) {
               if (questions[i].pub_key == pub_key) {

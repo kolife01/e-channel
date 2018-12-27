@@ -190,8 +190,6 @@ export default {
       //console.log("before" + dt)
       var dif = dt.getTimezoneOffset() * -1
       dt.setMinutes(dt.getMinutes() + dif)
-      console.log("after" +  dt)
-
       var monthNames = [
         "Jan", "Feb", "Mar",
         "Apr", "May", "Jun", "Jul",
@@ -210,13 +208,11 @@ export default {
 
       set(value){
           this.point = value
-          console.log(this.point)
       },
       set2(table,index){
         this.table = table
         this.dialog = true
         this.index = index
-        console.log("index:" + this.index)
       },
 
       async send(){
@@ -260,7 +256,6 @@ export default {
 
 
         var endpoint = "tip" + table
-        console.log(table)
 
         // const res = await axios.post("`/api/${api}`", {
           const res = await axios.post(`/api/${endpoint}`, {

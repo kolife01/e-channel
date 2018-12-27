@@ -132,7 +132,6 @@ export default {
 
           var pub_key = localStorage.getItem('eosclip_account')
           var meta = JSON.stringify({name: name})
-          console.log(meta)
 
           var prive_key = localStorage.getItem('eosclip_priveKey');  
           var sig = eosjs_ecc.sign(meta, prive_key);
@@ -160,7 +159,6 @@ export default {
 
     mounted: async function(){
         if(localStorage.getItem('eosclip_priveKey') != null) {
-          console.log("tete")
           var param = {
             scope: process.env.CONTRACT,
             code: process.env.CONTRACT,
