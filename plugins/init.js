@@ -3,6 +3,7 @@ import EosManager from '~/assets/js/eos'
 import ScatterJS from 'scatterjs-core';
 
 const eosManager = new EosManager(process.env.ENDPOINT)
+const public_key = localStorage.getItem('eosclip_account')
 
 async function usercheck(){
     var param = {
@@ -67,7 +68,8 @@ if (process.browser) {
     window.onNuxtReady(async ({$store}) => {
 
         $store.dispatch('users/fetchUsers', localStorage.getItem('eosclip_account'))
-
+        $store.dispatch('myquestions/fetchMyquestions', localStorage.getItem('eosclip_account'))
+        $store.dispatch('myquestions/fetchMyanswers', localStorage.getItem('eosclip_account'))
 
     })
 
