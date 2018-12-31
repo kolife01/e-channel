@@ -101,4 +101,23 @@ EosManager.prototype.nonce = function (param, pub_key) {
     })    
 }
 
+EosManager.prototype.user_key = function (param, pub_key) {
+    return new Promise(resolve => {
+        this.eos.getTableRows(
+            param
+        ).then(async result => {
+            var user_key = 0
+            for(let i = 0; i< result.rows.length; i++){
+                if(pub_key == result.rows[i].pub_key){
+                    
+                    user_key = result.rows[i].user_key
+                }
+            }
+            resolve(user_key)
+        }).catch(err =>
+            console.log(err)
+        );
+    })    
+}
+
 export default EosManager
